@@ -11,47 +11,94 @@
 </head>
 <body class="landing">
 <!-- Header -->
-			<header id="header" class="alt"><h1><strong><a href="index.jsp">Spatial</a></strong> by Templated</h1>
-				<nav id="nav"><ul><li><a href="index.jsp">Home</a></li>
-						<li><a href="generic.html">Generic</a></li>
-						<li><a href="elements.html">Elements</a></li>
+			<header id="header" class="alt"><h1><strong><a href="index.jsp"><img alt="필그림하우스" src="assets/images/pilgrim_logo_w.png"></a></strong></h1>
+				<nav id="nav"><ul>
+				<li><a href="generic.html">소개</a>
+					<ul class="submenu">
+						<li><a>인사말</a></li>
+						<li><a>이용안내</a></li>
+						<li><a>오시는길</a></li>
+					</ul>
+				</li>
+						<li><a href="generic.html">시설</a>
+							<ul class="submenu">
+								<li><a>예배실</a></li>
+								<li><a>세미나실</a></li>
+								<li><a>기도실</a></li>
+								<li><a>객실</a></li>
+								<li><a>부대시설</a></li>
+							</ul>
+						</li>
+						<li><a href="elements.html">사역</a>
+							<ul class="submenu">
+								<li><a>세미나</a></li>
+								<li><a>예배와 기도</a></li>
+								<li><a>사역</a></li>
+							</ul>
+						</li>
+						<li><a href="elements.html" style="color:#fff">예약</a>
+							<ul class="submenu">
+								<li><a>시설 및 사용요금</a></li>
+								<li><a>예약신청</a></li>
+								<li><a>예약문의 및 취소</a></li>
+								<li><a>나의 예약</a></li>
+							</ul>
+						</li>
+						<li><a href="elements.html">천로역정</a>
+							<ul class="submenu">
+								<li><a>순례길 소개</a></li>
+								<li><a>천로역정 작품소개</a></li>
+								<li><a>순례길 이용안내</a></li>
+							</ul>
+						</li>
+						<li><a href="elements.html">커뮤니티</a>
+							<ul class="submenu">
+								<li><a>공지사항</a></li>
+								<li><a>이용후기</a></li>
+								<li><a>포토갤러리</a></li>
+							</ul>
+						</li>
 					</ul></nav></header><a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 
 		<!-- Banner -->
-			<section id="banner"><h2>Spatial</h2>
-				<p>Lorem ipsum dolor sit amet nullam consequat <br> interdum vivamus donce sed libero.</p>
-				<ul class="actions"><li><a href="#" class="button special big">Get Started</a></li>
-				</ul></section><!-- One --><section id="one" class="wrapper style1"><div class="container 75%">
+			<section id="banner"><h2>Pilgrim House</h2>
+				<p>A resting place for pilgrims</p>
+				<!-- <ul class="actions"><li><a href="#" class="button special big">예약 바로가기</a></li>
+				</ul>--></section><!-- One --><!-- <section id="one" class="wrapper style1"><div class="container 75%">
 						<div class="row 200%">
 							<div class="6u 12u$(medium)">
-								<header class="major"><h2>Maecenas luctus lectus</h2>
-									<p>Perspiciatis doloremque recusandae dolor</p>
+								<header class="major"><h2>이 곳은 <br>당신의 영혼의 <br>레노바레의 집</h2>
 								</header></div>
 							<div class="6u$ 12u$(medium)">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non ea mollitia corporis id, distinctio sunt veritatis officiis dolore reprehenderit deleniti voluptatibus harum magna, doloremque alias quisquam minus, eaque. Feugiat quod, nesciunt! Iste quos ipsam, iusto sit esse.</p>
-								<p>Dolorum aspernatur maxime libero ratione quidem distinctio, placeat fugiat laborum voluptatum enim neque soluta vel sunt id ex veritatis. Labore rerum, odit sapiente, alias mollitia magnam exercitationem modi amet earum quia atque ipsum voluptas asperiores quas laboriosam.</p>
+								<p>우리는 모두 순례자입니다.<br>순례자에게 가장 필요한 것은 안식입니다.<br>적절한 쉼으로 그는 순례의 새 힘을 얻습니다.<br>그리고 이런 쉼에는 적절한 환경이 아주 중요합니다.<br>이 땅 최고의 청정지역 가평에 순례자의 집이 문을 열었습니다.</p>
 							</div>
 						</div>
 					</div>
-				</section><!-- Two --><section id="two" class="wrapper style2 special"><div class="container">
-						<header class="major"><h2>Fusce ultrices fringilla</h2>
-							<p>Maecenas vitae tellus feugiat eleifend</p>
-						</header><div class="row 150%">
+				</section>--><!-- Two --><section id="two" class="wrapper style2 special"><div class="container">
+				
+				<ul class="actions"><li><a href="#" class="button special big">천로역정 세미나 예약</a></li>
+							<li><a href="#" class="button big">객실 예약</a></li>
+						</ul>
+						<header class="major"><h2>Pilgrim House</h2>
+							<p><strong>침묵과 독거</strong>는 우리의 존재 양식이요.<br> 우리의 비전은 <strong>세상의 희망.묵상과행동</strong>입니다.</p>
+						</header>
+						
+						
+						<div class="row 150%">
+						
 							<div class="6u 12u$(xsmall)">
 								<div class="image fit captioned">
-									<img src="assets/images/pic02.jpg" alt="" width="575" height="390"><h3>Lorem ipsum dolor sit amet.</h3>
+									<img src="assets/images/main_5.jpg" alt="" width="575" height="390"><h3>수덕산 자락에 자리잡은 은자들의 집</h3>
 								</div>
 							</div>
 							<div class="6u$ 12u$(xsmall)">
 								<div class="image fit captioned">
-									<img src="assets/images/pic03.jpg" alt="" width="573" height="390"><h3>Illum, maiores tempora cupid?</h3>
+									<img src="assets/images/pray.jpg" alt="" width="573" height="390"><h3>쉼과 예배가 있는 필그림하우스</h3>
 								</div>
 							</div>
 						</div>
-						<ul class="actions"><li><a href="#" class="button special big">Nulla luctus</a></li>
-							<li><a href="#" class="button big">Sed vulputate</a></li>
-						</ul></div>
-				</section><!-- Three --><section id="three" class="wrapper style1"><div class="container">
+						</div>
+				</section><!-- Three --><!-- <section id="three" class="wrapper style1"><div class="container">
 						<header class="major special"><h2>Mauris vulputate dolor</h2>
 							<p>Feugiat sed lorem ipsum magna</p>
 						</header><div class="feature-grid">
@@ -89,10 +136,10 @@
 							</div>
 						</div>
 					</div>
-				</section><!-- Four --><section id="four" class="wrapper style3 special"><div class="container">
-						<header class="major"><h2>Aenean elementum ligula</h2>
-							<p>Feugiat sed lorem ipsum magna</p>
-						</header><ul class="actions"><li><a href="#" class="button special big">Get in touch</a></li>
+				</section>--><!-- Four --><section id="four" class="wrapper style3 special"><div class="container">
+						<header class="major"><h2>이 집을 떠날때에는</h2>
+							<p>당신은 정녕 길잃은 자가 아니오니<br>영원의 집을 향하는 새 힘 얻은 순례자로<br>광야의 남은 길을 노래하며 춤추며 가십시오</p>
+						</header><!-- <ul class="actions"><li><a href="#" class="button special big">Get in touch</a></li>
 						</ul></div>
 				</section><!-- Footer --><footer id="footer"><div class="container">
 					<ul class="icons"><li><a href="#" class="icon fa-facebook"></a></li>

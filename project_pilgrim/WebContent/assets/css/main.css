@@ -80,7 +80,7 @@ body {
 }
 
 .container.\37 5\25 {
-	width: 60em;
+	width: 65em;
 }
 
 .container.\35 0\25 {
@@ -1262,7 +1262,6 @@ body {
 }
 
 /* Basic */
-@
 -ms-viewport {
 	width: device-width;
 }
@@ -1365,7 +1364,9 @@ em, i {
 }
 
 p {
-	margin: 0 0 2em 0;
+	margin: 1em 0 2em 0;
+	font-size:1.1em;
+	line-height:2em;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -1522,7 +1523,7 @@ input[type="submit"], input[type="reset"], input[type="button"], button,
 
 input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover,
 	button:hover, .button:hover {
-	background-color: #3e3c45;
+	background-color: #b6b3bf;
 }
 
 input[type="submit"]:active, input[type="reset"]:active, input[type="button"]:active,
@@ -1555,6 +1556,7 @@ input[type="submit"].small, input[type="reset"].small, input[type="button"].smal
 input[type="submit"].big, input[type="reset"].big, input[type="button"].big,
 	button.big, .button.big {
 	font-size: 1.35em;
+	width:14em;
 }
 
 input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"].disabled,
@@ -1596,14 +1598,14 @@ input[type="submit"].alt.icon:before, input[type="reset"].alt.icon:before,
 
 input[type="submit"].special, input[type="reset"].special, input[type="button"].special,
 	button.special, .button.special {
-	background-color: #f32853;
+	background-color: #f44066;
 	color: #ffffff !important;
 }
 
 input[type="submit"].special:hover, input[type="reset"].special:hover,
 	input[type="button"].special:hover, button.special:hover, .button.special:hover
 	{
-	background-color: #f44066;
+	background-color: #ffa6b9;
 }
 
 input[type="submit"].special:active, input[type="reset"].special:active,
@@ -2006,12 +2008,12 @@ ol li {
 
 ul {
 	list-style: disc;
-	margin: 0 0 2em 0;
+	margin: 0 0 4em 0;
 	padding-left: 1em;
 }
 
 ul li {
-	padding-left: 0.5em;
+	/*padding-left: 0.5em;*/
 }
 
 ul.alt {
@@ -2115,9 +2117,9 @@ ul.actions.fit.small li {
 	padding: 0 0 0 0.5em;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 700px) {
 	ul.actions {
-		margin: 0 0 2em 0;
+		/* margin: 0 0 2em 0; */
 	}
 	ul.actions li {
 		padding: 1em 0 0 0;
@@ -2188,7 +2190,7 @@ header h4+p, header h5+p, header h6+p {
 }
 
 header.major {
-	margin: 0 0 6em 0;
+/* 	margin: 0 0 6em 0; */
 }
 
 header.major h2 {
@@ -2202,8 +2204,7 @@ header.major h2, header.major h3, header.major h4, header.major h5,
 }
 
 header.major p {
-	font-size: 1.7em;
-	margin-bottom: 0;
+	font-size: 1.5em;
 }
 
 @media screen and (max-width: 1280px) {
@@ -2312,7 +2313,7 @@ body.is-touch .wrapper.style3 {
 }
 
 .wrapper {
-	padding: 6em 0 4em 0;
+	padding: 4em 0 4em 0;
 }
 
 .wrapper>.inner {
@@ -2327,9 +2328,10 @@ body.is-touch .wrapper.style3 {
 .wrapper.style3 {
 	background-attachment: fixed;
 	background-image: url("../images/overlay.png"),
-		url("../images/banner.jpg");
+		url("../images/bottom.jpg");
 	background-position: center center;
 	background-size: cover;
+	height:380px;
 }
 
 .wrapper.style3 header.major {
@@ -2338,6 +2340,7 @@ body.is-touch .wrapper.style3 {
 
 .wrapper.style3 header.major h2 {
 	color: #ffffff;
+	font-weight:500;
 }
 
 @media screen and (max-width: 1280px) {
@@ -2395,6 +2398,10 @@ body.is-touch .wrapper.style3 {
 	top: 0;
 }
 
+#header img{
+	width:8em;
+}
+
 #header nav {
 	height: inherit;
 	line-height: inherit;
@@ -2410,11 +2417,12 @@ body.is-touch .wrapper.style3 {
 	padding-left: 0;
 }
 
-#header nav ul li {
+#header>nav>ul>li {
 	border-radius: 4px;
 	display: inline-block;
 	margin-left: 2.5em;
-	padding-left: 0;
+	position:relative;
+	cursor:pointer;
 }
 
 #header nav ul li a {
@@ -2463,15 +2471,15 @@ body.is-touch .wrapper.style3 {
 	background-color: transparent;
 	border: 0;
 	box-shadow: none;
-	height: 3.25em;
-	line-height: 3.25em;
+	/*height: 3.25em;*/
+	line-height: 1.15em;
 	position: absolute;
 }
 
 #header.alt h1 {
 	color: #ffffff;
 	left: 2.5em;
-	top: 2em;
+	top: 1.9em;
 }
 
 #header.alt h1 a {
@@ -2497,21 +2505,60 @@ body.is-touch .wrapper.style3 {
 }
 
 @media screen and (max-width: 980px) {
-	#header {
+	#header #nav {
 		display: none;
 	}
 }
 
 /* Menu */
+
+#nav .submenu {
+    position: absolute;
+    display: none;
+    width: 8em;
+    transform:translate(-50%,0);
+    z-index: 100;
+    /* top: 85px; */
+    left: 50%;
+    background-color: #333;
+    box-shadow: -3px 7px 5px rgba(0, 0, 0, 0.3);
+    animation-fill-mode: both;
+    animation-duration: 0.5s;
+    animation-name: fadeDownShort;
+}
+
+#nav .submenu li {
+    border-bottom: 1px solid #400000;
+    line-height: 24px;
+    padding:0;
+}
+
+#nav .submenu li:hover{
+	background-color:#a07c1f;
+}
+
+
+#nav .submenu li a {
+    display: block;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    padding: 17px 0;
+    font-size:.8em;
+}
+
+
+
 .navPanelToggle {
 	text-decoration: none;
 	text-decoration: none;
 	height: 100%;
-	left: 0;
+	right: 30px;
 	position: absolute;
-	top: 0;
+	top: 30px;
 	width: 100%;
 	display: none;
+	z-index:20000;
 }
 
 .navPanelToggle:before {
@@ -2536,7 +2583,7 @@ body.is-touch .wrapper.style3 {
 	display: block;
 	font-size: 16px;
 	height: 2.25em;
-	left: 0.5em;
+	right: 0.5em;
 	line-height: 2.25em;
 	position: absolute;
 	text-align: center;
@@ -2545,10 +2592,10 @@ body.is-touch .wrapper.style3 {
 }
 
 #navPanel {
-	-moz-transform: translateX(-20em);
-	-webkit-transform: translateX(-20em);
-	-ms-transform: translateX(-20em);
-	transform: translateX(-20em);
+	-moz-transform: translateX(20em);
+	-webkit-transform: translateX(20em);
+	-ms-transform: translateX(20em);
+	transform: translateX(20em);
 	-moz-transition: -moz-transform 0.5s ease, visibility 0.5s;
 	-webkit-transition: -webkit-transform 0.5s ease, visibility 0.5s;
 	-ms-transition: -ms-transform 0.5s ease, visibility 0.5s;
@@ -2557,7 +2604,7 @@ body.is-touch .wrapper.style3 {
 	visibility: hidden;
 	overflow-y: auto;
 	position: fixed;
-	left: 0;
+	right: 0;
 	top: 0;
 	background: #222;
 	color: #fff;
@@ -2655,6 +2702,7 @@ body.is-touch .wrapper.style3 {
 	transform: translateX(0);
 	box-shadow: 0 0 1.5em 0 rgba(0, 0, 0, 0.2);
 	visibility: visible;
+	z-index:30000;
 }
 
 /* Banner */
@@ -2663,10 +2711,9 @@ body.is-touch #banner {
 }
 
 #banner {
-	padding: 16em 0 13em 0;
+	padding: 18em 0 14em 0;
 	background-attachment: fixed;
-	background-image: url("..//images/overlay.png"),
-		url("../images/banner.jpg");
+	background-image: url("../images/overlay.png"), url("../images/main_4.jpg");
 	background-position: center top;
 	background-size: cover;
 	line-height: 1.75;
@@ -2689,6 +2736,7 @@ body.is-touch #banner {
 	color: #aaa;
 	font-size: 1.5em;
 	margin-bottom: 1.75em;
+	margin-top:0;
 	text-transform: uppercase;
 }
 
@@ -2709,7 +2757,7 @@ body.is-touch #banner {
 
 @media screen and (max-width: 736px) {
 	#banner {
-		padding: 6em 2em 6em 2em;
+		padding: 12em 2em 6em 2em;
 	}
 	#banner br {
 		display: none;
@@ -2724,7 +2772,7 @@ body.is-touch #banner {
 
 @media screen and (max-width: 480px) {
 	#banner {
-		padding: 4em 2em 4em 2em;
+		padding: 9em 2em 4em 2em;
 	}
 }
 

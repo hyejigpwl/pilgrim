@@ -67,6 +67,38 @@
 					$('#navPanel')
 						.css('transition', 'none');
 
+			// gnb 메뉴 슬라이드
+            $("#nav>ul>li").mouseover(function(){
+                $(".submenu").stop().hide();
+                $(this).find("ul").stop().show();
+                $(this).children("a").css({
+                    "color":"#fff"
+                })
+            });
+            $(".submenu,#nav>ul>li").mouseleave(function(){
+                $(".submenu").stop().hide();
+                $(this).children("a").css({
+                    "color":"#fff"
+                })
+            });
+
+            // 모바일 gnb 아코디언
+            $("#mobile_gnb .gnb_1dli").click(function(){
+
+                // 슬라이드
+                $("#mobile_gnb .gnb_1dli .gnb_2dul").slideUp();
+                $(this).children(".gnb_2dul").stop().slideToggle();
+
+                // 아이콘 전환
+                $(this).children().children().toggleClass("selected");
+                $(".arrow_icon").not( $(this).children().children()).removeClass("selected");
+                
+            });
+
+            $('.black_back').click(function(){
+                close_menu();
+            });
+
 
 	});
 
