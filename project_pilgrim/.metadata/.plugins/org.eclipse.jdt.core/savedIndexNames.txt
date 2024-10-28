@@ -1,0 +1,2 @@
+INDEX VERSION 1.134+C:\Users\Administrator.User -2023NQHSV\git\pilgrim\project_pilgrim\.metadata\.plugins\org.eclipse.jdt.core
+3904971548.index
