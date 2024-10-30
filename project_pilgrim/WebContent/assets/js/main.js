@@ -90,6 +90,16 @@
 				$("#header.alt img").attr("src", "assets/images/pilgrim_logo_w.png");
 			});
 			
+			
+			$("#nav .submenu").mouseover(function(){
+				$(this).siblings().css({"color":"#a07c1f","font-weight":"500"});
+						});
+
+			$("#nav .submenu").mouseleave(function(){
+				$(this).siblings().css({"color":"#333","font-weight":"400"});
+			});
+			
+			
             $("#nav .submenu,#nav>ul>li").mouseleave(function(){
                 $("#nav .submenu").stop().hide();
             });

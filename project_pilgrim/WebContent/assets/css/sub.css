@@ -4,10 +4,14 @@
 	background-color:#fff;
 }
 
-#header.alt nav a {
+#header.alt>nav>ul>li>a {
     color: #333;
 }
 
-#header.alt nav a:active, #header.alt nav a:hover {
+#header.alt nav a:active, #header.alt>nav>ul>li>a:hover {
     color: #a07c1f;
+}
+
+#nav .submenu li a {
+    color: #fff;
 }

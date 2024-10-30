@@ -26,7 +26,7 @@
 								<li><a>사역</a></li>
 							</ul>
 						</li>
-						<li><a href="#none" class="point" style="color:#fff">예약</a>
+						<li><a href="#none" class="point">예약</a>
 							<ul class="submenu">
 								<li><a>시설 및 사용요금</a></li>
 								<li><a href="rvn_rqt.jsp">예약신청</a></li>

@@ -2518,6 +2518,7 @@ body.is-touch .wrapper.style3 {
 
 #header.alt nav a:active, #header.alt nav a:hover {
 	color: #FFF;
+	font-weight:500;
 }
 
 #header.alt .button {
@@ -2549,7 +2550,7 @@ body.is-touch .wrapper.style3 {
     width: 8em;
     transform:translate(-50%,0);
     z-index: 100;
-    /* top: 85px; */
+    /*top: 35px;*/
     left: 50%;
     background-color: #333;
     box-shadow: -3px 7px 5px rgba(0, 0, 0, 0.3);
@@ -2573,6 +2574,7 @@ body.is-touch .wrapper.style3 {
     display: block;
     text-align: center;
     width: 100%;
+    height:100%;
     color: #fff;
     padding: 17px 0;
     font-size:.8em;
