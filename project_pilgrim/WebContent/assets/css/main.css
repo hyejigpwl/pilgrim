@@ -92,7 +92,7 @@ body {
 }
 
 .container {
-	width: 80em;
+	width: 60em;
 }
 
 @media screen and (max-width: 1680px) {
@@ -1982,6 +1982,7 @@ input[type="radio"]+label:before {
 	}
 	.image.captioned h3 {
 		padding: 1em;
+		font-size:1em;
 	}
 }
 
@@ -2118,6 +2119,21 @@ ul.actions.fit.small li {
 }
 
 @media screen and (max-width: 700px) {
+	#two ul.actions{
+	    display: flex;
+    	gap: 20px;
+	}
+	
+	#two ul.actions li{
+		width:50%;	
+		padding:0;
+	}
+	
+	#two ul.actions li a{
+		width: 100%;
+    	font-size: 1em;
+	}
+	
 	ul.actions {
 		/* margin: 0 0 2em 0; */
 	}
@@ -2331,7 +2347,6 @@ body.is-touch .wrapper.style3 {
 		url("../images/bottom.jpg");
 	background-position: center center;
 	background-size: cover;
-	height:380px;
 }
 
 .wrapper.style3 header.major {
@@ -2430,13 +2445,13 @@ body.is-touch .wrapper.style3 {
 	-webkit-transition: color 0.2s ease-in-out;
 	-ms-transition: color 0.2s ease-in-out;
 	transition: color 0.2s ease-in-out;
-	color: #666;
+	color: #333;
 	display: inline-block;
 	text-decoration: none;
 }
 
 #header nav ul li a:hover {
-	color: #484848;
+	color: #a07c1f;
 }
 
 #header nav ul li:first-child {
@@ -2474,12 +2489,13 @@ body.is-touch .wrapper.style3 {
 	/*height: 3.25em;*/
 	line-height: 1.15em;
 	position: absolute;
+	transition:background-color .5s;
 }
 
 #header.alt h1 {
 	color: #ffffff;
 	left: 2.5em;
-	top: 1.9em;
+	top: 1.3em;
 }
 
 #header.alt h1 a {
@@ -2503,6 +2519,16 @@ body.is-touch .wrapper.style3 {
 	border-color: rgba(255, 255, 255, 0.5);
 	color: #ffffff !important;
 }
+
+@media screen and (max-width:700px) {
+	#header.alt h1{
+		left:1em;
+	}
+	#header img{
+		width:6em;
+	}
+}
+
 
 @media screen and (max-width: 980px) {
 	#header #nav {
@@ -2552,11 +2578,11 @@ body.is-touch .wrapper.style3 {
 .navPanelToggle {
 	text-decoration: none;
 	text-decoration: none;
-	height: 100%;
-	right: 30px;
+	height: 50px;
+	right: 1em;
 	position: absolute;
-	top: 30px;
-	width: 100%;
+	top: 16px;
+	width: 50px;
 	display: none;
 	z-index:20000;
 }
@@ -2710,70 +2736,114 @@ body.is-touch #banner {
 	background-attachment: scroll;
 }
 
-#banner {
-	padding: 18em 0 14em 0;
+.banner {
+	/* padding: 18em 0 14em 0; */
 	background-attachment: fixed;
-	background-image: url("../images/overlay.png"), url("../images/main_4.jpg");
 	background-position: center top;
 	background-size: cover;
 	line-height: 1.75;
 	text-align: center;
 }
 
-#banner:last-child {
+#banner_1{
+	background-image: url("../images/overlay.png"), url("../images/main_4.jpg");
+}
+
+#banner_2{
+	background-image: url("../images/overlay.png"), url("../images/main_6.jpg");
+}
+
+#banner_3{
+	background-image: url("../images/overlay.png"), url("../images/main_7.jpg");
+}
+
+#banner_4{
+	background-image: url("../images/overlay.png"), url("../images/main_1.png");
+}
+
+.banner:last-child {
 	margin-bottom: 0;
 }
 
-#banner h2 {
+.banner h2 {
 	color: #ffffff;
 	display: inline-block;
 	font-size: 3.5em;
 	line-height: 1.35;
-	margin-bottom: 0.5em;
+	margin-bottom: 0;
 }
 
-#banner p {
+.banner p {
 	color: #aaa;
 	font-size: 1.5em;
-	margin-bottom: 1.75em;
-	margin-top:0;
+	margin:0;
 	text-transform: uppercase;
 }
 
+
 @media screen and (max-width: 1280px) {
-	#banner {
-		padding: 14em 0 11em 0;
+	.banner {
+		/* padding: 14em 0 11em 0; */
 	}
-	#banner h2 {
+	.banner h2 {
 		font-size: 2.5em;
 	}
 }
 
 @media screen and (max-width: 980px) {
-	#banner {
-		padding: 9em 0 7em 0;
+	.banner {
+		/* padding: 9em 0 7em 0; */
 	}
 }
 
 @media screen and (max-width: 736px) {
-	#banner {
-		padding: 12em 2em 6em 2em;
+	.banner {
+		/* padding: 12em 2em 6em 2em; */
 	}
-	#banner br {
+	.banner br {
 		display: none;
 	}
-	#banner h2 {
+	.banner h2 {
 		font-size: 2.25em;
 	}
-	#banner p {
+	.banner p {
 		font-size: 1.25em;
 	}
 }
 
 @media screen and (max-width: 480px) {
-	#banner {
+	/* .banner {
 		padding: 9em 2em 4em 2em;
-	}
+	} */
+}
+
+
+.swiper-wrapper{
+	height:100vh;
+}
+
+.swiper-slide{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+}
+
+.swiper-button-next, .swiper-rtl .swiper-button-prev{
+	cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.swiper-button-next:after, .swiper-button-prev:after{
+	color: rgba(255, 255, 255, 1);
+    border-color: rgb(255, 255, 255);
+    border-color: rgba(255, 255, 255, 0.6);
+    font-size:2em;
 }
 
 /* Main */

@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <link rel="stylesheet" href="assets/css/main.css">
 <title>Insert title here</title>
 </head>
@@ -61,10 +63,33 @@
 					</ul></nav></header><a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 
 		<!-- Banner -->
-			<section id="banner"><h2>Pilgrim House</h2>
-				<p>A resting place for pilgrims</p>
+		<div class="swiper mySwiper">
+			<div class="swiper-wrapper">
+			<section id="banner_1" class="banner swiper-slide"><h2>Pilgrim House</h2>
+				<p>이 곳은 영혼의 레노바레의 집</p>
 				<!-- <ul class="actions"><li><a href="#" class="button special big">예약 바로가기</a></li>
-				</ul>--></section><!-- One --><!-- <section id="one" class="wrapper style1"><div class="container 75%">
+				</ul>--></section>
+				
+			<section id="banner_2" class="banner swiper-slide"><h2>Pilgrim House</h2>
+				<p>삶의 이야기가 있는 곳</p>
+				<!-- <ul class="actions"><li><a href="#" class="button special big">예약 바로가기</a></li>
+				</ul>--></section>
+				
+			<section id="banner_3" class="banner swiper-slide"><h2>Pilgrim House</h2>
+				<p>새로운 시작이 있는 곳</p>
+				<!-- <ul class="actions"><li><a href="#" class="button special big">예약 바로가기</a></li>
+				</ul>--></section>
+				
+			<section id="banner_4" class="banner swiper-slide"><h2>Pilgrim House</h2>
+				<p>푸른 초장과 쉴만한 물가가 있는 곳</p>
+				<!-- <ul class="actions"><li><a href="#" class="button special big">예약 바로가기</a></li>
+				</ul>--></section>
+				</div>
+				<!-- <div class="swiper-button-next"></div>
+    			<div class="swiper-button-prev"></div> -->
+			</div>
+				
+				<!-- One --><!-- <section id="one" class="wrapper style1"><div class="container 75%">
 						<div class="row 200%">
 							<div class="6u 12u$(medium)">
 								<header class="major"><h2>이 곳은 <br>당신의 영혼의 <br>레노바레의 집</h2>
@@ -84,7 +109,7 @@
 						</header>
 						
 						
-						<div class="row 150%">
+						<div class="row 150%" data-aos="fade-up" data-aos-duration="2500">
 						
 							<div class="6u 12u$(xsmall)">
 								<div class="image fit captioned">
@@ -140,15 +165,17 @@
 						<header class="major"><h2>이 집을 떠날때에는</h2>
 							<p>당신은 정녕 길잃은 자가 아니오니<br>영원의 집을 향하는 새 힘 얻은 순례자로<br>광야의 남은 길을 노래하며 춤추며 가십시오</p>
 						</header><!-- <ul class="actions"><li><a href="#" class="button special big">Get in touch</a></li>
-						</ul></div>
+						</ul>--></div>
 				</section><!-- Footer --><footer id="footer"><div class="container">
 					<ul class="icons"><li><a href="#" class="icon fa-facebook"></a></li>
 						<li><a href="#" class="icon fa-twitter"></a></li>
 						<li><a href="#" class="icon fa-instagram"></a></li>
 					</ul></div>
-			</footer><div class="copyright">
+			</footer><!-- <div class="copyright">
 			Site made with: <a href="https://templated.co/">Templated</a>
-		</div>
+		</div>-->
 
 		<!-- Scripts -->
+		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 			<script src="assets/js/jquery.min.js"></script><script src="assets/js/skel.min.js"></script><script src="assets/js/util.js"></script><script src="assets/js/main.js"></script></body></html>

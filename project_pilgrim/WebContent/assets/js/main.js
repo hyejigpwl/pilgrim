@@ -68,18 +68,25 @@
 						.css('transition', 'none');
 
 			// gnb 메뉴 슬라이드
-            $("#nav>ul>li").mouseover(function(){
+						
+			$("#nav>ul>li").mouseover(function(){
                 $(".submenu").stop().hide();
                 $(this).find("ul").stop().show();
-                $(this).children("a").css({
-                    "color":"#fff"
-                })
+                $("#nav>ul>li").children("a").css({
+                    "color":"#333"
+                });
+				$("#header.alt").css({"background-color":"#fff"});
+				$("#header.alt img").attr("src", "assets/images/pilgrim_logo_b.png");
             });
+			
+			$("#header.alt").mouseleave(function(){
+				$(this).css({"background-color":"transparent"});
+				$("#nav>ul>li>a").css({"color":"#fff"});
+				$("#header.alt img").attr("src", "assets/images/pilgrim_logo_w.png");
+			});
+			
             $(".submenu,#nav>ul>li").mouseleave(function(){
                 $(".submenu").stop().hide();
-                $(this).children("a").css({
-                    "color":"#fff"
-                })
             });
 
             // 모바일 gnb 아코디언
@@ -98,8 +105,25 @@
             $('.black_back').click(function(){
                 close_menu();
             });
-
-
-	});
-
+			
+			// aos
+			AOS.init();
+	 
+			// 메인 슬라이드
+			var swiper = new Swiper(".mySwiper", {
+			      spaceBetween: 30,
+			      effect: "fade",
+			      navigation: {
+			        nextEl: ".swiper-button-next",
+			        prevEl: ".swiper-button-prev",
+			      },
+				autoplay: {    
+					 delay: 2000, // 시간 설정          
+					 disableOnInteraction: false, // false-스와이프 후 자동 재생
+			     },
+				 loop : false,   // 슬라이드 반복 여부
+				 loopAdditionalSlides : 1, 
+				speed:1000
+			});
+	})
 })(jQuery);
