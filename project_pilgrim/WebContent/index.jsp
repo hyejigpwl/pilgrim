@@ -14,7 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="assets/js/jquery.min.js"></script><script src="assets/js/skel.min.js"></script><script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
-<title>Insert title here</title>
+<title>필그림하우스</title>
 </head>
 <body class="landing">
 		<%@include file="header.jsp"%>

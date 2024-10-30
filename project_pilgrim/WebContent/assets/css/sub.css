@@ -15,3 +15,67 @@
 #nav .submenu li a {
     color: #fff;
 }
+
+/* 예약신청 페이지 */
+.calendar {
+	max-width: 1200px;
+    width: 100%;
+	margin: 30px auto;
+}
+.calendar .title{
+	height: 37px;
+	line-height: 37px;
+	text-align: center;
+	font-weight: 600;
+	display: flex;
+    justify-content: center;
+    margin-bottom:10px;
+}
+
+.calendar table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.calendar table thead tr:first-child{
+	background: #f6f6f6;
+}
+
+.calendar table thead tr:first-child td{
+	padding:0;
+}
+
+.calendar table td{
+	padding: 8px 121px 71px 0;
+	text-align: center;
+	border: 1px solid #ccc;
+}
+
+.calendar table td:nth-child(7n+1){
+	color: red;
+}
+.calendar table td:nth-child(7n){
+	color: blue;
+}
+.calendar table td.gray {
+	color: #ccc;
+}
+.calendar table td.today{
+	font-weight:700;
+	background: #E6FFFF;
+}
+
+.calendar .title label{
+	font-size:1.2em;
+	margin:0;
+	font-weight:500;
+}
+
+.calendar .title a{
+	color:#333;
+	padding:0 10px;
+	font-size:1.4em;
+	font-weight:500;
+}
+
