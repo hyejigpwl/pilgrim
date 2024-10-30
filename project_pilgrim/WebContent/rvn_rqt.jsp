@@ -98,6 +98,9 @@
 			String seminarA_txt = "천로역정A";
 			String seminarB_txt = "천로역정B";
 			String seminarC_txt = "천로역정C";
+			int psb_number = 0;
+			String psb_txt = "명 가능";
+			String no_txt = "예약 마감";
 			String facility_txt = "예약가능시설<-클릭";
 			
 			String s_cls = "a_seminar";
@@ -110,9 +113,9 @@
 				out.print("<td class='"+cls+"'>"+i
 						
 						+"<a href='#none' class='"+r_cls+"'>"+ room_txt +"</a>"
-						+"<a href='#none' class='"+s_cls+"'>"+ seminarA_txt +"</a>"
-						+"<a href='#none' class='"+s_cls+"'>"+ seminarB_txt +"</a>"
-						+"<a href='#none' class='"+s_cls+"'>"+ seminarC_txt +"</a>"
+						+"<a href='#none' class='"+s_cls+"'>"+ seminarA_txt +psb_txt+"</a>"
+						+"<a href='#none' class='"+s_cls+"'>"+ seminarB_txt +psb_txt+"</a>"
+						+"<a href='#none' class='"+s_cls+"'>"+ seminarC_txt +psb_txt+"</a>"
 						+"<a href='#none' class='"+f_cls+"'>"+ facility_txt +"</a>"
 						
 					
