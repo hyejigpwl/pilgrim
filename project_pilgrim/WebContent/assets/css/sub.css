@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+#header.alt{
+	background-color:#fff;
+}
+
+#header.alt nav a {
+    color: #333;
+}
+
+#header.alt nav a:active, #header.alt nav a:hover {
+    color: #a07c1f;
+}

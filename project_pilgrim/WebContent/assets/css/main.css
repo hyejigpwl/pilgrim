@@ -1969,6 +1969,11 @@ input[type="radio"]+label:before {
 	border-radius: 0;
 }
 
+.image.captioned img:hover{
+	width:120%;
+	transition:width .2s;
+}
+
 .image.captioned h3 {
 	background-color: #fff;
 	box-shadow: 0px 0.0375em 0.125em 0px rgba(0, 0, 0, 0.15);
@@ -2582,7 +2587,7 @@ body.is-touch .wrapper.style3 {
 	right: 1em;
 	position: absolute;
 	top: 16px;
-	width: 50px;
+	width: 65px;
 	display: none;
 	z-index:20000;
 }
@@ -2646,9 +2651,15 @@ body.is-touch .wrapper.style3 {
 	margin: 0;
 	padding: 0;
 }
-
+#navPanel>ul{
+	margin-top:23px;
+} 
 #navPanel ul li {
 	padding: 0;
+}
+#navPanel >ul>li> a{
+	background:url("../images/angle-down-solid.svg") no-repeat right center;
+	background-size:1em;
 }
 
 #navPanel ul li:first-child a:not(.button), #navPanel ul li:first-child span:not(.button)
@@ -2664,6 +2675,16 @@ body.is-touch .wrapper.style3 {
 	text-decoration: none;
 }
 
+#navPanel .submenu{
+	display:none;
+}
+
+#navPanel .submenu li a:not(.button), #navPanel .submenu li span:not(.button){
+	border:0;
+	font-size:.8em;
+	padding:0;
+}
+
 #navPanel .button {
 	width: 100%;
 }
@@ -2676,7 +2697,8 @@ body.is-touch .wrapper.style3 {
 	transition: color 0.2s ease-in-out;
 	-webkit-tap-highlight-color: transparent;
 	border: 0;
-	color: #484848;
+	/*color: #484848;*/
+	color:#fff;
 	cursor: pointer;
 	display: block;
 	height: 4em;

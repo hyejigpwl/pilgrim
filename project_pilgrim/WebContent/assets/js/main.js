@@ -55,7 +55,7 @@
 					.appendTo($body)
 					.panel({
 						delay: 500,
-						hideOnClick: true,
+						hideOnClick: false,
 						hideOnSwipe: true,
 						resetScroll: true,
 						resetForms: true,
@@ -67,44 +67,50 @@
 					$('#navPanel')
 						.css('transition', 'none');
 
+						
+						
+						
 			// gnb 메뉴 슬라이드
 						
 			$("#nav>ul>li").mouseover(function(){
-                $(".submenu").stop().hide();
+                $("#nav .submenu").stop().hide();
                 $(this).find("ul").stop().show();
                 $("#nav>ul>li").children("a").css({
                     "color":"#333"
                 });
+				$("#nav>ul>li>a.point").css({"color":"#a07c1f"});
 				$("#header.alt").css({"background-color":"#fff"});
 				$("#header.alt img").attr("src", "assets/images/pilgrim_logo_b.png");
             });
 			
 			$("#header.alt").mouseleave(function(){
 				$(this).css({"background-color":"transparent"});
-				$("#nav>ul>li>a").css({"color":"#fff"});
+				$("#nav>ul>li>a").css({"color":"#ddd"});
+				$("#nav>ul>li>a.point").css({"color":"#fff"});
 				$("#header.alt img").attr("src", "assets/images/pilgrim_logo_w.png");
 			});
 			
-            $(".submenu,#nav>ul>li").mouseleave(function(){
-                $(".submenu").stop().hide();
+            $("#nav .submenu,#nav>ul>li").mouseleave(function(){
+                $("#nav .submenu").stop().hide();
             });
+			
+			
 
             // 모바일 gnb 아코디언
-            $("#mobile_gnb .gnb_1dli").click(function(){
-
-                // 슬라이드
-                $("#mobile_gnb .gnb_1dli .gnb_2dul").slideUp();
-                $(this).children(".gnb_2dul").stop().slideToggle();
-
-                // 아이콘 전환
-                $(this).children().children().toggleClass("selected");
-                $(".arrow_icon").not( $(this).children().children()).removeClass("selected");
-                
-            });
-
-            $('.black_back').click(function(){
-                close_menu();
-            });
+			$("#navPanel ul li").click(function(){
+				
+			    // 슬라이드
+			    $("#navPanel .submenu").slideUp();
+			    $(this).children("a").siblings().stop().slideToggle();
+				$("#navPanel").addClass("visible");
+				
+				
+			    // 아이콘 전환
+			    // $(this).children().children().toggleClass("selected");
+			    // $(".arrow_icon").not( $(this).children().children()).removeClass("selected");
+			    
+			});	
+            
 			
 			// aos
 			AOS.init();
