@@ -1970,7 +1970,7 @@ input[type="radio"]+label:before {
 }
 
 .image.captioned img:hover{
-	width:120%;
+	width:100%;
 	transition:width .2s;
 }
 

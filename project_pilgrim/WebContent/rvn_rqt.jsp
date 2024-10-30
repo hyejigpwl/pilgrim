@@ -53,6 +53,12 @@
 </head>
 <%@include file="header.jsp"%>
 <div class="calendar">
+	<ul class="actions">
+		<li><a href="#" class="button special big">천로역정 세미나 예약</a></li>
+		<li><a href="#" class="button big">객실 예약</a></li>
+		<li><a href="#" class="button big">시설 예약</a></li>
+	</ul>
+
 	<div class="title">
 		<a href="rvn_rqt.jsp?year=<%=year%>&month=<%=month-1%>">&lt;</a>
 		<label><%=year%>년 <%=month%>월</label>
@@ -88,10 +94,29 @@
 			// 1일부터 말일까지 출력
 			int lastDay = cal.getActualMaximum(Calendar.DATE);
 			String cls;
+			String room_txt = "예약가능객실<-클릭";
+			String seminarA_txt = "천로역정A";
+			String seminarB_txt = "천로역정B";
+			String seminarC_txt = "천로역정C";
+			String facility_txt = "예약가능시설<-클릭";
+			
+			String s_cls = "a_seminar";
+			String r_cls = "a_room";
+			String f_cls = "a_facility";
+			String n_cls = "a_no";
 			for(int i=1; i<=lastDay; i++) {
 				cls = year==ty && month==tm && i==td ? "today":"";
-				
-				out.print("<td class='"+cls+"'>"+i+"</td>");
+				cls = i<=td?"":"";
+				out.print("<td class='"+cls+"'>"+i
+						
+						+"<a href='#none' class='"+r_cls+"'>"+ room_txt +"</a>"
+						+"<a href='#none' class='"+s_cls+"'>"+ seminarA_txt +"</a>"
+						+"<a href='#none' class='"+s_cls+"'>"+ seminarB_txt +"</a>"
+						+"<a href='#none' class='"+s_cls+"'>"+ seminarC_txt +"</a>"
+						+"<a href='#none' class='"+f_cls+"'>"+ facility_txt +"</a>"
+						
+					
+						+"</td>");
 				if(lastDay != i && (++week)%7 == 1) {
 					out.print("</tr><tr>");
 				}
