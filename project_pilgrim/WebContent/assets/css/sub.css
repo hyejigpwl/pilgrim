@@ -1,5 +1,18 @@
 @charset "UTF-8";
 
+ul{
+	padding:0;
+	margin:0;
+}
+
+button{
+	margin-top:2em;
+}
+
+.btn_wrap{
+	margin:0 auto;
+}
+
 #header.alt{
 	background-color:#fff;
 }
@@ -43,15 +56,18 @@
 }
 
 .calendar table thead tr:first-child td{
+	height:1em;
 	padding:0;
 	text-align:center;
 }
 
 .calendar table td{
-	padding: 0px 10px 6px;
 	text-align: left;
 	border: 1px solid #ccc;
 	box-sizing:border-box;
+	position:relative;
+	width:10em;
+	height:10em;
 }
 
 .calendar table td:nth-child(7n+1){
@@ -62,10 +78,28 @@
 }
 .calendar table td.gray {
 	color: #ccc;
+	background-color:#f7f7f7;
 }
 .calendar table td.today{
 	font-weight:700;
-	background: #E6FFFF;
+	background: #6ba5ff;
+}
+.calendar table td span.reservation{
+	width: 100%;
+    height: 100%;
+    display: block;
+    background-color: #fbfbfb;
+    text-align: center;
+    font-weight: bold;
+    line-height: 160px;
+    color: #ce4d0f;
+    text-decoration: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    letter-spacing: 2px;
+    opacity: .9;
 }
 .calendar table td a{
 	display:block;
@@ -95,7 +129,8 @@
 }
 
 .calendar table td a.a_no{
-	background-color:#f1cbc9;
+	background-color:#f1cbc9 !important;
+	cursor:default;
 }
 
 
@@ -117,3 +152,32 @@
 	display:flex;
 	justify-content:flex-end;
 }
+
+/* 모달창 */
+.modalCloseButton {
+  cursor: pointer;
+}
+
+.modalContainer {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index:400;
+}
+
+.modalContent {
+  position: absolute;
+  background-color: #ffffff;
+  padding: 15px;
+}
+
+.modalContainer.hidden {
+  display: none;
+}
+

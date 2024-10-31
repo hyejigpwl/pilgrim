@@ -32,6 +32,7 @@
 	month = cal.get(Calendar.MONTH)+1;
 	
 	int week = cal.get(Calendar.DAY_OF_WEEK); // 1(일)~7(토)
+	int lastDay = cal.getActualMaximum(Calendar.DATE);
 %>
 <!DOCTYPE html>
 <html>
@@ -78,68 +79,145 @@
 			</tr>
 		</thead>
 		<tbody>
-<%
-			// 1일 앞 달
-			Calendar preCal = (Calendar)cal.clone();
-			preCal.add(Calendar.DATE, -(week-1));
-			int preDate = preCal.get(Calendar.DATE);
-			
-			out.print("<tr>");
-			// 1일 앞 부분
-			for(int i=1; i<week; i++) {
-				//out.print("<td>&nbsp;</td>");
-				out.print("<td class='gray'>"+(preDate++)+"</td>");
-			}
-			
-			// 1일부터 말일까지 출력
-			int lastDay = cal.getActualMaximum(Calendar.DATE);
-			String cls;
-			String room_txt = "예약가능객실<-클릭";
-			String seminarA_txt = "천로역정A";
-			String seminarB_txt = "천로역정B";
-			String seminarC_txt = "천로역정C";
-			int psb_number = 0;
-			String psb_txt = "명 가능";
-			String no_txt = "예약 마감";
-			String facility_txt = "예약가능시설<-클릭";
-			
-			String s_cls = "a_seminar";
-			String r_cls = "a_room";
-			String f_cls = "a_facility";
-			String n_cls = "a_no";
-			for(int i=1; i<=lastDay; i++) {
-				cls = year==ty && month==tm && i==td ? "today":"";
-				cls = i<=td?"":"";
-				out.print("<td class='"+cls+"'>"+i
-						
-						+"<a href='#none' class='"+r_cls+"'>"+ room_txt +"</a>"
-						+"<a href='#none' class='"+s_cls+"'>"+ seminarA_txt +psb_txt+"</a>"
-						+"<a href='#none' class='"+s_cls+"'>"+ seminarB_txt +psb_txt+"</a>"
-						+"<a href='#none' class='"+s_cls+"'>"+ seminarC_txt +psb_txt+"</a>"
-						+"<a href='#none' class='"+f_cls+"'>"+ facility_txt +"</a>"
-						
+<tr>
+				<%
+					String room_txt = "객실";
+					String seminarA_txt = "천로역정A";
+					String seminarB_txt = "천로역정B";
+					String seminarC_txt = "천로역정C";
+					int psb_num_A = 1;
+					int psb_num_B = 1;
+					int psb_num_C = 1;
+					String psb_txt = "명 가능";
+					String psb_arr = "<-클릭";
+					String no_txt = "예약 마감";
+					String facility_txt = "시설";
 					
-						+"</td>");
-				if(lastDay != i && (++week)%7 == 1) {
-					out.print("</tr><tr>");
-				}
-			}
-			
-			// 마지막 주 마지막 일자 다음 처리
-			int n = 1;
-			for(int i = (week-1)%7; i<6; i++) {
-				// out.print("<td>&nbsp;</td>");
-				out.print("<td class='gray'>"+(n++)+"</td>");
-			}
-			out.print("</tr>");
-%>		
+				
+				
+					// 공백 채우기
+					for (int i = 1; i < week; i++) {
+						out.print("<td class='gray'></td>");
+					}
+					
+				
+					// 1일부터 말일까지 출력
+					for (int day = 1; day <= lastDay; day++) {
+						
+						// 오늘 날짜인 경우 'today' 클래스 추가
+						String todayClass = (year == ty && month == tm && day == td) ? "today" : "";
+						
+						// 오늘 이전 날짜는 예약 불가 표시
+						if (year < ty || (year == ty && month < tm) || (year == ty && month == tm && day < td)) {
+							out.print("<td class='" + todayClass + "'>" + day + "<span class='reservation'>예약불가</span></td>");
+						} else {
+							out.print("<td class='" + todayClass + "'>" + day);
+							
+							// <a> 태그로 텍스트 추가 (4가지 종류)
+							// 방이 있는 경우와 없는 경우의 텍스트 설정
+					        boolean isRoomAvailable = true;
+					        if (isRoomAvailable) {
+					        	out.print("<a href='#none' class='a_room room_yes'>" + room_txt+ " " + psb_arr + "</a>");
+					        } else {
+					        	 out.print("<a href='#none' class='a_room a_no'>" + room_txt+ " " + no_txt+ "</a>");
+					        }
+					        
+					        // 세미나 가능한 경우와 없는 경우의 텍스트 설정
+					        boolean isAAvailable = true;
+					        boolean isBAvailable = false;
+					        boolean isCAvailable = false;
+					        
+					        if(isAAvailable){
+					        	out.print("<a href='#none' class='a_seminar'>" + seminarA_txt + " " + psb_num_A + " " + psb_txt + "</a>");
+					        }else{
+					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarA_txt + " " + no_txt + "</a>");
+					        }
+					        
+					        if(isBAvailable){
+					        	out.print("<a href='#none' class='a_seminar'>" + seminarB_txt + " " + psb_num_B + " " + psb_txt + "</a>");
+					        }else{
+					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarB_txt + " " + no_txt + "</a>");
+					        }
+					        
+					        if(isCAvailable){
+					        	out.print("<a href='#none' class='a_seminar'>" + seminarC_txt + " " + psb_num_C + " " + psb_txt + "</a>");
+					        }else{
+					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarC_txt + " " + no_txt + "</a>");
+					        }
+							
+							
+							// 시설이 있는 경우와 없는 경우의 텍스트 설정
+					        boolean isFacilityAvailable = false;
+					        if (isFacilityAvailable) {
+					        	out.print("<a href='#none' class='a_facility facility_yes'>" + facility_txt+ " " + psb_arr + "</a>");
+					        } else {
+					        	 out.print("<a href='#none' class='a_facility a_no'>" + facility_txt+ " " + no_txt+ "</a>");
+					        }
+
+							
+							out.print("</td>");
+						}
+
+						// 주간 순환으로 줄바꿈 처리
+						if(lastDay != day && (++week)%7 == 1) {
+							out.print("</tr><tr>");
+						}
+					}
+
+					// 마지막 주 마지막 일자 다음 처리
+					int n = 1;
+					for(int i = (week-1)%7; i<6; i++) {
+						// out.print("<td>&nbsp;</td>");
+						out.print("<td class='gray'>"+(n++)+"</td>");
+					}
+				%>
+			</tr>
 		</tbody>
 	</table>
+	
+	<!-- 모달창 -->
+	<div id="modalContainer_room" class="hidden modalContainer">
+	  <div class="modalContent">
+	    <p>예약가능객실</p>
+	   
+	    
+	    <ul>
+	    	<li><a href="room_rqt.jsp">VIP룸  (기준인원2명, 최대인원2명)-<span class="blue">1실남음</span></a></li>
+	    	<li><a href="room_rqt.jsp">2인침대 (기준인원2명, 최대인원2명)-<span class="red">예약마감</span></a></li>
+	    	<li><a href="room_rqt.jsp">2인온돌 (기준인원2명, 최대인원4명)-<span class="red">예약마감</span></a></li>
+	    	<li><a href="room_rqt.jsp">4인침대  (기준인원4명, 최대인원6명)-<span>예약가능</span></a></li>
+	    	<li><a href="room_rqt.jsp">빌리지가족실 (기준인원4명, 최대인원6명)-<span>예약가능</span></a></li>
+	    </ul>
+	    <button class="modalCloseButton">닫기</button>
+	  </div>
+	</div>
+	
+	<div id="modalContainer_facility" class="hidden modalContainer">
+	  <div class="modalContent">
+	    <p>예약가능시설</p>
+	    <ul>
+	    	<li><a href="room_rqt.jsp">VIP룸  (기준인원2명, 최대인원2명)-<span class="blue">실남음</span></a></li>
+	    	<li><a href="room_rqt.jsp">2인침대 (기준인원2명, 최대인원2명)-<span class="red">예약마감</span></a></li>
+	    	<li><a href="room_rqt.jsp">2인온돌 (기준인원2명, 최대인원4명)-<span class="red">예약마감</span></a></li>
+	    	<li><a href="room_rqt.jsp">4인침대  (기준인원4명, 최대인원6명)-<span>예약가능</span></a></li>
+	    	<li><a href="room_rqt.jsp">빌리지가족실 (기준인원4명, 최대인원6명)-<span>예약가능</span></a></li>
+	    </ul>
+	    <div class="btn_wrap">
+		    <button class="modalCloseButton">닫기</button>
+	    </div>
+	  </div>
+	</div>
+	
 </div>
 <%@include file="footer.jsp"%>
 <script>
 	$(function(){
-		// header
-		$("#header.alt img").attr("src", "assets/images/pilgrim_logo_b.png");
+		// <-클릭 팝업창
+		$(".room_yes").click(function(){
+			$("#modalContainer_room").removeClass("hidden");
+		});
+		$(".modalCloseButton").click(function(){
+			$("#modalContainer_room").addClass("hidden");
+		})
 	});
 </script>

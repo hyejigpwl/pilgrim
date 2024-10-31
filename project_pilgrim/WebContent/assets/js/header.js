@@ -67,7 +67,11 @@
 					$('#navPanel')
 						.css('transition', 'none');
 
-						
+			// 헤더 로고
+			$(function(){
+				// header
+				$("#header.alt img").attr("src", "assets/images/pilgrim_logo_b.png");
+			});			
 						
 						
 			// gnb 메뉴 슬라이드

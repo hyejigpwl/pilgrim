@@ -1346,8 +1346,8 @@ body, input, select, textarea {
 }
 
 a {
-	text-decoration: underline;
-	color: #f32853;
+	text-decoration: none;
+	color:#333;
 }
 
 a:hover {
@@ -2013,7 +2013,7 @@ ol li {
 }
 
 ul {
-	list-style: disc;
+	list-style:none;
 	margin: 0 0 4em 0;
 	padding-left: 1em;
 }
