@@ -1296,7 +1296,23 @@ body.landing {
 
 @media screen and (max-width: 980px) {
 	body {
-		padding-top: 2em;
+		padding:5em .6em 0;
+	}
+	
+	ul.actions.two_btn {
+	    display: flex;
+    	gap: 20px;
+	}
+	
+	ul.actions.two_btn li{
+		width:50%;	
+		padding:0;
+	}
+	
+	ul.actions.two_btn li a{
+		 width: 100%;
+        font-size: 1em;
+        padding: 0 .3em;
 	}
 }
 
@@ -2133,20 +2149,6 @@ ul.actions.fit.small li {
 }
 
 @media screen and (max-width: 700px) {
-	#two ul.actions{
-	    display: flex;
-    	gap: 20px;
-	}
-	
-	#two ul.actions li{
-		width:50%;	
-		padding:0;
-	}
-	
-	#two ul.actions li a{
-		width: 100%;
-    	font-size: 1em;
-	}
 	
 	ul.actions {
 		/* margin: 0 0 2em 0; */
@@ -2502,8 +2504,9 @@ body.is-touch .wrapper.style3 {
 	box-shadow: none;
 	/*height: 3.25em;*/
 	line-height: 1.15em;
-	position: absolute;
+	position: fixed;
 	transition:background-color .5s;
+	height:4.5em;
 }
 
 #header.alt h1 {
@@ -2536,12 +2539,21 @@ body.is-touch .wrapper.style3 {
 }
 
 @media screen and (max-width:700px) {
+	#header.alt{
+		height:3.5em;
+	}
+	
 	#header.alt h1{
 		left:1em;
+		top:1em;
 	}
 	#header img{
 		width:6em;
 	}
+	
+	 .navPanelToggle {
+        top:8px !important;
+    }
 }
 
 
@@ -2596,7 +2608,7 @@ body.is-touch .wrapper.style3 {
 	text-decoration: none;
 	height: 50px;
 	right: 1em;
-	position: absolute;
+	position: fixed;
 	top: 16px;
 	width: 65px;
 	display: none;

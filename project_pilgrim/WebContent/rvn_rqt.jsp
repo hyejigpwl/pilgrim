@@ -54,16 +54,17 @@
 </head>
 <%@include file="header.jsp"%>
 <div class="calendar">
-	<ul class="actions">
-		<li><a href="#" class="button special big">천로역정 세미나 예약</a></li>
-		<li><a href="#" class="button big">객실 예약</a></li>
-		<li><a href="#" class="button big">시설 예약</a></li>
+	<ul class="actions two_btn">
+		<li><a href="seminar_rqt.jsp" class="button special big">천로역정 세미나 예약</a></li>
+		<li><a href="room_rqt.jsp" class="button big">객실 예약</a></li>
+		<li><a href="facility_rqt.jsp" class="button big">시설 예약</a></li>
 	</ul>
 
 	<div class="title">
 		<a href="rvn_rqt.jsp?year=<%=year%>&month=<%=month-1%>">&lt;</a>
 		<label><%=year%>년 <%=month%>월</label>
 		<a href="rvn_rqt.jsp?year=<%=year%>&month=<%=month+1%>">&gt;</a>
+		
 	</div>
 	
 	<table>
@@ -89,7 +90,7 @@
 					int psb_num_B = 1;
 					int psb_num_C = 1;
 					String psb_txt = "명 가능";
-					String psb_arr = "<-클릭";
+					String psb_arr = "예약 가능";
 					String no_txt = "예약 마감";
 					String facility_txt = "시설";
 					
@@ -128,19 +129,19 @@
 					        boolean isCAvailable = false;
 					        
 					        if(isAAvailable){
-					        	out.print("<a href='#none' class='a_seminar'>" + seminarA_txt + " " + psb_num_A + " " + psb_txt + "</a>");
+					        	out.print("<a href='seminar_rqt.jsp' class='a_seminar'>" + seminarA_txt + " " + psb_num_A + " " + psb_txt + "</a>");
 					        }else{
 					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarA_txt + " " + no_txt + "</a>");
 					        }
 					        
 					        if(isBAvailable){
-					        	out.print("<a href='#none' class='a_seminar'>" + seminarB_txt + " " + psb_num_B + " " + psb_txt + "</a>");
+					        	out.print("<a href='seminar_rqt.jsp' class='a_seminar'>" + seminarB_txt + " " + psb_num_B + " " + psb_txt + "</a>");
 					        }else{
 					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarB_txt + " " + no_txt + "</a>");
 					        }
 					        
 					        if(isCAvailable){
-					        	out.print("<a href='#none' class='a_seminar'>" + seminarC_txt + " " + psb_num_C + " " + psb_txt + "</a>");
+					        	out.print("<a href='seminar_rqt.jsp' class='a_seminar'>" + seminarC_txt + " " + psb_num_C + " " + psb_txt + "</a>");
 					        }else{
 					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarC_txt + " " + no_txt + "</a>");
 					        }

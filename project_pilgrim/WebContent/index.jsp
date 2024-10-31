@@ -58,7 +58,7 @@
 					</div>
 				</section>--><!-- Two --><section id="two" class="wrapper style2 special"><div class="container">
 				
-				<ul class="actions"><li><a href="#" class="button special big">천로역정 세미나 예약</a></li>
+				<ul class="actions two_btn"><li><a href="#" class="button special big">천로역정 세미나 예약</a></li>
 							<li><a href="#" class="button big">객실 예약</a></li>
 						</ul>
 						<header class="major"><h2>Pilgrim House</h2>

@@ -9,6 +9,12 @@ button{
 	margin-top:2em;
 }
 
+@media screen and (max-width: 480px) {
+    input[type="submit"], input[type="reset"], input[type="button"], button, .button {
+           padding: 0 2.2em;
+    }
+}
+
 .btn_wrap{
 	margin:0 auto;
 }
@@ -32,8 +38,8 @@ button{
 /* 예약신청 페이지 */
 .calendar {
 	max-width: 1200px;
+	margin:20px auto;
     width: 100%;
-	margin: 30px auto;
 }
 .calendar .title{
 	height: 37px;
@@ -69,6 +75,8 @@ button{
 	position:relative;
 	width:10em;
 	height:10em;
+	color:#333;
+	
 }
 
 .calendar table td:nth-child(7n+1){
@@ -84,6 +92,7 @@ button{
 .calendar table td.today{
 	font-weight:700;
 	background: #6ba5ff;
+	color:#fff;
 }
 .calendar table td span.reservation{
 	width: 100%;
@@ -111,14 +120,13 @@ button{
 	padding:0 3px;
 	box-sizing:border-box;
 	margin-bottom:6px;
-	font-size: 1em;
-    height: 1.5em;
-    line-height: 1.5em;
+	font-size: .9em;
+    height: 2em;
+    font-weight:400;
 }
 
 .calendar table td a.a_seminar{
 	background-color:#edf0ca;
-	cursor: default;
 }
 
 .calendar table td a.a_room{
@@ -134,6 +142,22 @@ button{
 	cursor:default;
 }
 
+@media screen and (max-width:1000px){
+	.calendar table td{
+		padding:0 .2em;
+		height:3em;
+	}
+	.calendar table td a {
+	    padding: 7px 3px;
+	    font-size: .8em;
+	    height: auto;
+	    font-weight: 400;
+	    line-height: 1em;
+	}
+	.calendar table td span.reservation{
+		display:none;
+	}
+}
 
 .calendar .title label{
 	font-size:1.2em;
@@ -152,6 +176,15 @@ button{
 .calendar ul.actions{
 	display:flex;
 	justify-content:flex-end;
+}
+
+@media screen and (max-width:700px){
+	.calendar ul.actions{
+		display:flex;
+		justify-content:flex-start;
+		overflow-x:scroll;
+		gap:10px;
+	}
 }
 
 /* 모달창 */
@@ -178,7 +211,18 @@ button{
   padding: 15px;
 }
 
+.modalContent p{
+	margin:0 0 1em 0;
+}
+
 .modalContainer.hidden {
   display: none;
 }
 
+.modalContent ul li a:hover{
+	text-decoration:underline;
+}
+
+input[type="submit"].big, input[type="reset"].big, input[type="button"].big, button.big, .button.big{
+	font-size:1em;
+}
