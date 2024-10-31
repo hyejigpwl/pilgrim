@@ -147,7 +147,7 @@
 							
 							
 							// 시설이 있는 경우와 없는 경우의 텍스트 설정
-					        boolean isFacilityAvailable = false;
+					        boolean isFacilityAvailable = true;
 					        if (isFacilityAvailable) {
 					        	out.print("<a href='#none' class='a_facility facility_yes'>" + facility_txt+ " " + psb_arr + "</a>");
 					        } else {
@@ -179,29 +179,120 @@
 	<div id="modalContainer_room" class="hidden modalContainer">
 	  <div class="modalContent">
 	    <p>예약가능객실</p>
-	   
+	  <%
+	  
+	   // 방 타입별 남은 수량 설정 (예시 값으로 설정)
+	    int avail_num_vip = 1;
+	    int avail_num_2b = 0;
+	    int avail_num_2f = 0;
+	    int avail_num_4b = 3;
+	    int avail_num_family = 2;
 	    
-	    <ul>
-	    	<li><a href="room_rqt.jsp">VIP룸  (기준인원2명, 최대인원2명)-<span class="blue">1실남음</span></a></li>
-	    	<li><a href="room_rqt.jsp">2인침대 (기준인원2명, 최대인원2명)-<span class="red">예약마감</span></a></li>
-	    	<li><a href="room_rqt.jsp">2인온돌 (기준인원2명, 최대인원4명)-<span class="red">예약마감</span></a></li>
-	    	<li><a href="room_rqt.jsp">4인침대  (기준인원4명, 최대인원6명)-<span>예약가능</span></a></li>
-	    	<li><a href="room_rqt.jsp">빌리지가족실 (기준인원4명, 최대인원6명)-<span>예약가능</span></a></li>
-	    </ul>
+    // 방 타입 정보와 남은 수량을 이차원 배열로 설정
+    String[][] rooms = {
+        {"VIP룸", "기준인원2명, 최대인원2명", String.valueOf(avail_num_vip)},
+        {"2인침대", "기준인원2명, 최대인원2명", String.valueOf(avail_num_2b)},
+        {"2인온돌", "기준인원2명, 최대인원4명", String.valueOf(avail_num_2f)},
+        {"4인침대", "기준인원4명, 최대인원6명", String.valueOf(avail_num_4b)},
+        {"빌리지가족실", "기준인원4명, 최대인원6명", String.valueOf(avail_num_family)}
+    };
+
+    // 출력할 때 사용할 변수
+    String roomName;
+    String capacity;
+    int availableCount;
+    String roomState;
+    String roomClass;
+%>
+
+<ul>
+<%
+    // 배열을 순회하면서 방 정보를 출력
+    for (String[] room : rooms) {
+        roomName = room[0];
+        capacity = room[1];
+        availableCount = Integer.parseInt(room[2]);
+
+        // 예약 상태와 CSS 클래스를 설정
+        if (availableCount > 0) {
+            roomState = availableCount + "실 남음";
+            roomClass = "blue";
+        } else {
+            roomState = "예약마감";
+            roomClass = "red";
+        }
+%>
+        <li>
+            <a href="room_rqt.jsp">
+                <%= roomName %> (<%= capacity %>)-<span class="<%= roomClass %>"><%= roomState %></span>
+            </a>
+        </li>
+<%
+    }
+%>
+</ul>
+
 	    <button class="modalCloseButton">닫기</button>
 	  </div>
 	</div>
 	
+	
+	
 	<div id="modalContainer_facility" class="hidden modalContainer">
 	  <div class="modalContent">
 	    <p>예약가능시설</p>
-	    <ul>
-	    	<li><a href="room_rqt.jsp">VIP룸  (기준인원2명, 최대인원2명)-<span class="blue">실남음</span></a></li>
-	    	<li><a href="room_rqt.jsp">2인침대 (기준인원2명, 최대인원2명)-<span class="red">예약마감</span></a></li>
-	    	<li><a href="room_rqt.jsp">2인온돌 (기준인원2명, 최대인원4명)-<span class="red">예약마감</span></a></li>
-	    	<li><a href="room_rqt.jsp">4인침대  (기준인원4명, 최대인원6명)-<span>예약가능</span></a></li>
-	    	<li><a href="room_rqt.jsp">빌리지가족실 (기준인원4명, 최대인원6명)-<span>예약가능</span></a></li>
-	    </ul>
+	    	  <%
+	  
+	   // 방 타입별 가능한 시간대 설정 (예시 값으로 설정)
+	    int avail_num_ka = 1;
+	    int avail_num_ge = 1;
+	    int avail_num_pe = 3;
+	    int avail_num_se = 3;
+	    int avail_num_vil = 3;
+	    
+    // 방 타입 정보와 남은 수량을 이차원 배열로 설정
+    String[][] facilities = {
+    	{"카리타스 채플", "350명", String.valueOf(avail_num_ka)},
+    	{"겟세마네 채플", "150명", String.valueOf(avail_num_ge)},
+        {"피데스 채플", "56명", String.valueOf(avail_num_pe)},
+        {"스페스 채플", "56명", String.valueOf(avail_num_se)},
+        {"빌리지 채플", "50명", String.valueOf(avail_num_vil)},
+    };
+
+    // 출력할 때 사용할 변수
+    String facilityName;
+    String capacity_f;
+    int availableCount_f;
+    String facilityState;
+    String facilityClass;
+%>
+
+<ul>
+<%
+    // 배열을 순회하면서 방 정보를 출력
+    for (String[] facility : facilities) {
+    	facilityName = facility[0];
+    	capacity_f = facility[1];
+    	availableCount_f = Integer.parseInt(facility[2]);
+
+        // 예약 상태와 CSS 클래스를 설정
+        if (availableCount_f > 0) {
+        	facilityState = availableCount_f + "실 남음";
+        	facilityClass = "blue";
+        } else {
+        	facilityState = "예약마감";
+            facilityClass = "red";
+        }
+%>
+        <li>
+            <a href="fac_rqt.jsp">
+                <%= facilityName %> (<%= capacity_f %>)-<span class="<%= facilityClass %>"><%= facilityState %></span>
+            </a>
+        </li>
+<%
+    }
+%>
+</ul>
 	    <div class="btn_wrap">
 		    <button class="modalCloseButton">닫기</button>
 	    </div>
@@ -214,10 +305,16 @@
 	$(function(){
 		// <-클릭 팝업창
 		$(".room_yes").click(function(){
-			$("#modalContainer_room").removeClass("hidden");
+			$("#modalContainer_facility").removeClass("hidden");
 		});
 		$(".modalCloseButton").click(function(){
 			$("#modalContainer_room").addClass("hidden");
+			$("#modalContainer_facility").addClass("hidden");
 		})
+		
+		$(".facility_yes").click(function(){
+			$("#modalContainer_facility").removeClass("hidden");
+		});
+		
 	});
 </script>

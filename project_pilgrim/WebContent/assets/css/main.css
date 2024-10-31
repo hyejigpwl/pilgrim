@@ -60,6 +60,15 @@ body {
 	-webkit-text-size-adjust: none;
 }
 
+.blue{
+	color:blue;
+}
+
+.red{
+	color:red;
+}
+
+
 /* Box Model */
 *, *:before, *:after {
 	-moz-box-sizing: border-box;
