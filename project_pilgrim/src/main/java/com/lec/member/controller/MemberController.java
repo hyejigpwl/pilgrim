@@ -40,11 +40,14 @@ public class MemberController extends HttpServlet {
 		
 		RequestDispatcher dispatcher = null;
 
-		// 로그인
+		// 로그인, 로그아웃
 		if(command.equalsIgnoreCase("loginForm")) {
 			action = new LoginAction();
 			forward = action.execute(req, res); 
-		}
+		}else if (command.equalsIgnoreCase("logout")) {
+	        action = new LogoutAction();
+	        forward = action.execute(req, res);
+	    }
 		
 		// 목록조회/회원등록/회원수정/회원삭제/에러/다운
 		/*if(command.equalsIgnoreCase("memberWriteForm")) {

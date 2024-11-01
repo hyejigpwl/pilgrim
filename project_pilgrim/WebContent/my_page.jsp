@@ -33,7 +33,7 @@
 	<h2><%= member_id %> 회원님 환영합니다.</h2>
 	
 	<!-- 로그아웃 버튼 -->
-    <form action="logout.jsp" method="post">
+    <form action="logout.do" method="post">
         <input type="submit" value="Logout">
     </form>
 <%@include file="footer.jsp"%>
