@@ -12,19 +12,29 @@
 <script src="assets/js/skel.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/header.js"></script>
-<title>객실 예약 페이지</title>
+<title>나의 예약</title>
 </head>
-<body>
+<%@include file="header.jsp"%>
 <%
-		if(session.getAttribute("member")==null)
+		String re = (String)session.getAttribute("member");
+	
+		if(re==null)
 		{
 			response.sendRedirect("login.jsp");
+			return;
 		}
+		
+		request.setCharacterEncoding("utf-8");
+		String member_id = (String)session.getAttribute("member_id");
+		
+		
+		
 	%>
-<%@include file="header.jsp"%>
-<div id="container">
-
-</div>
+	<h2><%= member_id %> 회원님 환영합니다.</h2>
+	
+	<!-- 로그아웃 버튼 -->
+    <form action="logout.jsp" method="post">
+        <input type="submit" value="Logout">
+    </form>
 <%@include file="footer.jsp"%>
-</body>
 </html>

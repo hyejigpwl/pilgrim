@@ -246,6 +246,11 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
     color: #6A24FE;
     margin-bottom: 20px;
 }
+.login-wrapper p{
+	font-size:1em;
+	margin:0 0 .5em;
+	text-align:center;
+}
 #login-form > input{
     width: 100%;
     height: 48px;
