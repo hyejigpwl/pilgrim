@@ -47,6 +47,8 @@
 			    } 
 			%>
             <input type="submit" value="Login">
+            <input type="button" value="Connect with facebook">
+        	<a href="join.jsp" class="login_btm_a">회원가입</a>
         </form>
     </div>
     </div>

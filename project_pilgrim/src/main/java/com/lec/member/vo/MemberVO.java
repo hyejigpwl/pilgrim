@@ -8,10 +8,10 @@ public class MemberVO {
 
 	private String member_id;
 	private String name;
-	private String pw;
-	private int phone;
+	private String pwd;
+	private String phone;
 	private String email;
-	private Date signup_date;
+	private Date reg_date;
 	private int terms_agreed;
 	public String getMember_id() {
 		return member_id;
@@ -25,16 +25,16 @@ public class MemberVO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPw() {
-		return pw;
+	public String getPwd() {
+		return pwd;
 	}
-	public void setPw(String pw) {
-		this.pw = pw;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public String getEmail() {
@@ -43,11 +43,11 @@ public class MemberVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getSignup_date() {
-		return signup_date;
+	public Date getReg_date() {
+		return reg_date;
 	}
-	public void setSignup_date(Date signup_date) {
-		this.signup_date = signup_date;
+	public void setReg_date(Date reg_date) {
+		this.reg_date = reg_date;
 	}
 	public int getTerms_agreed() {
 		return terms_agreed;
@@ -57,7 +57,7 @@ public class MemberVO {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, member_id, name, phone, pw, signup_date, terms_agreed);
+		return Objects.hash(email, member_id, name, phone, pwd, reg_date, terms_agreed);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -69,13 +69,13 @@ public class MemberVO {
 			return false;
 		MemberVO other = (MemberVO) obj;
 		return Objects.equals(email, other.email) && Objects.equals(member_id, other.member_id)
-				&& Objects.equals(name, other.name) && phone == other.phone && Objects.equals(pw, other.pw)
-				&& Objects.equals(signup_date, other.signup_date) && terms_agreed == other.terms_agreed;
+				&& Objects.equals(name, other.name) && phone == other.phone && Objects.equals(pwd, other.pwd)
+				&& Objects.equals(reg_date, other.reg_date) && terms_agreed == other.terms_agreed;
 	}
 	@Override
 	public String toString() {
-		return "MemberVO [member_id=" + member_id + ", name=" + name + ", pw=" + pw + ", phone=" + phone + ", email="
-				+ email + ", signup_date=" + signup_date + ", terms_agreed=" + terms_agreed + "]";
+		return "MemberVO [member_id=" + member_id + ", name=" + name + ", pwd=" + pwd + ", phone=" + phone + ", email="
+				+ email + ", reg_date=" + reg_date + ", terms_agreed=" + terms_agreed + "]";
 	}
 	
 	

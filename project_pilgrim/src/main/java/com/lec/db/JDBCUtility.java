@@ -44,8 +44,11 @@ public class JDBCUtility {
 	}
 	
 	public static void commit(Connection conn) {
+		
 		try {
-			if(conn != null) conn.commit();
+			if(conn != null) {
+				conn.commit();			
+			}
 		} catch (Exception e) {
 			// dummy
 		}		

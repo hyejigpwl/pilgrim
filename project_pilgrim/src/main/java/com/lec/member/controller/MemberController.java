@@ -47,6 +47,9 @@ public class MemberController extends HttpServlet {
 		}else if (command.equalsIgnoreCase("logout")) {
 	        action = new LogoutAction();
 	        forward = action.execute(req, res);
+	    }else if (command.equalsIgnoreCase("joinForm")) {
+	        action = new JoinAction();
+	        forward = action.execute(req, res);
 	    }
 		
 		// 목록조회/회원등록/회원수정/회원삭제/에러/다운

@@ -236,7 +236,6 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 
 .login-wrapper{
     width: 400px;
-    height: 350px;
     padding: 40px;
     box-sizing: border-box;
 }
@@ -250,6 +249,12 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 	font-size:1em;
 	margin:0 0 .5em;
 	text-align:center;
+}
+.login-wrapper a{
+	display:block;
+	text-align:center;
+	text-decoration:underline;
+	font-weight:300;
 }
 #login-form > input{
     width: 100%;
@@ -266,14 +271,21 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
     padding:0;
     margin:0;
 }
-#login-form > input[type="checkbox"] 
+
+/*#login-form > input[type="checkbox"] 
 #login-form > input::placeholder{
     color: #D2D2D2;
-}
+}*/
 #login-form > input[type="submit"]{
     color: #fff;
     font-size: 16px;
     background-color: #6A24FE;
+   /*  margin-top: 20px; */
+}
+#login-form > input[type="button"]{
+    color: #fff;
+    font-size: 16px;
+    background-color: #7f7f99;
    /*  margin-top: 20px; */
 }
 /* #login-form  input[type="checkbox"]{
@@ -295,3 +307,11 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
     background-repeat: no-repeat;
     background-size: contain;
 } */
+
+/* 회원가입 페이지 */
+.join_page p{
+	text-align:left;
+}
+.join_page input[type="checkbox"]{
+	margin-top:20px !important;
+}
