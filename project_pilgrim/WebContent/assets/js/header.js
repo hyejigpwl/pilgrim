@@ -106,9 +106,6 @@
 			
 			});	
             
-			
-			// aos
-			AOS.init();
 	 
 	})
 })(jQuery);

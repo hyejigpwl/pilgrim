@@ -1770,8 +1770,8 @@ input[type="text"]:invalid, input[type="password"]:invalid, input[type="email"]:
 
 input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
 	select:focus, textarea:focus {
-	border-color: #f32853;
-	box-shadow: 0 0 0 1px #f32853;
+	border-color: rgb(0, 64, 128);
+	box-shadow: 0 0 0 1px rgb(0, 64, 128);
 }
 
 .select-wrapper {
@@ -1876,8 +1876,8 @@ input[type="checkbox"]:checked+label:before, input[type="radio"]:checked+label:b
 
 input[type="checkbox"]:focus+label:before, input[type="radio"]:focus+label:before
 	{
-	border-color: #f32853;
-	box-shadow: 0 0 0 1px #f32853;
+	/* border-color: rgb(0, 0, 160);
+	box-shadow: 0 0 0 1px #f32853; */
 }
 
 input[type="checkbox"]+label:before {

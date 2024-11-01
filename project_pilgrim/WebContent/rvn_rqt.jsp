@@ -53,7 +53,7 @@
 <title>예약신청</title>
 </head>
 <%@include file="header.jsp"%>
-<div class="calendar">
+<div id="container" class="calendar">
 	<ul class="actions two_btn">
 		<li><a href="seminar_rqt.jsp" class="button special big">천로역정 세미나 예약</a></li>
 		<li><a href="room_rqt.jsp" class="button big">객실 예약</a></li>
