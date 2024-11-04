@@ -280,7 +280,7 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
     color: #fff;
     font-size: 16px;
     background-color: #6A24FE;
-   /*  margin-top: 20px; */
+    margin-top: 20px;
 }
 #login-form > input[type="button"]{
     color: #fff;

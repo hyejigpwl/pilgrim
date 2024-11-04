@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lec.member.action.*;
-import com.lec.member.vo.ActionForward;
+import com.lec.common.Action;
+import com.lec.common.ActionForward;
 
-@WebServlet("*.do")
+@WebServlet("*.mb")
 public class MemberController extends HttpServlet {
 
 	Action action = null;

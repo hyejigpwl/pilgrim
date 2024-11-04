@@ -5,7 +5,8 @@ import java.io.IOException;
 import javax.servlet.http.*;
 
 import com.lec.member.dao.MemberDAO;
-import com.lec.member.vo.ActionForward;
+import com.lec.common.Action;
+import com.lec.common.ActionForward;
 
 public class CheckIdAction implements Action {
     @Override

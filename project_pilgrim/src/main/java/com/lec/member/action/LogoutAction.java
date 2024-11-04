@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.lec.member.vo.ActionForward;
+import com.lec.common.Action;
+import com.lec.common.ActionForward;
 
 public class LogoutAction implements Action {
 

@@ -39,7 +39,6 @@ public class MemberRegistService {
         } finally {
             JDBCUtility.close(conn, null, null); // 항상 close
         }
-        System.out.println("isWriteSuccess:" + isWriteSuccess);
         return isWriteSuccess;
 	}
 }

@@ -1,4 +1,4 @@
-package com.lec.reservation.seminar;
+package com.lec.reservation.vo;
 
 public class SeminarReservationVO {
 

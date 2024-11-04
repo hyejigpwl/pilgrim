@@ -19,7 +19,7 @@
     <div id="container" class="login_page join_page">
          <div class="login-wrapper">
         <h2>JOIN</h2>
-        <form method="post" action="joinForm.do" id="login-form">
+        <form method="post" action="joinForm.mb" id="login-form">
             <!-- 아이디 -->
             <label for="member_id">아이디</label>
             <div style="display: flex;">

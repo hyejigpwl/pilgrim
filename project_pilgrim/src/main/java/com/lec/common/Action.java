@@ -1,9 +1,9 @@
-package com.lec.member.action;
+package com.lec.common;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.lec.member.vo.ActionForward;
+import com.lec.common.ActionForward;
 
 public interface Action {
 

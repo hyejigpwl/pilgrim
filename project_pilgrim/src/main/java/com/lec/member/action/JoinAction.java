@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lec.member.service.MemberRegistService;
-import com.lec.member.vo.ActionForward;
+import com.lec.common.Action;
+import com.lec.common.ActionForward;
 import com.lec.member.vo.MemberVO;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;

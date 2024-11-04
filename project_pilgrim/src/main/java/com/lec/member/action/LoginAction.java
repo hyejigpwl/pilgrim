@@ -6,7 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import com.lec.member.dao.MemberDAO;
 import com.lec.member.service.MemberLoginService;
-import com.lec.member.vo.ActionForward;
+import com.lec.common.Action;
+import com.lec.common.ActionForward;
 
 public class LoginAction implements Action{
 

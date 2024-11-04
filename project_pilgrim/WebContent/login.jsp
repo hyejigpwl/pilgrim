@@ -28,7 +28,7 @@
     <div id="container" class="login_page">
          <div class="login-wrapper">
         <h2>Login</h2>
-        <form method="post" action="loginForm.do" id="login-form">
+        <form method="post" action="loginForm.mb" id="login-form">
             <input type="text" name="member_id" placeholder="Id">
             <input type="password" name="pwd" placeholder="Password">
              <input type="checkbox" id="remember-check">
