@@ -60,7 +60,7 @@ public class MemberDAO {
             JDBCUtility.rollback(conn);
         } finally {
             // 자원 해제
-            JDBCUtility.close(conn, pstmt, rs);
+            JDBCUtility.close(null, pstmt, rs);
         }
         
         return name;
@@ -75,7 +75,7 @@ public class MemberDAO {
 
  		try {
  		// 데이터베이스 연결
-            conn = JDBCUtility.getConnection();
+            // conn = JDBCUtility.getConnection();
             pstmt = conn.prepareStatement(sql);
             
             pstmt.setString(1, member.getMember_id());
@@ -88,10 +88,33 @@ public class MemberDAO {
  			
  		} catch (Exception e) {
  			System.out.println("회원등록실패!!!");
+ 			insertCount=0;
  		} finally {
  			JDBCUtility.close(null, pstmt, null);
  		}
  		return insertCount;
  	}
 
+ 	// 3. 아이디 중복확인
+ 	public boolean isIdAvailable(String member_id) {
+ 	    PreparedStatement pstmt = null;
+ 	    ResultSet rs = null;
+ 	    String sql = "SELECT COUNT(*) FROM member WHERE member_id = ?";
+ 	    boolean isAvailable = false;
+
+ 	    try {
+ 	    	conn = JDBCUtility.getConnection();
+ 	        pstmt = conn.prepareStatement(sql);
+ 	        pstmt.setString(1, member_id);
+ 	        rs = pstmt.executeQuery();
+ 	        if (rs.next()) {
+ 	            isAvailable = rs.getInt(1) == 0; // COUNT가 0이면 사용 가능
+ 	        }
+ 	    } catch (Exception e) {
+ 	        e.printStackTrace();
+ 	    } finally {
+ 	        JDBCUtility.close(null, pstmt, rs);
+ 	    }
+ 	    return isAvailable;
+ 	}
 }

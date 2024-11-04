@@ -22,7 +22,10 @@
         <form method="post" action="joinForm.do" id="login-form">
             <!-- 아이디 -->
             <label for="member_id">아이디</label>
-            <input type="text" id="member_id" name="member_id" placeholder="아이디를 입력하세요" required>
+            <div style="display: flex;">
+                <input type="text" id="member_id" name="member_id" placeholder="아이디를 입력하세요" required>
+                <button type="button" id="check-id-btn">중복 확인</button>
+            </div>
 
             <!-- 이름 -->
             <label for="name">이름</label>
@@ -77,4 +80,87 @@
     </div>
     </div>
 <%@include file="footer.jsp"%>
+
+<script>
+    $(document).ready(function() {
+    	$('#check-id-btn').on('click', function() {
+    	    const memberId = $('#member_id').val();
+    	    if (!memberId) {
+    	        alert("아이디를 입력해주세요.");
+    	        return;
+    	    }
+
+    	    $.ajax({
+    	        type: "POST",
+    	        url: "checkId.do",
+    	        data: { member_id: memberId },
+    	        success: function(response) {
+    	            if (response.trim() === "true") {
+    	                alert("사용 가능한 아이디입니다.");
+    	                isIdChecked = true; // 중복 확인 완료
+    	            } else {
+    	                alert("이미 사용 중인 아이디입니다.");
+    	                isIdChecked = false;
+    	            }
+    	        },
+    	        error: function() {
+    	            alert("아이디 중복 확인에 실패했습니다. 다시 시도해주세요.");
+    	        }
+    	    });
+    	});
+    	
+        $('#login-form').on('submit', function(event) {
+        	if (!isIdChecked) {
+                alert("아이디 중복 확인을 해주세요.");
+                return false;
+            }
+        	
+            // 아이디 유효성 검사
+            const memberId = $('#member_id').val();
+            if (!/^[a-zA-Z0-9_]{5,20}$/.test(memberId)) {
+                alert("아이디는 5-20자의 영문자, 숫자 및 밑줄(_)만 가능합니다.");
+                $('#member_id').focus();
+                return false;
+            }
+
+            // 이름 유효성 검사
+            const name = $('#name').val();
+            if (!/^[가-힣a-zA-Z]{2,10}$/.test(name)) {
+                alert("이름은 2-10자의 한글 또는 영문자만 가능합니다.");
+                $('#name').focus();
+                return false;
+            }
+
+            // 비밀번호 유효성 검사
+            const pwd = $('#pwd').val();
+            if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/.test(pwd)) {
+                alert("비밀번호는 8-20자의 영문자 및 숫자를 포함해야 합니다.");
+                $('#pwd').focus();
+                return false;
+            }
+
+            // 전화번호 유효성 검사
+            const phone = $('#phone').val();
+            if (!/^\d{3}\d{3,4}\d{4}$/.test(phone)) {
+                alert("전화번호는 '01012345678' 형식으로 입력해주세요.");
+                $('#phone').focus();
+                return false;
+            }
+
+            // 이메일 유효성 검사
+            const email = $('#email').val();
+            if (email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                alert("유효한 이메일 주소를 입력해주세요.");
+                $('#email').focus();
+                return false;
+            }
+
+            // 약관 동의 확인
+            if (!$('#terms_agreed').is(':checked')) {
+                alert("약관에 동의하셔야 회원가입이 가능합니다.");
+                return false;
+            }
+        });
+    });
+</script>
 </html>

@@ -27,16 +27,11 @@ public class MemberRegistService {
             memberDAO.setConnection(conn);
 
             int insertCount = memberDAO.insert(member);
-            
-            System.out.println("Insert Count: " + insertCount);
-
             if (insertCount > 0) {
                 JDBCUtility.commit(conn);
-                System.out.println("Commit 성공");
                 isWriteSuccess = true;
             } else {
                 JDBCUtility.rollback(conn);
-                System.out.println("Rollback 실행");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -40,7 +40,7 @@ public class MemberController extends HttpServlet {
 		
 		RequestDispatcher dispatcher = null;
 
-		// 로그인, 로그아웃
+		// 로그인, 로그아웃, 회원가입, 아이디 중복확인
 		if(command.equalsIgnoreCase("loginForm")) {
 			action = new LoginAction();
 			forward = action.execute(req, res); 
@@ -50,7 +50,10 @@ public class MemberController extends HttpServlet {
 	    }else if (command.equalsIgnoreCase("joinForm")) {
 	        action = new JoinAction();
 	        forward = action.execute(req, res);
-	    }
+	    }else if (command.equalsIgnoreCase("checkId")) { 
+            action = new CheckIdAction();
+            forward = action.execute(req, res);
+        }
 		
 		// 목록조회/회원등록/회원수정/회원삭제/에러/다운
 		/*if(command.equalsIgnoreCase("memberWriteForm")) {
