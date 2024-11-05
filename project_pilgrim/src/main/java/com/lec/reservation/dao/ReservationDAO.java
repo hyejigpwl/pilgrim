@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import com.lec.db.JDBCUtility;
 import com.lec.reservation.vo.FacilityReservationVO;
 import com.lec.reservation.vo.RoomReservationVO;
+import com.lec.reservation.vo.SeminarReservationVO;
 
 public class ReservationDAO {
 
@@ -101,5 +102,40 @@ public class ReservationDAO {
   		return insertCount;
   	}
 
+  	
+ // 3. 세미나예약
+   	public int reserveSeminar(SeminarReservationVO seminar) {
+   		PreparedStatement pstmt = null;
+   		ResultSet rs = null;
+   		String sql = "insert into seminar_reservation(reservation_id, member_id, seminar_type, guest_count, seminar_date, reg_date) "
+   				+ " values(?,?,?,?,?,now())";
+   		int insertCount = 0;
+   		int reservation_id=0;
+
+   		try {
+   			pstmt = conn.prepareStatement("select max(reservation_id) from seminar_reservation");
+  			rs = pstmt.executeQuery();
+  			if (rs.next())
+  				reservation_id = rs.getInt(1) + 1;
+  			
+              pstmt = conn.prepareStatement(sql);
+              
+              pstmt.setInt(1, reservation_id);
+              pstmt.setString(2, seminar.getMember_id());
+   			pstmt.setString(3, seminar.getSeminar_type());
+   			pstmt.setInt(4, seminar.getGuest_count());
+   			pstmt.setDate(5, new java.sql.Date(seminar.getSeminar_date().getTime()));
+   			insertCount = pstmt.executeUpdate();
+   		
+   			
+   		} catch (Exception e) {
+   			System.out.println("세미나예약실패!!!");
+   			insertCount=0;
+   			e.printStackTrace();
+   		} finally {
+   			JDBCUtility.close(null, pstmt, null);
+   		}
+   		return insertCount;
+   	}
  	
 }

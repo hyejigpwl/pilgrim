@@ -13,6 +13,7 @@ import com.lec.common.Action;
 import com.lec.common.ActionForward;
 import com.lec.reservation.action.FacilityAction;
 import com.lec.reservation.action.RoomAction;
+import com.lec.reservation.action.SeminarAction;
 
 @WebServlet("*.do")
 public class ReservationController extends HttpServlet {
@@ -42,12 +43,15 @@ public class ReservationController extends HttpServlet {
 		
 		RequestDispatcher dispatcher = null;
 
-		// 객실예약, 시설예약
+		// 객실예약, 시설예약, 세미나 예약
 		if(command.equalsIgnoreCase("roomForm")) {
 			action = new RoomAction();
 			forward = action.execute(req, res); 
 		} else if(command.equalsIgnoreCase("facilityForm")) {
 			action = new FacilityAction();
+			forward = action.execute(req, res); 
+		} else if(command.equalsIgnoreCase("seminarForm")) {
+			action = new SeminarAction();
 			forward = action.execute(req, res); 
 		} 
 		

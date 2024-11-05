@@ -319,3 +319,17 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 	margin-top:0;
 	margin-left:1em;
 }
+
+/* 예약페이지 */
+.room_rqt_page #login-form input[type="radio"]{
+	margin:0;
+	height:0;
+}
+.room_rqt_page #login-form label{
+	display:block;
+}
+.room_rqt_page .seminar_time_title{
+	text-align:left;
+	font-size: 0.9em;
+    font-weight: 700;
+}

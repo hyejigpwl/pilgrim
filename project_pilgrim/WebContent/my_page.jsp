@@ -1,3 +1,5 @@
+<%@page import="com.lec.reservation.vo.SeminarReservationVO"%>
+<%@page import="com.lec.reservation.service.SeminarReservationService"%>
 <%@page import="com.lec.reservation.vo.FacilityReservationVO"%>
 <%@page import="com.lec.reservation.service.FacilityReservationService"%>
 <%@page import="com.lec.reservation.service.RoomReservationService"%>
@@ -33,7 +35,11 @@
     RoomReservationService roomReservationService = RoomReservationService.getInstance();
     List<RoomReservationVO> roomReservationList = roomReservationService.getReservationsForMember(member_id);
     
- // FacilityReservationService 통해 예약 정보 가져오기
+    // FacilityReservationService 통해 예약 정보 가져오기
+    SeminarReservationService seminarReservationService = SeminarReservationService.getInstance();
+    List<SeminarReservationVO> seminarReservationList = seminarReservationService.getReservationsForMember(member_id);
+    
+ 	// FacilityReservationService 통해 예약 정보 가져오기
     FacilityReservationService facilityReservationService = FacilityReservationService.getInstance();
     List<FacilityReservationVO> facilityReservationList = facilityReservationService.getReservationsForMember(member_id);
 %>
@@ -57,6 +63,7 @@
                     체크아웃 날짜: <%= roomReservation.getCheckout_date() %><br>
                     객실 타입: <%= roomReservation.getRoom_type() %><br>
                     예약 일시 :  <%= roomReservation.getReg_date() %><br>
+                    <hr>
         <%
                 }
             } else {
@@ -70,15 +77,15 @@
     <h3>나의 천로역정 세미나예약</h3>
     <p>
         <%
-            if (roomReservationList != null && !roomReservationList.isEmpty()) {
-                for (RoomReservationVO reservation : roomReservationList) {
+            if (seminarReservationList != null && !seminarReservationList.isEmpty()) {
+                for (SeminarReservationVO seminarReservation : seminarReservationList) {
         %>
-                    예약 번호: <%= reservation.getReservation_id() %><br>
-                    투숙객 수: <%= reservation.getGuest_count() %><br>
-                    체크인 날짜: <%= reservation.getCheckin_date() %><br>
-                    체크아웃 날짜: <%= reservation.getCheckout_date() %><br>
-                    객실 타입: <%= reservation.getRoom_type() %><br>
-                    예약 일시 :  <%= reservation.getReg_date() %><br>
+                    예약 번호: <%= seminarReservation.getReservation_id() %><br>
+                    세미나 타임: <%= seminarReservation.getSeminar_type() %><br>
+                    신청 인원: <%= seminarReservation.getGuest_count() %><br>
+                    신청 날짜: <%= seminarReservation.getSeminar_date() %><br>
+                    예약 일시 :  <%= seminarReservation.getReg_date() %><br>
+                    <hr>
         <%
                 }
             } else {
@@ -100,6 +107,7 @@
                     체크인 날짜: <%= facilityReservation.getCheckin_date() %><br>
                     체크아웃 날짜: <%= facilityReservation.getCheckout_date() %><br>
                     예약 일시 :  <%= facilityReservation.getReg_date() %><br>
+                    <hr>
         <%
                 }
             } else {

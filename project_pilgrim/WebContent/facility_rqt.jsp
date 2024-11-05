@@ -27,14 +27,28 @@
         <h2>시설 예약</h2>
         <form method="post" action="facilityForm.do" id="login-form">
         
-        	<label for="facility_type">룸 타입</label>
-            <select name="facility_type">
-				<option value="카리타스(350명)" selected>카리타스(350명)</option>
-				<option value="겟세마네(150명)">겟세마네(150명)</option>
-				<option value="피데스(56명)">피데스(56명)</option>
-				<option value="스페스(56명)">스페스(56명)</option>
-				<option value="빌리지(50명)">빌리지(50명)</option>
-			</select>
+			<p class="seminar_time_title">시설 타입</p>
+            <input type="radio" name="facility_type" id="caritas" value="카리타스(350명)">
+            <label for="caritas">카리타스(350명)</label>
+            
+            
+            <input type="radio" name="facility_type" id="getsemane"  value="겟세마네(150명)">
+            <label for="getsemane">겟세마네(150명)</label>
+            
+            
+            <input type="radio" name="facility_type" id="pides" value="피데스(56명)">
+            <label for="pides">피데스(56명)</label>
+            
+             <input type="radio" name="facility_type" id="spes" value="스페스(56명)">
+            <label for="spes">스페스(56명)</label>
+            
+             <input type="radio" name="facility_type" id="viliage" value="빌리지(50명)">
+            <label for="viliage">빌리지(50명)</label>
+
+
+
+
+
 
             <label for="checkin_date">입실일</label>
             <input type="date" id="checkin_date" name="checkin_date" placeholder="입실일을 입력하세요" required>
