@@ -22,9 +22,30 @@
 		}
 	%>
 <%@include file="header.jsp"%>
-<div id="container">
+<div id="container" class="login_page room_rqt_page">
+         <div class="login-wrapper">
+        <h2>시설 예약</h2>
+        <form method="post" action="facilityForm.do" id="login-form">
+        
+        	<label for="facility_type">룸 타입</label>
+            <select name="facility_type">
+				<option value="카리타스(350명)" selected>카리타스(350명)</option>
+				<option value="겟세마네(150명)">겟세마네(150명)</option>
+				<option value="피데스(56명)">피데스(56명)</option>
+				<option value="스페스(56명)">스페스(56명)</option>
+				<option value="빌리지(50명)">빌리지(50명)</option>
+			</select>
 
-</div>
+            <label for="checkin_date">입실일</label>
+            <input type="date" id="checkin_date" name="checkin_date" placeholder="입실일을 입력하세요" required>
+            
+            <label for="checkout_date">퇴실일</label>
+            <input type="date" id="checkout_date" name="checkout_date" placeholder="퇴실일을 입력하세요" required>
+
+            <input type="submit" value="예약">
+        </form>
+    </div>
+    </div>
 <%@include file="footer.jsp"%>
 </body>
 </html>

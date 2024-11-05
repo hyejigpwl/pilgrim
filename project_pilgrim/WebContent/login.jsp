@@ -4,7 +4,7 @@
     <%
     // 사용자가 왔던 페이지를 세션에 저장
     String referer = request.getHeader("referer");
-    if (referer != null && !referer.contains("login.jsp")) { // login.jsp가 아닌 경우에만 저장
+    if (referer != null && !referer.contains("login.jsp")&& !referer.contains("join.jsp")) { // login.jsp가 아닌 경우에만 저장
         session.setAttribute("previousPage", referer);
     }
 %>

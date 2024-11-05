@@ -92,7 +92,7 @@
 
     	    $.ajax({
     	        type: "POST",
-    	        url: "checkId.do",
+    	        url: "checkId.mb",
     	        data: { member_id: memberId },
     	        success: function(response) {
     	            if (response.trim() === "true") {

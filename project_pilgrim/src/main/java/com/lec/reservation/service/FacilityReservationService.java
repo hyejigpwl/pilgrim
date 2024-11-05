@@ -6,23 +6,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import com.lec.db.JDBCUtility;
 import com.lec.reservation.dao.ReservationDAO;
-import com.lec.reservation.vo.RoomReservationVO;
+import com.lec.reservation.vo.FacilityReservationVO;
 
-public class RoomReservationService {
-	private RoomReservationService() {}
-	private static RoomReservationService roomReservationService = null;
-	public static RoomReservationService getInstance() {
-		if(roomReservationService == null) roomReservationService = new RoomReservationService();
-		return roomReservationService;
+public class FacilityReservationService {
+	private FacilityReservationService() {}
+	private static FacilityReservationService facilityReservationService = null;
+	public static FacilityReservationService getInstance() {
+		if(facilityReservationService == null) facilityReservationService = new FacilityReservationService();
+		return facilityReservationService;
 	}
 	
 	
-	public boolean reserveRoom (RoomReservationVO room) {
+	public boolean reserveFacility (FacilityReservationVO facility) {
 		
 		boolean isWriteSuccess = false;
         Connection conn = null;
@@ -34,7 +31,7 @@ public class RoomReservationService {
             
             
 
-            int insertCount = reservationDAO.reserveRoom(room);
+            int insertCount = reservationDAO.reserveFacility(facility);
             if (insertCount > 0) {
                 JDBCUtility.commit(conn);
                 isWriteSuccess = true;
@@ -53,32 +50,29 @@ public class RoomReservationService {
 	
 	
 	
-	public List<RoomReservationVO> getReservationsForMember(String member_id) {
-	    List<RoomReservationVO> roomReservationList = new ArrayList<>();
+	public List<FacilityReservationVO> getReservationsForMember(String member_id) {
+	    List<FacilityReservationVO> facilityReservationList = new ArrayList<>();
 	    try (
 	    	Connection conn = JDBCUtility.getConnection();
-	         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM room_reservation WHERE member_id = ?")) {
+	         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM facility_reservation WHERE member_id = ?")) {
 	        
 	        pstmt.setString(1, member_id);
 	        try (ResultSet rs = pstmt.executeQuery()) {
 	            while (rs.next()) {
-	                RoomReservationVO reservation = new RoomReservationVO();
+	            	FacilityReservationVO reservation = new FacilityReservationVO();
 	                reservation.setReservation_id(rs.getInt("reservation_id"));
 	                reservation.setMember_id(rs.getString("member_id"));
-	                reservation.setGuest_count(rs.getInt("guest_count"));
+	                reservation.setFacility_type(rs.getString("facility_type"));
 	                reservation.setCheckin_date(rs.getDate("checkin_date"));
 	                reservation.setCheckout_date(rs.getDate("checkout_date"));
-	                reservation.setRoom_type(rs.getString("room_type"));
 	                reservation.setReg_date(rs.getDate("reg_date"));
-	                roomReservationList.add(reservation);
+	                facilityReservationList.add(reservation);
 	            }
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return roomReservationList;
+	    return facilityReservationList;
 	}
 
 }
-
-

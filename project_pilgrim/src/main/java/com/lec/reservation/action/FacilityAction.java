@@ -10,18 +10,18 @@ import javax.servlet.http.HttpSession;
 
 import com.lec.common.Action;
 import com.lec.common.ActionForward;
-import com.lec.reservation.vo.RoomReservationVO;
-import com.lec.reservation.service.RoomReservationService;
+import com.lec.reservation.service.FacilityReservationService;
+import com.lec.reservation.vo.FacilityReservationVO;
 
-public class RoomAction implements Action{
+public class FacilityAction implements Action{
 
 	
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse res) {
         ActionForward forward = null;
-        RoomReservationVO room = new RoomReservationVO();
+        FacilityReservationVO facility = new FacilityReservationVO();
         
-        // 객실예약 설정
+        // 시설예약 설정
         try {
         
         
@@ -31,24 +31,24 @@ public class RoomAction implements Action{
         String member_id = (String) session.getAttribute("member_id");
         
         // room.setReservation_id(Integer.parseInt(req.getParameter("reservation_id"))); 
-        room.setMember_id(member_id);           
-        room.setGuest_count(Integer.parseInt(req.getParameter("guest_count")));          
+        facility.setMember_id(member_id);           
+        facility.setFacility_type(req.getParameter("facility_type"));          
         try {
-        	room.setCheckin_date(format.parse(req.getParameter("checkin_date")));
-        	room.setCheckout_date(format.parse(req.getParameter("checkout_date")));
+        	facility.setCheckin_date(format.parse(req.getParameter("checkin_date")));
+        	facility.setCheckout_date(format.parse(req.getParameter("checkout_date")));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 		}
-        room.setRoom_type(req.getParameter("room_type"));
+   
         
         
         
-        // 객실예약 서비스 호출
-        RoomReservationService roomReservationService =RoomReservationService.getInstance();
-        boolean isWriteSuccess = roomReservationService.reserveRoom(room);
+        // 시설예약 서비스 호출
+        FacilityReservationService facilityReservationService =FacilityReservationService.getInstance();
+        boolean isWriteSuccess = facilityReservationService.reserveFacility(facility);
         
-     // 객실예약 성공 시 마이페이지 리디렉션
+     // 시설예약 성공 시 마이페이지 리디렉션
         if (isWriteSuccess) {
             forward = new ActionForward();
             forward.setRedirect(true);
@@ -57,7 +57,7 @@ public class RoomAction implements Action{
             res.setContentType("text/html; charset=utf-8");
             PrintWriter out = res.getWriter();
             out.println("<script>");
-            out.println("  alert('객실예약에 실패했습니다!');");
+            out.println("  alert('시설예약에 실패했습니다!');");
             out.println("  history.back();");
             out.println("</script>");
         }

@@ -10,6 +10,10 @@ public class RoomReservationVO {
 	private Date checkin_date;
 	private Date checkout_date;
 	private String room_type;
+	private Date reg_date;
+	
+	
+	
 	public int getReservation_id() {
 		return reservation_id;
 	}
@@ -46,15 +50,24 @@ public class RoomReservationVO {
 	public void setRoom_type(String room_type) {
 		this.room_type = room_type;
 	}
+	public Date getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(Date reg_date) {
+		this.reg_date = reg_date;
+	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "ReservationVO [reservation_id=" + reservation_id + ", member_id=" + member_id + ", guest_count="
 				+ guest_count + ", checkin_date=" + checkin_date + ", checkout_date=" + checkout_date + ", room_type="
-				+ room_type + "]";
+				+ room_type + ", reg_date=" + reg_date + "]";
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(checkin_date, checkout_date, guest_count, member_id, reservation_id, room_type);
+		return Objects.hash(checkin_date, checkout_date, guest_count, member_id, reg_date, reservation_id, room_type);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -67,7 +80,8 @@ public class RoomReservationVO {
 		RoomReservationVO other = (RoomReservationVO) obj;
 		return Objects.equals(checkin_date, other.checkin_date) && Objects.equals(checkout_date, other.checkout_date)
 				&& guest_count == other.guest_count && Objects.equals(member_id, other.member_id)
-				&& reservation_id == other.reservation_id && Objects.equals(room_type, other.room_type);
+				&& Objects.equals(reg_date, other.reg_date) && reservation_id == other.reservation_id
+				&& Objects.equals(room_type, other.room_type);
 	}
 	
 	
