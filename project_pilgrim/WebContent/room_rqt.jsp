@@ -22,7 +22,7 @@
 		}
 	%>
 <%@include file="header.jsp"%>
-<div id="container" class="login_page room_rqt_page">
+<div id="container" class="login_page room_rqt_page container">
          <div class="login-wrapper">
         <h2>객실 예약</h2>
         <form method="post" action="roomForm.do" id="login-form">
@@ -35,14 +35,23 @@
             <label for="checkout_date">퇴실일</label>
             <input type="date" id="checkout_date" name="checkout_date" placeholder="퇴실일을 입력하세요" required>
 
-            <label for="room_type">룸 타입</label>
-            <select name="room_type">
-				<option value="2인온돌" selected>2인온돌</option>
-				<option value="2인침대">2인침대</option>
-				<option value="4인침대">4인침대</option>
-				<option value="VIP룸">VIP룸</option>
-				<option value="빌리지가족실">빌리지가족실</option>
-			</select>
+			
+			<p class="seminar_time_title">룸 타입</p>
+            <input type="radio" name="room_type" id="2인온돌" value="2인온돌">
+            <label for="2인온돌">2인온돌</label>
+            
+            
+            <input type="radio" name="room_type" id="2인침대"  value="2인침대">
+            <label for="2인침대">2인침대</label>
+            
+                  <input type="radio" name="room_type" id="4인침대"  value="4인침대">
+            <label for="4인침대">4인침대</label>
+            
+                  <input type="radio" name="room_type" id="VIP룸"  value="VIP룸">
+            <label for="VIP룸">VIP룸(2인)</label>
+            
+                  <input type="radio" name="room_type" id="빌리지가족실"  value="빌리지가족실">
+            <label for="빌리지가족실">빌리지가족실(6인)</label>
 
             <input type="submit" value="예약">
         </form>

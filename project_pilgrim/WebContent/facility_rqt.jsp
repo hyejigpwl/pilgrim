@@ -22,7 +22,7 @@
 		}
 	%>
 <%@include file="header.jsp"%>
-<div id="container" class="login_page room_rqt_page">
+<div id="container" class="login_page room_rqt_page container">
          <div class="login-wrapper">
         <h2>시설 예약</h2>
         <form method="post" action="facilityForm.do" id="login-form">

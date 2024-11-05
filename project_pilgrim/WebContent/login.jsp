@@ -25,7 +25,7 @@
 </head>	
 <%@include file="header.jsp"%>
 <!--  html 전체 영역을 지정하는 container -->
-    <div id="container" class="login_page">
+    <div id="container" class="login_page container">
          <div class="login-wrapper">
         <h2>Login</h2>
         <form method="post" action="loginForm.mb" id="login-form">

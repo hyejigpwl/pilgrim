@@ -16,7 +16,7 @@
 </head>	
 <%@include file="header.jsp"%>
 <!--  html 전체 영역을 지정하는 container -->
-    <div id="container" class="login_page join_page">
+    <div id="container" class="login_page join_page container">
          <div class="login-wrapper">
         <h2>JOIN</h2>
         <form method="post" action="joinForm.mb" id="login-form">
@@ -42,8 +42,6 @@
             <!-- 이메일 -->
             <label for="email">이메일</label>
             <input type="email" id="email" name="email" placeholder="이메일을 입력하세요">
-
-
 
             <!-- 약관 동의 여부 -->
              <label for="terms_content">이용 약관</label>

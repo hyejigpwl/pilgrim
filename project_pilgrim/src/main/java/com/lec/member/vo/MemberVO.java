@@ -11,6 +11,7 @@ public class MemberVO {
 	private String pwd;
 	private String phone;
 	private String email;
+	private String file;
 	private Date reg_date;
 	private int terms_agreed;
 	public String getMember_id() {
@@ -43,6 +44,12 @@ public class MemberVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getFile() {
+		return email;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
 	public Date getReg_date() {
 		return reg_date;
 	}
@@ -57,7 +64,7 @@ public class MemberVO {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, member_id, name, phone, pwd, reg_date, terms_agreed);
+		return Objects.hash(email, file, member_id, name, phone, pwd, reg_date, terms_agreed);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -68,15 +75,17 @@ public class MemberVO {
 		if (getClass() != obj.getClass())
 			return false;
 		MemberVO other = (MemberVO) obj;
-		return Objects.equals(email, other.email) && Objects.equals(member_id, other.member_id)
-				&& Objects.equals(name, other.name) && phone == other.phone && Objects.equals(pwd, other.pwd)
+		return Objects.equals(email, other.email) && Objects.equals(file, other.file)
+				&& Objects.equals(member_id, other.member_id) && Objects.equals(name, other.name)
+				&& Objects.equals(phone, other.phone) && Objects.equals(pwd, other.pwd)
 				&& Objects.equals(reg_date, other.reg_date) && terms_agreed == other.terms_agreed;
 	}
 	@Override
 	public String toString() {
 		return "MemberVO [member_id=" + member_id + ", name=" + name + ", pwd=" + pwd + ", phone=" + phone + ", email="
-				+ email + ", reg_date=" + reg_date + ", terms_agreed=" + terms_agreed + "]";
+				+ email + ", file=" + file + ", reg_date=" + reg_date + ", terms_agreed=" + terms_agreed + "]";
 	}
+
 	
 	
 	

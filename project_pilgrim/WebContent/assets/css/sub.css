@@ -39,7 +39,7 @@ button{
 #container {
 	max-width: 1200px;
 	margin:20px auto;
-    width: 100%;
+    /*width: 100%;*/
 }
 .calendar .title{
 	height: 37px;
@@ -236,7 +236,7 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 
 .login-wrapper{
     width: 400px;
-    padding: 40px;
+    padding: 40px 0;
     box-sizing: border-box;
 }
 
@@ -308,6 +308,12 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
     background-size: contain;
 } */
 
+@media screen and (max-width:600px){
+	.login-wrapper{
+		padding:0;
+	}
+}
+
 /* 회원가입 페이지 */
 .join_page p{
 	text-align:left;
@@ -332,4 +338,45 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 	text-align:left;
 	font-size: 0.9em;
     font-weight: 700;
+}
+
+/* 나의 예약 페이지 */
+.my_page .title_wrap{
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	background-color: #f3f3f3;
+    border-radius: 10px;
+    padding:10px;
+    margin-bottom:50px;
+}
+.my_page .title_wrap h2,.my_page .title_wrap form{
+	margin:0;
+}
+.two_btn{
+	display:flex;
+	gap:10px;
+}
+.two_btn .big{
+	width:auto;
+}
+.my_page .res_cancel{
+	text-decoration:underline;
+	font-size:.9em;
+	margin-top:10px;
+	display:block;
+}
+@media screen and (max-width:768px){
+	.my_page .title_wrap{
+		flex-direction:column;
+	}
+	
+	.two_btn{
+		margin-top:10px;
+	}
+	
+	.my_page input[type="submit"],.my_page input[type="reset"], .my_page input[type="button"], .my_page button, .my_page .button{
+		height:2.15em;
+		line-height:2.15em;
+	}
 }

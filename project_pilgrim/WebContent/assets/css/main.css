@@ -1296,7 +1296,7 @@ body.landing {
 
 @media screen and (max-width: 980px) {
 	body {
-		padding:5em .6em 0;
+		/*padding:5em .6em 0;*/
 	}
 	
 	ul.actions.two_btn {
@@ -1330,7 +1330,7 @@ body.is-loading *, body.is-loading *:before, body.is-loading *:after {
 /* Type */
 body {
 	background-color: #fff;
-	color: #666;
+	color: #333;
 }
 
 body, input, select, textarea {
@@ -2243,19 +2243,19 @@ header.major p {
 	header.major {
 		margin-bottom: 4em;
 	}
-	header.major h2 {
+	header.major h2,h2 {
 		font-size: 2.5em;
 	}
-	header.major p {
+	header.major p,p {
 		font-size: 1.3em;
 	}
 }
 
 @media screen and (max-width: 980px) {
-	header.major h2 {
+	header.major h2,h2  {
 		font-size: 2em;
 	}
-	header.major p {
+	header.major p,p {
 		font-size: 1.1em;
 	}
 }
@@ -2267,8 +2267,8 @@ header.major p {
 }
 
 @media screen and (max-width: 480px) {
-	header.major h2 {
-		font-size: 1.75em;
+	header.major h2, h2 {
+		font-size: 1.6em;
 	}
 }
 
