@@ -177,7 +177,36 @@ public class ReservationDAO {
    	}
    	
   
-   	
+   	// 5. 일별 가능한 룸 총 개수
+   	public int getAvailableTotalRooms(String date) {
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+   	    int totalAvailableRooms = 0;
+
+   	    try {
+   	        // SQL 쿼리: 모든 room_type에 대한 예약 가능한 방 수를 합산하여 조회
+   	        String sql = "SELECT SUM(ri.total_rooms) - COUNT(rr.reservation_id) AS total_available_rooms FROM room_info ri LEFT JOIN room_reservation rr ON ri.room_type = rr.room_type AND DATE(?) >= rr.checkin_date AND DATE(?) < rr.checkout_date";
+
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        pstmt.setString(1, date);  // 첫 번째 '?' 파라미터 설정
+   	        pstmt.setString(2, date);  // 두 번째 '?' 파라미터 설정
+
+   	        rs = pstmt.executeQuery();
+
+   	        // 쿼리 결과에서 total_available_rooms 값을 가져옴
+   	        if (rs.next()) {
+   	            totalAvailableRooms = rs.getInt("total_available_rooms");
+   	        }
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+   	    return totalAvailableRooms;
+   	}
+
    	
  // 6. 일별 가능한 시설 개수 파악
    	public List<Map<String, Object>> getAvailableFacilitesByDate(String date) {

@@ -1,9 +1,12 @@
+<%@page import="com.lec.reservation.dao.ReservationDAO"%>
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ page trimDirectiveWhitespaces="true" %>
  
  <%
+
+ 
 	request.setCharacterEncoding("utf-8");
 
 	Calendar cal = Calendar.getInstance();
@@ -94,7 +97,7 @@
 					String no_txt = "예약 마감";
 					String facility_txt = "시설";
 					
-				
+					ReservationDAO reservationDAO = ReservationDAO.getInstance();
 				
 					// 공백 채우기
 					for (int i = 1; i < week; i++) {
@@ -107,6 +110,8 @@
 						
 						// 오늘 날짜인 경우 'today' 클래스 추가
 						String todayClass = (year == ty && month == tm && day == td) ? "today" : "";
+						String date = year + "-" + month + "-" + day;
+						System.out.println(date);
 						
 						// 오늘 이전 날짜는 예약 불가 표시
 						if (year < ty || (year == ty && month < tm) || (year == ty && month == tm && day < td)) {
@@ -116,7 +121,13 @@
 							
 							// <a> 태그로 텍스트 추가 (4가지 종류)
 							// 방이 있는 경우와 없는 경우의 텍스트 설정
-					        boolean isRoomAvailable = true;
+					        // 특정 날짜의 총 예약 가능 방 개수를 가져옴
+					        
+            int availableRooms = reservationDAO.getAvailableTotalRooms(date);
+            System.out.println(availableRooms);
+            boolean isRoomAvailable = availableRooms > 0;
+            
+            //boolean isRoomAvailable = true;
 					        if (isRoomAvailable) {
 					        	out.print("<a href='#none' class='a_room room_yes'>" + room_txt+ " " + psb_arr + "</a>");
 					        } else {
@@ -216,6 +227,7 @@ $(function(){
             data: { date: date },
             dataType: "json",
             success: function(data) {
+            	
             	 let roomList = '';
             	 data.forEach(room => {
             	     const roomType = room.room_type;
