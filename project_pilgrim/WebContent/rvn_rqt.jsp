@@ -1,3 +1,4 @@
+<%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.lec.reservation.dao.ReservationDAO"%>
@@ -120,7 +121,8 @@
 						
 						// 오늘 날짜인 경우 'today' 클래스 추가
 						String todayClass = (year == ty && month == tm && day == td) ? "today" : "";
-						String date = sdf.format(cal.getTime());
+						String date = sdf.format(new GregorianCalendar(year, month - 1, day).getTime());
+						// System.out.println(date);
 						
 						// 오늘 이전 날짜는 예약 불가 표시
 						if (year < ty || (year == ty && month < tm) || (year == ty && month == tm && day < td)) {
@@ -134,8 +136,8 @@
 					        
             int availableRooms = availableRoomsMap.getOrDefault(date, 0);
         boolean isRoomAvailable = availableRooms > 0;
-            // System.out.println(availableRooms);
-            System.out.println(availableRoomsMap);
+            System.out.println(availableRooms);
+             // System.out.println(availableRoomsMap);
             //boolean isRoomAvailable = true;
 					        if (isRoomAvailable) {
 					        	out.print("<a href='#none' class='a_room room_yes'>" + room_txt+ " " + psb_arr + "</a>");
@@ -169,6 +171,14 @@
 							
 							// 시설이 있는 경우와 없는 경우의 텍스트 설정
 					        int availableFacilities = availableFacilitiesMap.getOrDefault(date, 0);
+					        System.out.println("Date: " + date + ", Retrieved Facilities: " + availableFacilities);
+							
+							// System.out.println("Map values:");
+/* for (Map.Entry<String, Integer> entry : availableFacilitiesMap.entrySet()) {
+    System.out.println("Date: " + entry.getKey() + ", Facilities: " + entry.getValue());
+} */
+
+
         boolean isFacilityAvailable = availableFacilities > 0;
             // boolean isFacilityAvailable = true;
 					        if (isFacilityAvailable) {

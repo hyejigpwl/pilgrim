@@ -3,8 +3,10 @@ package com.lec.reservation.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,6 +186,10 @@ public class ReservationDAO {
    	    return calendar.getActualMaximum(Calendar.DAY_OF_MONTH); // 해당 월의 마지막 날 반환
    	}
    	
+ // 날짜를 yyyy-MM-dd 형식으로 포맷팅하기 위한 SimpleDateFormat 설정
+   	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+   	
+   	
    	// 5. 월별 가능한 룸 총 개수
    	public Map<String, Integer> getAvailableRoomsByMonth(int year, int month) {
    	    Map<String, Integer> availableRoomsMap = new HashMap<>();
@@ -215,8 +221,8 @@ public class ReservationDAO {
    	        pstmt = conn.prepareStatement(sql);
    	        
    	        // 날짜를 기준으로 날짜 범위 지정
-   	        String firstDateOfMonth = String.format("%04d-%02d-01", year, month);
-   	        String lastDateOfMonth = String.format("%04d-%02d-%02d", year, month, getLastDayOfMonth(year, month));
+   	     String firstDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, 1).getTime());
+   	  String lastDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, getLastDayOfMonth(year, month)).getTime());
    	        
    	        // 첫 번째 날짜와 마지막 날짜 설정
    	        pstmt.setString(1, firstDateOfMonth); // 날짜 생성 시작점
@@ -234,11 +240,11 @@ public class ReservationDAO {
 
    	        // 쿼리 결과에서 날짜별로 예약 가능한 방 수를 Map에 저장
    	        while (rs.next()) {
-   	            String date = rs.getString("date"); // 날짜 (yyyy-MM-dd 형식)
+   	            String date = sdf.format(rs.getDate("date")); // 날짜 (yyyy-MM-dd 형식)
    	            int totalAvailableRooms = rs.getInt("total_available_rooms");
 
    	            availableRoomsMap.put(date, totalAvailableRooms);
-   	            System.out.println("Date: " + date + ", Available Rooms: " + totalAvailableRooms);
+   	            // System.out.println("Date: " + date + ", Available Rooms: " + totalAvailableRooms);
    	        }
 
    	    } catch (Exception e) {
@@ -316,8 +322,8 @@ public class ReservationDAO {
    	        pstmt = conn.prepareStatement(sql);
    	        
    	        // 날짜를 기준으로 날짜 범위 지정
-   	        String firstDateOfMonth = String.format("%04d-%02d-01", year, month);
-   	        String lastDateOfMonth = String.format("%04d-%02d-%02d", year, month, getLastDayOfMonth(year, month));
+   	     String firstDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, 1).getTime());
+   	  String lastDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, getLastDayOfMonth(year, month)).getTime());
    	        
    	        // 첫 번째 날짜와 마지막 날짜 설정
    	        pstmt.setString(1, firstDateOfMonth); // 날짜 생성 시작점
@@ -335,11 +341,18 @@ public class ReservationDAO {
 
    	        // 쿼리 결과에서 날짜별로 예약 가능한 시설 수를 Map에 저장
    	        while (rs.next()) {
-   	            String date = rs.getString("date"); // 날짜 (yyyy-MM-dd 형식)
+   	        	String date = sdf.format(rs.getDate("date")); // 날짜 (yyyy-MM-dd 형식)
    	            int totalAvailableFacilities = rs.getInt("total_available_facilities");
 
    	            availableFacilitiesMap.put(date, totalAvailableFacilities);
-   	        }
+   	         System.out.println("Adding to map - Date: " + date + ", Available Facilities: " + totalAvailableFacilities);
+
+
+   	            
+   	            // System.out.println(availableFacilitiesMap); 
+   	            
+   	         // System.out.println("Date: " + date + ", Available Facilities: " + totalAvailableFacilities);
+   	         }
 
    	    } catch (Exception e) {
    	        e.printStackTrace();
