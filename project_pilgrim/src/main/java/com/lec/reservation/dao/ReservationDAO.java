@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -176,36 +177,81 @@ public class ReservationDAO {
    	    return availableRoomsList;
    	}
    	
-  
-   	// 5. 일별 가능한 룸 총 개수
-   	public int getAvailableTotalRooms(String date) {
+   	public int getLastDayOfMonth(int year, int month) {
+   	    Calendar calendar = Calendar.getInstance();
+   	    calendar.set(Calendar.YEAR, year);
+   	    calendar.set(Calendar.MONTH, month - 1); // Calendar의 월은 0부터 시작하므로 -1 필요
+   	    return calendar.getActualMaximum(Calendar.DAY_OF_MONTH); // 해당 월의 마지막 날 반환
+   	}
+   	
+   	// 5. 월별 가능한 룸 총 개수
+   	public Map<String, Integer> getAvailableRoomsByMonth(int year, int month) {
+   	    Map<String, Integer> availableRoomsMap = new HashMap<>();
    	    PreparedStatement pstmt = null;
    	    ResultSet rs = null;
-   	    int totalAvailableRooms = 0;
 
    	    try {
-   	        // SQL 쿼리: 모든 room_type에 대한 예약 가능한 방 수를 합산하여 조회
-   	        String sql = "SELECT SUM(ri.total_rooms) - COUNT(rr.reservation_id) AS total_available_rooms FROM room_info ri LEFT JOIN room_reservation rr ON ri.room_type = rr.room_type AND DATE(?) >= rr.checkin_date AND DATE(?) < rr.checkout_date";
+   	        // SQL 쿼리: 지정된 월의 각 날짜별 예약 가능한 방 수 계산
+   	        String sql = "SELECT a.date, SUM(ri.total_rooms - IFNULL(b.reserved_rooms, 0)) AS total_available_rooms " +
+   	                     "FROM room_info ri " +
+   	                     "JOIN ( " +
+   	                     "    SELECT DATE_ADD(?, INTERVAL seq DAY) AS date " +
+   	                     "    FROM seq_table " +  // seq_table은 0부터 30까지의 숫자를 가진 임시 테이블로 각 날짜를 생성하기 위해 사용
+   	                     "    WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?) " +
+   	                     ") a ON 1=1 " +
+   	                     "LEFT JOIN ( " +
+   	                     "    SELECT rr.room_type, DATE(a.date) AS date, COUNT(rr.room_type) AS reserved_rooms " +
+   	                     "    FROM room_reservation rr " +
+   	                     "    JOIN ( " +
+   	                     "        SELECT DATE_ADD(?, INTERVAL seq DAY) AS date " +
+   	                     "        FROM seq_table " +
+   	                     "        WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?) " +
+   	                     "    ) a ON a.date BETWEEN rr.checkin_date AND DATE_SUB(rr.checkout_date, INTERVAL 1 DAY) " +
+   	                     "    GROUP BY rr.room_type, DATE(a.date) " +
+   	                     ") b ON ri.room_type = b.room_type AND a.date = b.date " +
+   	                     "GROUP BY a.date";
 
    	        Connection conn = JDBCUtility.getConnection();
    	        pstmt = conn.prepareStatement(sql);
-   	        pstmt.setString(1, date);  // 첫 번째 '?' 파라미터 설정
-   	        pstmt.setString(2, date);  // 두 번째 '?' 파라미터 설정
+   	        
+   	        // 날짜를 기준으로 날짜 범위 지정
+   	        String firstDateOfMonth = String.format("%04d-%02d-01", year, month);
+   	        String lastDateOfMonth = String.format("%04d-%02d-%02d", year, month, getLastDayOfMonth(year, month));
+   	        
+   	        // 첫 번째 날짜와 마지막 날짜 설정
+   	        pstmt.setString(1, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(2, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(3, firstDateOfMonth); // 첫 번째 날짜
+   	        pstmt.setString(4, lastDateOfMonth);  // 마지막 날짜
+   	        
+   	        // 날짜 범위 설정을 위한 추가 파라미터 (서브 쿼리 내에서 사용)
+   	        pstmt.setString(5, firstDateOfMonth);
+   	        pstmt.setString(6, firstDateOfMonth);
+   	        pstmt.setString(7, firstDateOfMonth);
+   	        pstmt.setString(8, lastDateOfMonth);
 
    	        rs = pstmt.executeQuery();
 
-   	        // 쿼리 결과에서 total_available_rooms 값을 가져옴
-   	        if (rs.next()) {
-   	            totalAvailableRooms = rs.getInt("total_available_rooms");
+   	        // 쿼리 결과에서 날짜별로 예약 가능한 방 수를 Map에 저장
+   	        while (rs.next()) {
+   	            String date = rs.getString("date"); // 날짜 (yyyy-MM-dd 형식)
+   	            int totalAvailableRooms = rs.getInt("total_available_rooms");
+
+   	            availableRoomsMap.put(date, totalAvailableRooms);
+   	            System.out.println("Date: " + date + ", Available Rooms: " + totalAvailableRooms);
    	        }
+
    	    } catch (Exception e) {
    	        e.printStackTrace();
    	    } finally {
    	        JDBCUtility.close(null, pstmt, rs);
    	    }
 
-   	    return totalAvailableRooms;
+   	    return availableRoomsMap;
    	}
+
+
+
 
    	
  // 6. 일별 가능한 시설 개수 파악
@@ -215,11 +261,7 @@ public class ReservationDAO {
    	    List<Map<String, Object>> availableFacilitiesList = new ArrayList<>();
 
    	    try {
-   	        String sql = "SELECT ri.facility_type, (ri.total_facilities - COALESCE(COUNT(rr.reservation_id), 0)) AS available_facilities " +
-   	                     "FROM facility_info ri " +
-   	                     "LEFT JOIN facility_reservation rr ON ri.facility_type = rr.facility_type " +
-   	                     "AND ? >= rr.checkin_date AND ? < rr.checkout_date " +
-   	                     "GROUP BY ri.facility_type";
+   	        String sql = "SELECT ri.facility_type, (ri.total_facilities - COALESCE(COUNT(rr.reservation_id), 0)) AS available_facilities FROM facility_info ri LEFT JOIN facility_reservation rr ON ri.facility_type = rr.facility_type AND ? >= rr.checkin_date AND ? < rr.checkout_date GROUP BY ri.facility_type";
    	        Connection conn = JDBCUtility.getConnection();
    	        pstmt = conn.prepareStatement(sql);
    	        pstmt.setString(1, date);
@@ -241,5 +283,74 @@ public class ReservationDAO {
 
    	    return availableFacilitiesList;
    	}
+   	
+   	//  7. 월별 가능한 시설 총 갯수
+   	public Map<String, Integer> getAvailableFacilitiesByMonth(int year, int month) {
+   	    Map<String, Integer> availableFacilitiesMap = new HashMap<>();
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+
+   	    try {
+   	        // SQL 쿼리: 지정된 월의 각 날짜별 예약 가능한 시설 수 계산
+   	        String sql = "SELECT DATE_FORMAT(a.date, '%Y-%m-%d') AS date, " +
+   	                     "SUM(fi.total_facilities) - IFNULL(SUM(b.reserved_facilities), 0) AS total_available_facilities " +
+   	                     "FROM facility_info fi " +
+   	                     "JOIN ( " +
+   	                     "    SELECT DATE_ADD(?, INTERVAL seq DAY) AS date " +
+   	                     "    FROM seq_table " +  // seq_table은 0부터 30까지의 숫자를 가진 임시 테이블로 각 날짜를 생성하기 위해 사용
+   	                     "    WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?) " +
+   	                     ") a ON 1=1 " +
+   	                     "LEFT JOIN ( " +
+   	                     "    SELECT fr.facility_type, a.date AS date, COUNT(fr.facility_type) AS reserved_facilities " +
+   	                     "    FROM facility_reservation fr " +
+   	                     "    JOIN ( " +
+   	                     "        SELECT DATE_ADD(?, INTERVAL seq DAY) AS date " +
+   	                     "        FROM seq_table " +
+   	                     "        WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?) " +
+   	                     "    ) a ON a.date BETWEEN fr.checkin_date AND DATE_SUB(fr.checkout_date, INTERVAL 1 DAY) " +
+   	                     "    GROUP BY fr.facility_type, a.date " +
+   	                     ") b ON fi.facility_type = b.facility_type AND a.date = b.date " +
+   	                     "GROUP BY a.date";
+
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        
+   	        // 날짜를 기준으로 날짜 범위 지정
+   	        String firstDateOfMonth = String.format("%04d-%02d-01", year, month);
+   	        String lastDateOfMonth = String.format("%04d-%02d-%02d", year, month, getLastDayOfMonth(year, month));
+   	        
+   	        // 첫 번째 날짜와 마지막 날짜 설정
+   	        pstmt.setString(1, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(2, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(3, firstDateOfMonth); // 첫 번째 날짜
+   	        pstmt.setString(4, lastDateOfMonth);  // 마지막 날짜
+   	        
+   	        // 날짜 범위 설정을 위한 추가 파라미터 (서브 쿼리 내에서 사용)
+   	        pstmt.setString(5, firstDateOfMonth);
+   	        pstmt.setString(6, firstDateOfMonth);
+   	        pstmt.setString(7, firstDateOfMonth);
+   	        pstmt.setString(8, lastDateOfMonth);
+
+   	        rs = pstmt.executeQuery();
+
+   	        // 쿼리 결과에서 날짜별로 예약 가능한 시설 수를 Map에 저장
+   	        while (rs.next()) {
+   	            String date = rs.getString("date"); // 날짜 (yyyy-MM-dd 형식)
+   	            int totalAvailableFacilities = rs.getInt("total_available_facilities");
+
+   	            availableFacilitiesMap.put(date, totalAvailableFacilities);
+   	        }
+
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+   	    return availableFacilitiesMap;
+   	}
+
+
+
 
 }

@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.lec.reservation.dao.ReservationDAO"%>
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -8,6 +10,9 @@
 
  
 	request.setCharacterEncoding("utf-8");
+
+	//날짜를 yyyy-MM-dd 형식으로 포맷팅하기 위한 SimpleDateFormat 설정
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	Calendar cal = Calendar.getInstance();
 	
@@ -98,6 +103,10 @@
 					String facility_txt = "시설";
 					
 					ReservationDAO reservationDAO = ReservationDAO.getInstance();
+					
+					// 미리 예약 가능 데이터 가져오기
+					Map<String, Integer> availableRoomsMap = reservationDAO.getAvailableRoomsByMonth(year, month);
+					Map<String, Integer> availableFacilitiesMap = reservationDAO.getAvailableFacilitiesByMonth(year, month);
 				
 					// 공백 채우기
 					for (int i = 1; i < week; i++) {
@@ -105,13 +114,13 @@
 					}
 					
 				
+					
 					// 1일부터 말일까지 출력
 					for (int day = 1; day <= lastDay; day++) {
 						
 						// 오늘 날짜인 경우 'today' 클래스 추가
 						String todayClass = (year == ty && month == tm && day == td) ? "today" : "";
-						String date = year + "-" + month + "-" + day;
-						System.out.println(date);
+						String date = sdf.format(cal.getTime());
 						
 						// 오늘 이전 날짜는 예약 불가 표시
 						if (year < ty || (year == ty && month < tm) || (year == ty && month == tm && day < td)) {
@@ -123,10 +132,10 @@
 							// 방이 있는 경우와 없는 경우의 텍스트 설정
 					        // 특정 날짜의 총 예약 가능 방 개수를 가져옴
 					        
-            int availableRooms = reservationDAO.getAvailableTotalRooms(date);
-            System.out.println(availableRooms);
-            boolean isRoomAvailable = availableRooms > 0;
-            
+            int availableRooms = availableRoomsMap.getOrDefault(date, 0);
+        boolean isRoomAvailable = availableRooms > 0;
+            // System.out.println(availableRooms);
+            System.out.println(availableRoomsMap);
             //boolean isRoomAvailable = true;
 					        if (isRoomAvailable) {
 					        	out.print("<a href='#none' class='a_room room_yes'>" + room_txt+ " " + psb_arr + "</a>");
@@ -159,7 +168,9 @@
 							
 							
 							// 시설이 있는 경우와 없는 경우의 텍스트 설정
-					        boolean isFacilityAvailable = true;
+					        int availableFacilities = availableFacilitiesMap.getOrDefault(date, 0);
+        boolean isFacilityAvailable = availableFacilities > 0;
+            // boolean isFacilityAvailable = true;
 					        if (isFacilityAvailable) {
 					        	out.print("<a href='#none' class='a_facility facility_yes'>" + facility_txt+ " " + psb_arr + "</a>");
 					        } else {
