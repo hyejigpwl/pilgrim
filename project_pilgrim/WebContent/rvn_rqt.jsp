@@ -110,9 +110,9 @@
 						
 						// 오늘 이전 날짜는 예약 불가 표시
 						if (year < ty || (year == ty && month < tm) || (year == ty && month == tm && day < td)) {
-							out.print("<td class='" + todayClass + "'>" + day + "<span class='reservation'>예약불가</span></td>");
+							out.print("<td class='gray' data-date='" + year + "-" + month + "-" + day + "'>" + day + "<span class='reservation'>예약불가</span></td>");
 						} else {
-							out.print("<td class='" + todayClass + "'>" + day);
+							 out.print("<td class='" + todayClass + "' data-date='" + year + "-" + month + "-" + day + "'>" + day);
 							
 							// <a> 태그로 텍스트 추가 (4가지 종류)
 							// 방이 있는 경우와 없는 경우의 텍스트 설정
@@ -180,57 +180,9 @@
 	<div id="modalContainer_room" class="hidden modalContainer">
 	  <div class="modalContent">
 	    <p>예약가능객실</p>
-	  <%
-	  
-	   // 방 타입별 남은 수량 설정 (예시 값으로 설정)
-	    int avail_num_vip = 1;
-	    int avail_num_2b = 0;
-	    int avail_num_2f = 0;
-	    int avail_num_4b = 3;
-	    int avail_num_family = 2;
-	    
-    // 방 타입 정보와 남은 수량을 이차원 배열로 설정
-    String[][] rooms = {
-        {"VIP룸", "기준인원2명, 최대인원2명", String.valueOf(avail_num_vip)},
-        {"2인침대", "기준인원2명, 최대인원2명", String.valueOf(avail_num_2b)},
-        {"2인온돌", "기준인원2명, 최대인원4명", String.valueOf(avail_num_2f)},
-        {"4인침대", "기준인원4명, 최대인원6명", String.valueOf(avail_num_4b)},
-        {"빌리지가족실", "기준인원4명, 최대인원6명", String.valueOf(avail_num_family)}
-    };
-
-    // 출력할 때 사용할 변수
-    String roomName;
-    String capacity;
-    int availableCount;
-    String roomState;
-    String roomClass;
-%>
 
 <ul>
-<%
-    // 배열을 순회하면서 방 정보를 출력
-    for (String[] room : rooms) {
-        roomName = room[0];
-        capacity = room[1];
-        availableCount = Integer.parseInt(room[2]);
 
-        // 예약 상태와 CSS 클래스를 설정
-        if (availableCount > 0) {
-            roomState = availableCount + "실 남음";
-            roomClass = "blue";
-        } else {
-            roomState = "예약마감";
-            roomClass = "red";
-        }
-%>
-        <li>
-            <a href="room_rqt.jsp">
-                <%= roomName %> (<%= capacity %>)-<span class="<%= roomClass %>"><%= roomState %></span>
-            </a>
-        </li>
-<%
-    }
-%>
 </ul>
 
 	    <button class="modalCloseButton">닫기</button>
@@ -242,57 +194,9 @@
 	<div id="modalContainer_facility" class="hidden modalContainer">
 	  <div class="modalContent">
 	    <p>예약가능시설</p>
-	    	  <%
-	  
-	   // 방 타입별 가능한 시간대 설정 (예시 값으로 설정)
-	    int avail_num_ka = 1;
-	    int avail_num_ge = 1;
-	    int avail_num_pe = 3;
-	    int avail_num_se = 3;
-	    int avail_num_vil = 3;
 	    
-    // 방 타입 정보와 남은 수량을 이차원 배열로 설정
-    String[][] facilities = {
-    	{"카리타스 채플", "350명", String.valueOf(avail_num_ka)},
-    	{"겟세마네 채플", "150명", String.valueOf(avail_num_ge)},
-        {"피데스 채플", "56명", String.valueOf(avail_num_pe)},
-        {"스페스 채플", "56명", String.valueOf(avail_num_se)},
-        {"빌리지 채플", "50명", String.valueOf(avail_num_vil)},
-    };
-
-    // 출력할 때 사용할 변수
-    String facilityName;
-    String capacity_f;
-    int availableCount_f;
-    String facilityState;
-    String facilityClass;
-%>
-
 <ul>
-<%
-    // 배열을 순회하면서 방 정보를 출력
-    for (String[] facility : facilities) {
-    	facilityName = facility[0];
-    	capacity_f = facility[1];
-    	availableCount_f = Integer.parseInt(facility[2]);
 
-        // 예약 상태와 CSS 클래스를 설정
-        if (availableCount_f > 0) {
-        	facilityState = availableCount_f + "실 남음";
-        	facilityClass = "blue";
-        } else {
-        	facilityState = "예약마감";
-            facilityClass = "red";
-        }
-%>
-        <li>
-            <a href="fac_rqt.jsp">
-                <%= facilityName %> (<%= capacity_f %>)-<span class="<%= facilityClass %>"><%= facilityState %></span>
-            </a>
-        </li>
-<%
-    }
-%>
 </ul>
 	    <div class="btn_wrap">
 		    <button class="modalCloseButton">닫기</button>
@@ -303,19 +207,80 @@
 </div>
 <%@include file="footer.jsp"%>
 <script>
-	$(function(){
-		// <-클릭 팝업창
-		$(".room_yes").click(function(){
-			$("#modalContainer_facility").removeClass("hidden");
-		});
-		$(".modalCloseButton").click(function(){
-			$("#modalContainer_room").addClass("hidden");
-			$("#modalContainer_facility").addClass("hidden");
-		})
-		
-		$(".facility_yes").click(function(){
-			$("#modalContainer_facility").removeClass("hidden");
-		});
-		
-	});
+$(function(){
+    // 객실 예약 가능 정보를 가져오는 함수
+    function fetchAvailableRooms(date) {
+        $.ajax({
+            url: "availableRooms.do",
+            method: "GET",
+            data: { date: date },
+            dataType: "json",
+            success: function(data) {
+            	 let roomList = '';
+            	 data.forEach(room => {
+            	     const roomType = room.room_type;
+            	     const roomClass = room.available_rooms > 0 ? "blue" : "red";
+            	     const roomState = room.available_rooms > 0 ? room.available_rooms+ "실 남음" : "예약마감";
+            	     roomList += "<li><a href='room_rqt.jsp'>"+roomType + "- <span class=" + roomClass +">" + roomState + "</span></a></li>";
+            	 });
+            	 $("#modalContainer_room .modalContent ul").html(roomList);
+                $("#modalContainer_room").removeClass("hidden");
+
+            },
+            error: function() {
+                alert("객실 정보를 불러오는 데 실패했습니다.");
+            }
+        });
+    }
+
+    // 시설 예약 가능 정보를 가져오는 함수
+    function fetchAvailableFacilities(date) {
+        $.ajax({
+            url: "availableFacilities.do",
+            method: "GET",
+            data: { date: date },
+            dataType: "json",
+            success: function(data) {
+                let facilityList = '';
+                data.forEach(facility => {
+                    let facilityClass = facility.available_facilities > 0 ? "blue" : "red";
+                    let facilityState = facility.available_facilities > 0 ? facility.available_facilities + "실 남음" : "예약마감";
+                    facilityList += "<li><a href='facility_rqt.jsp'>"+facility.facility_type+" - <span class=" + facilityClass + ">" +facilityState + "</span></a></li>";
+                });
+                $("#modalContainer_facility .modalContent ul").html(facilityList);
+                $("#modalContainer_facility").removeClass("hidden");
+            },
+            error: function() {
+                alert("시설 정보를 불러오는 데 실패했습니다.");
+            }
+        });
+    }
+
+    // 객실 예약 가능 클릭 시
+    $(".room_yes").click(function(event) {
+        event.preventDefault(); // 기본 링크 동작 방지
+        const selectedDate = $(this).closest("td").data("date");
+        if (selectedDate) {
+            fetchAvailableRooms(selectedDate);
+        } else {
+            alert("날짜 정보를 찾을 수 없습니다.");
+        }
+    });
+
+    // 시설 예약 가능 클릭 시
+    $(".facility_yes").click(function(event) {
+        event.preventDefault(); // 기본 링크 동작 방지
+        const selectedDate = $(this).closest("td").data("date");
+        if (selectedDate) {
+            fetchAvailableFacilities(selectedDate);
+        } else {
+            alert("날짜 정보를 찾을 수 없습니다.");
+        }
+    });
+
+    // 모달 닫기 버튼
+    $(".modalCloseButton").click(function(){
+        $(".modalContainer").addClass("hidden");
+    });
+});
 </script>

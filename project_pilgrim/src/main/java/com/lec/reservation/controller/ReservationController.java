@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.lec.common.Action;
 import com.lec.common.ActionForward;
+import com.lec.reservation.action.AvailableFacilitiesAction;
+import com.lec.reservation.action.AvailableRoomsAction;
 import com.lec.reservation.action.FacilityAction;
 import com.lec.reservation.action.RoomAction;
 import com.lec.reservation.action.SeminarAction;
@@ -52,6 +54,12 @@ public class ReservationController extends HttpServlet {
 			forward = action.execute(req, res); 
 		} else if(command.equalsIgnoreCase("seminarForm")) {
 			action = new SeminarAction();
+			forward = action.execute(req, res); 
+		} else if(command.equalsIgnoreCase("availableRooms")) {
+			action = new AvailableRoomsAction();
+			forward = action.execute(req, res); 
+		} else if(command.equalsIgnoreCase("availableFacilities")) {
+			action = new AvailableFacilitiesAction();
 			forward = action.execute(req, res); 
 		} 
 		

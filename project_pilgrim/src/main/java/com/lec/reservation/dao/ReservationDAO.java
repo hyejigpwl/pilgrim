@@ -3,6 +3,10 @@ package com.lec.reservation.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -138,4 +142,75 @@ public class ReservationDAO {
    		return insertCount;
    	}
  	
+   	// 4. 일별 가능한 숙소 개수 파악
+   	public List<Map<String, Object>> getAvailableRoomsByDate(String date) {
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+   	    List<Map<String, Object>> availableRoomsList = new ArrayList<>();
+
+   	    try {
+   	        String sql = "SELECT ri.room_type, (ri.total_rooms - COALESCE(COUNT(rr.reservation_id), 0)) AS available_rooms " +
+   	                     "FROM room_info ri " +
+   	                     "LEFT JOIN room_reservation rr ON ri.room_type = rr.room_type " +
+   	                     "AND ? >= rr.checkin_date AND ? < rr.checkout_date " +
+   	                     "GROUP BY ri.room_type";
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        pstmt.setString(1, date);
+   	        pstmt.setString(2, date);
+   	        rs = pstmt.executeQuery();
+
+   	        while (rs.next()) {
+   	            Map<String, Object> roomData = new HashMap<>();
+   	            roomData.put("room_type", rs.getString("room_type"));
+   	            roomData.put("available_rooms", rs.getInt("available_rooms"));
+   	            availableRoomsList.add(roomData);
+   	        }
+
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+   	    return availableRoomsList;
+   	}
+   	
+  
+   	
+   	
+ // 6. 일별 가능한 시설 개수 파악
+   	public List<Map<String, Object>> getAvailableFacilitesByDate(String date) {
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+   	    List<Map<String, Object>> availableFacilitiesList = new ArrayList<>();
+
+   	    try {
+   	        String sql = "SELECT ri.facility_type, (ri.total_facilities - COALESCE(COUNT(rr.reservation_id), 0)) AS available_facilities " +
+   	                     "FROM facility_info ri " +
+   	                     "LEFT JOIN facility_reservation rr ON ri.facility_type = rr.facility_type " +
+   	                     "AND ? >= rr.checkin_date AND ? < rr.checkout_date " +
+   	                     "GROUP BY ri.facility_type";
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        pstmt.setString(1, date);
+   	        pstmt.setString(2, date);
+   	        rs = pstmt.executeQuery();
+
+   	        while (rs.next()) {
+   	            Map<String, Object> facilityData = new HashMap<>();
+   	            facilityData.put("facility_type", rs.getString("facility_type"));
+   	         facilityData.put("available_facilities", rs.getInt("available_facilities"));
+   	         availableFacilitiesList.add(facilityData);
+   	        }
+
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+   	    return availableFacilitiesList;
+   	}
+
 }
