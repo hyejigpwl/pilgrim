@@ -20,38 +20,43 @@
 		{
 			response.sendRedirect("login.jsp");
 		}
+
+		String roomType = request.getParameter("room_type");
+		String checkinDate = request.getParameter("checkin_date");
 	%>
 <%@include file="header.jsp"%>
 <div id="container" class="login_page room_rqt_page container">
          <div class="login-wrapper">
         <h2>객실 예약</h2>
         <form method="post" action="roomForm.do" id="login-form">
-            <label for="guest_count">인원</label>
-            <input type="number" id="guest_count" name="guest_count" placeholder="인원 수를 입력하세요" required>
-
-            <label for="checkin_date">입실일</label>
-            <input type="date" id="checkin_date" name="checkin_date" placeholder="입실일을 입력하세요" required>
-            
-            <label for="checkout_date">퇴실일</label>
-            <input type="date" id="checkout_date" name="checkout_date" placeholder="퇴실일을 입력하세요" required>
-
-			
-			<p class="seminar_time_title">룸 타입</p>
-            <input type="radio" name="room_type" id="2인온돌" value="2인온돌">
+        
+        	<p class="seminar_time_title">룸 타입</p>
+            <input type="radio" name="room_type" id="2인온돌" value="2인온돌" <% if ("2인온돌".equals(roomType)) out.print("checked"); %>>
             <label for="2인온돌">2인온돌</label>
             
             
-            <input type="radio" name="room_type" id="2인침대"  value="2인침대">
+            <input type="radio" name="room_type" id="2인침대"  value="2인침대" <% if ("2인침대".equals(roomType)) out.print("checked"); %>>
             <label for="2인침대">2인침대</label>
             
-                  <input type="radio" name="room_type" id="4인침대"  value="4인침대">
+                  <input type="radio" name="room_type" id="4인침대"  value="4인침대" <% if ("4인침대".equals(roomType)) out.print("checked"); %>>
             <label for="4인침대">4인침대</label>
             
-                  <input type="radio" name="room_type" id="VIP룸"  value="VIP룸">
+                  <input type="radio" name="room_type" id="VIP룸"  value="VIP룸" <% if ("VIP룸".equals(roomType)) out.print("checked"); %>>
             <label for="VIP룸">VIP룸(2인)</label>
             
-                  <input type="radio" name="room_type" id="빌리지가족실"  value="빌리지가족실">
+                  <input type="radio" name="room_type" id="빌리지가족실"  value="빌리지가족실" <% if ("빌리지가족실".equals(roomType)) out.print("checked"); %>>
             <label for="빌리지가족실">빌리지가족실(6인)</label>
+            
+            <label for="checkin_date">입실일</label>
+            <input type="date" id="checkin_date" name="checkin_date" placeholder="입실일을 입력하세요" required value="<%= checkinDate != null ? checkinDate : "" %>">
+
+			 <label for="checkout_date">퇴실일</label>
+            <input type="date" id="checkout_date" name="checkout_date" placeholder="퇴실일을 입력하세요" required>
+			
+			<label for="guest_count">인원</label>
+            <input type="number" id="guest_count" name="guest_count" placeholder="인원 수를 입력하세요" required>
+            
+           
 
             <input type="submit" value="예약">
         </form>

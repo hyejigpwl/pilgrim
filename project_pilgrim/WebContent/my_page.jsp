@@ -73,19 +73,20 @@
 	                    객실 타입: <%= roomReservation.getRoom_type() %><br>
 	                    예약 일시 :  <%= roomReservation.getReg_date() %><br>
 	                    <a href="#none" class="res_cancel">예약취소</a>
-	                   
+	                    <hr>
 	        <%
 	                }
 	            } else {
 	        %>
 	                예약 정보가 없습니다.
 	                <a href="room_rqt.jsp" class="res_cancel">예약하기</a>
+	                <hr>
 	        <%
 	            }
 	        %>
 	    </p>
     </div>
-     <hr>
+     
     
     
     <div class="reservation_wrap">
@@ -101,19 +102,20 @@
 	                    신청 날짜: <%= seminarReservation.getSeminar_date() %><br>
 	                    예약 일시 :  <%= seminarReservation.getReg_date() %><br>
 	                    <a href="#none" class="res_cancel">예약취소</a>
-	                    
+	                     <hr>
 	        <%
 	                }
 	            } else {
 	        %>
 	                예약 정보가 없습니다.
 	                <a href="seminar_rqt.jsp" class="res_cancel">예약하기</a>
+	                <hr>
 	        <%
 	            }
 	        %>
 	    </p>
     </div>
-    <hr>
+   
     
      <div class="reservation_wrap">
 	    <h3>나의 시설예약</h3>

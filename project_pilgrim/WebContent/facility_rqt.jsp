@@ -20,6 +20,9 @@
 		{
 			response.sendRedirect("login.jsp");
 		}
+
+		String facilityType = request.getParameter("facility_type");
+		String checkinDate = request.getParameter("checkin_date");
 	%>
 <%@include file="header.jsp"%>
 <div id="container" class="login_page room_rqt_page container">
@@ -28,21 +31,21 @@
         <form method="post" action="facilityForm.do" id="login-form">
         
 			<p class="seminar_time_title">시설 타입</p>
-            <input type="radio" name="facility_type" id="caritas" value="카리타스(350명)">
+            <input type="radio" name="facility_type" id="caritas" value="카리타스(350명)" <% if ("카리타스(350명)".equals(facilityType)) out.print("checked"); %>>
             <label for="caritas">카리타스(350명)</label>
             
             
-            <input type="radio" name="facility_type" id="getsemane"  value="겟세마네(150명)">
+            <input type="radio" name="facility_type" id="getsemane"  value="겟세마네(150명)" <% if ("겟세마네(150명)".equals(facilityType)) out.print("checked"); %>>
             <label for="getsemane">겟세마네(150명)</label>
             
             
-            <input type="radio" name="facility_type" id="pides" value="피데스(56명)">
+            <input type="radio" name="facility_type" id="pides" value="피데스(56명)" <% if ("피데스(56명)".equals(facilityType)) out.print("checked"); %>>
             <label for="pides">피데스(56명)</label>
             
-             <input type="radio" name="facility_type" id="spes" value="스페스(56명)">
+             <input type="radio" name="facility_type" id="spes" value="스페스(56명)" <% if ("스페스(56명)".equals(facilityType)) out.print("checked"); %>>
             <label for="spes">스페스(56명)</label>
             
-             <input type="radio" name="facility_type" id="viliage" value="빌리지(50명)">
+             <input type="radio" name="facility_type" id="viliage" value="빌리지(50명)" <% if ("빌리지(50명)".equals(facilityType)) out.print("checked"); %>>
             <label for="viliage">빌리지(50명)</label>
 
 
@@ -51,7 +54,7 @@
 
 
             <label for="checkin_date">입실일</label>
-            <input type="date" id="checkin_date" name="checkin_date" placeholder="입실일을 입력하세요" required>
+            <input type="date" id="checkin_date" name="checkin_date" placeholder="입실일을 입력하세요" required value="<%= checkinDate != null ? checkinDate : "" %>">
             
             <label for="checkout_date">퇴실일</label>
             <input type="date" id="checkout_date" name="checkout_date" placeholder="퇴실일을 입력하세요" required>

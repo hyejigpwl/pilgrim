@@ -63,11 +63,11 @@
 </head>
 <%@include file="header.jsp"%>
 <div id="container" class="calendar container">
-	<ul class="actions two_btn">
+	<!-- <ul class="actions two_btn">
 		<li><a href="seminar_rqt.jsp" class="button special big">천로역정 세미나 예약</a></li>
 		<li><a href="room_rqt.jsp" class="button big">객실 예약</a></li>
 		<li><a href="facility_rqt.jsp" class="button big">시설 예약</a></li>
-	</ul>
+	</ul>-->
 
 	<div class="title">
 		<a href="rvn_rqt.jsp?year=<%=year%>&month=<%=month-1%>">&lt;</a>
@@ -91,23 +91,29 @@
 		<tbody>
 <tr>
 				<%
-					String room_txt = "객실";
-					String seminarA_txt = "천로역정A";
-					String seminarB_txt = "천로역정B";
-					String seminarC_txt = "천로역정C";
-					int psb_num_A = 1;
-					int psb_num_B = 1;
-					int psb_num_C = 1;
-					String psb_txt = "명 가능";
-					String psb_arr = "예약 가능";
-					String no_txt = "예약 마감";
-					String facility_txt = "시설";
 					
 					ReservationDAO reservationDAO = ReservationDAO.getInstance();
 					
 					// 미리 예약 가능 데이터 가져오기
 					Map<String, Integer> availableRoomsMap = reservationDAO.getAvailableRoomsByMonth(year, month);
 					Map<String, Integer> availableFacilitiesMap = reservationDAO.getAvailableFacilitiesByMonth(year, month);
+					
+					Map<String, Integer> availableSeminarAMap = reservationDAO.getAvailableSeminarAByMonth(year, month);
+					Map<String, Integer> availableSeminarBMap = reservationDAO.getAvailableSeminarBByMonth(year, month);
+					Map<String, Integer> availableSeminarCMap = reservationDAO.getAvailableSeminarCByMonth(year, month);
+				
+				
+					String room_txt = "객실";
+					String seminarA_txt = "천로역정A";
+					String seminarB_txt = "천로역정B";
+					String seminarC_txt = "천로역정C";
+				
+					String psb_txt = "명 가능";
+					String psb_arr = "예약 가능";
+					String no_txt = "예약 마감";
+					String facility_txt = "시설";
+					
+					
 				
 					// 공백 채우기
 					for (int i = 1; i < week; i++) {
@@ -126,19 +132,19 @@
 						
 						// 오늘 이전 날짜는 예약 불가 표시
 						if (year < ty || (year == ty && month < tm) || (year == ty && month == tm && day < td)) {
-							out.print("<td class='gray' data-date='" + year + "-" + month + "-" + day + "'>" + day + "<span class='reservation'>예약불가</span></td>");
+							out.print("<td class='gray' data-date='"+date+"'>" + day + "<span class='reservation'>예약불가</span></td>");
 						} else {
-							 out.print("<td class='" + todayClass + "' data-date='" + year + "-" + month + "-" + day + "'>" + day);
+							 out.print("<td class='" + todayClass + "' data-date='"+date+"'>" + day);
 							
 							// <a> 태그로 텍스트 추가 (4가지 종류)
 							// 방이 있는 경우와 없는 경우의 텍스트 설정
 					        // 특정 날짜의 총 예약 가능 방 개수를 가져옴
 					        
-            int availableRooms = availableRoomsMap.getOrDefault(date, 0);
-        boolean isRoomAvailable = availableRooms > 0;
-            System.out.println(availableRooms);
-             // System.out.println(availableRoomsMap);
-            //boolean isRoomAvailable = true;
+				            int availableRooms = availableRoomsMap.getOrDefault(date, 0);
+				        	boolean isRoomAvailable = availableRooms > 0;
+				            // System.out.println(availableRooms);
+				             // System.out.println(availableRoomsMap);
+				            //boolean isRoomAvailable = true;
 					        if (isRoomAvailable) {
 					        	out.print("<a href='#none' class='a_room room_yes'>" + room_txt+ " " + psb_arr + "</a>");
 					        } else {
@@ -146,24 +152,32 @@
 					        }
 					        
 					        // 세미나 가능한 경우와 없는 경우의 텍스트 설정
-					        boolean isAAvailable = true;
-					        boolean isBAvailable = false;
-					        boolean isCAvailable = false;
+					        int availableSeminarA = availableSeminarAMap.getOrDefault(date, 0);
+				        	boolean isAAvailable = availableSeminarA > 0;
+				        	int psb_num_A = availableSeminarA;
+				        	
+				        	int availableSeminarB = availableSeminarBMap.getOrDefault(date, 0);
+				        	boolean isBAvailable = availableSeminarB > 0;
+				        	int psb_num_B = availableSeminarB;
+				        	
+				        	int availableSeminarC = availableSeminarCMap.getOrDefault(date, 0);
+				        	boolean isCAvailable = availableSeminarC > 0;
+				        	int psb_num_C = availableSeminarC;				        	
 					        
 					        if(isAAvailable){
-					        	out.print("<a href='seminar_rqt.jsp' class='a_seminar'>" + seminarA_txt + " " + psb_num_A + " " + psb_txt + "</a>");
+					        	out.print("<a class='a_seminar' href='seminar_rqt.jsp?seminar_type=천로역정%20A타임&seminar_date="+date+"'>" + seminarA_txt + " " + psb_num_A + " " + psb_txt + "</a>");
 					        }else{
 					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarA_txt + " " + no_txt + "</a>");
 					        }
 					        
 					        if(isBAvailable){
-					        	out.print("<a href='seminar_rqt.jsp' class='a_seminar'>" + seminarB_txt + " " + psb_num_B + " " + psb_txt + "</a>");
+					        	out.print("<a href='seminar_rqt.jsp?seminar_type=천로역정%20B타임&seminar_date="+date+"' class='a_seminar'>" + seminarB_txt + " " + psb_num_B + " " + psb_txt + "</a>");
 					        }else{
 					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarB_txt + " " + no_txt + "</a>");
 					        }
 					        
 					        if(isCAvailable){
-					        	out.print("<a href='seminar_rqt.jsp' class='a_seminar'>" + seminarC_txt + " " + psb_num_C + " " + psb_txt + "</a>");
+					        	out.print("<a href='seminar_rqt.jsp?seminar_type=천로역정%20C타임&seminar_date="+date+"' class='a_seminar'>" + seminarC_txt + " " + psb_num_C + " " + psb_txt + "</a>");
 					        }else{
 					        	out.print("<a href='#none' class='a_seminar a_no'>" + seminarC_txt + " " + no_txt + "</a>");
 					        }
@@ -171,16 +185,15 @@
 							
 							// 시설이 있는 경우와 없는 경우의 텍스트 설정
 					        int availableFacilities = availableFacilitiesMap.getOrDefault(date, 0);
-					        System.out.println("Date: " + date + ", Retrieved Facilities: " + availableFacilities);
 							
 							// System.out.println("Map values:");
-/* for (Map.Entry<String, Integer> entry : availableFacilitiesMap.entrySet()) {
-    System.out.println("Date: " + entry.getKey() + ", Facilities: " + entry.getValue());
-} */
-
-
-        boolean isFacilityAvailable = availableFacilities > 0;
-            // boolean isFacilityAvailable = true;
+							/* for (Map.Entry<String, Integer> entry : availableFacilitiesMap.entrySet()) {
+							    System.out.println("Date: " + entry.getKey() + ", Facilities: " + entry.getValue());
+							} */
+							
+							
+					        boolean isFacilityAvailable = availableFacilities > 0;
+					        // boolean isFacilityAvailable = true;
 					        if (isFacilityAvailable) {
 					        	out.print("<a href='#none' class='a_facility facility_yes'>" + facility_txt+ " " + psb_arr + "</a>");
 					        } else {
@@ -240,34 +253,45 @@
 <%@include file="footer.jsp"%>
 <script>
 $(function(){
-    // 객실 예약 가능 정보를 가져오는 함수
-    function fetchAvailableRooms(date) {
-        $.ajax({
-            url: "availableRooms.do",
-            method: "GET",
-            data: { date: date },
-            dataType: "json",
-            success: function(data) {
-            	
-            	 let roomList = '';
-            	 data.forEach(room => {
-            	     const roomType = room.room_type;
-            	     const roomClass = room.available_rooms > 0 ? "blue" : "red";
-            	     const roomState = room.available_rooms > 0 ? room.available_rooms+ "실 남음" : "예약마감";
-            	     roomList += "<li><a href='room_rqt.jsp'>"+roomType + "- <span class=" + roomClass +">" + roomState + "</span></a></li>";
-            	 });
-            	 $("#modalContainer_room .modalContent ul").html(roomList);
-                $("#modalContainer_room").removeClass("hidden");
+	// 날짜를 YYYY-MM-DD 형식으로 포맷팅하는 함수
+	/*function formatDate(date) {
+		 const year = date.getFullYear();
+		    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 두 자리로 맞춤
+		    const day = date.getDate().toString().padStart(2, '0'); // 두 자리로 맞춤
+		    return `${year}-${month}-${day}`;
+	}*/
+	
+	// 객실 예약 가능 정보를 가져오는 함수
+	function fetchAvailableRooms(date) {
+	    // 날짜 포맷을 YYYY-MM-DD 형식으로 변환
+	    // const formattedDate = formatDate(date);
 
-            },
-            error: function() {
-                alert("객실 정보를 불러오는 데 실패했습니다.");
-            }
-        });
-    }
+	    $.ajax({
+	        url: "availableRooms.do",
+	        method: "GET",
+	        data: { date: date }, // formattedDate를 사용
+	        dataType: "json",
+	        success: function(data) {
+	            let roomList = '';
+	            data.forEach(room => {
+	                const roomType = room.room_type;
+	                const roomClass = room.available_rooms > 0 ? "blue" : "red";
+	                const roomState = room.available_rooms > 0 ? room.available_rooms + "실 남음" : "예약마감";
+	                roomList += "<li><a href='room_rqt.jsp?room_type=" + roomType + "&checkin_date="+date+"'>" + roomType + "- <span class=" + roomClass + ">" + roomState + "</span></a></li>";
+	            });
+	            $("#modalContainer_room .modalContent ul").html(roomList);
+	            $("#modalContainer_room").removeClass("hidden");
+	        },
+	        error: function() {
+	            alert("객실 정보를 불러오는 데 실패했습니다.");
+	        }
+	    });
+	}
 
+    
     // 시설 예약 가능 정보를 가져오는 함수
     function fetchAvailableFacilities(date) {
+    	
         $.ajax({
             url: "availableFacilities.do",
             method: "GET",
@@ -278,7 +302,7 @@ $(function(){
                 data.forEach(facility => {
                     let facilityClass = facility.available_facilities > 0 ? "blue" : "red";
                     let facilityState = facility.available_facilities > 0 ? facility.available_facilities + "실 남음" : "예약마감";
-                    facilityList += "<li><a href='facility_rqt.jsp'>"+facility.facility_type+" - <span class=" + facilityClass + ">" +facilityState + "</span></a></li>";
+                    facilityList += "<li><a href='facility_rqt.jsp?facility_type="+facility.facility_type+"&checkin_date="+date+"'>"+facility.facility_type+" - <span class=" + facilityClass + ">" +facilityState + "</span></a></li>";
                 });
                 $("#modalContainer_facility .modalContent ul").html(facilityList);
                 $("#modalContainer_facility").removeClass("hidden");
@@ -288,6 +312,8 @@ $(function(){
             }
         });
     }
+    
+	 
 
     // 객실 예약 가능 클릭 시
     $(".room_yes").click(function(event) {

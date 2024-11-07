@@ -363,6 +363,172 @@ public class ReservationDAO {
    	    return availableFacilitiesMap;
    	}
 
+   	// 8. 월별 가능한 세미나A 갯수
+   	public Map<String, Integer> getAvailableSeminarAByMonth(int year, int month) {
+   	    Map<String, Integer> availableSeminarAMap = new HashMap<>();
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+
+   	    try {
+   	        // SQL 쿼리: 지정된 월의 각 날짜별 예약 가능한 세미나A 수 계산
+   	        String sql = "SELECT DATE_FORMAT(a.date, '%Y-%m-%d') AS date, MIN(fi.available_people) - IFNULL(b.guest_count, 0) AS available_seminarA FROM seminar_info fi JOIN (SELECT DATE_ADD(?, INTERVAL seq DAY) AS date FROM seq_table WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?) ) a ON 1=1 LEFT JOIN (SELECT fr.seminar_type, a.date AS date, SUM(fr.guest_count) AS guest_count FROM seminar_reservation fr JOIN (SELECT DATE_ADD(?, INTERVAL seq DAY) AS date FROM seq_table  WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?)) a ON a.date = fr.seminar_date WHERE fr.seminar_type = '천로역정 A타임' GROUP BY fr.seminar_type, a.date) b ON fi.seminar_type = b.seminar_type AND a.date = b.date WHERE fi.seminar_type = '천로역정 A타임' GROUP BY a.date";
+
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        
+   	        // 날짜를 기준으로 날짜 범위 지정
+   	     String firstDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, 1).getTime());
+   	  String lastDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, getLastDayOfMonth(year, month)).getTime());
+   	        
+   	        // 첫 번째 날짜와 마지막 날짜 설정
+   	        pstmt.setString(1, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(2, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(3, firstDateOfMonth); // 첫 번째 날짜
+   	        pstmt.setString(4, lastDateOfMonth);  // 마지막 날짜
+   	        
+   	        // 날짜 범위 설정을 위한 추가 파라미터 (서브 쿼리 내에서 사용)
+   	        pstmt.setString(5, firstDateOfMonth);
+   	        pstmt.setString(6, firstDateOfMonth);
+   	        pstmt.setString(7, firstDateOfMonth);
+   	        pstmt.setString(8, lastDateOfMonth);
+
+   	        rs = pstmt.executeQuery();
+
+   	        // 쿼리 결과에서 날짜별로 예약 가능한 시설 수를 Map에 저장
+   	        while (rs.next()) {
+   	        	String date = sdf.format(rs.getDate("date")); // 날짜 (yyyy-MM-dd 형식)
+   	            int availableSeminarA = rs.getInt("available_seminarA");
+
+   	         availableSeminarAMap.put(date, availableSeminarA);
+   	         System.out.println("Adding to map - Date: " + date + ", available_seminarA: " + availableSeminarA);
+
+
+   	            
+   	            // System.out.println(availableFacilitiesMap); 
+   	            
+   	         // System.out.println("Date: " + date + ", Available Facilities: " + totalAvailableFacilities);
+   	         }
+
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+   	    return availableSeminarAMap;
+   	}
+   	
+   	
+   	
+	 // 9. 월별 가능한 세미나B 갯수
+   	public Map<String, Integer> getAvailableSeminarBByMonth(int year, int month) {
+   	    Map<String, Integer> availableSeminarBMap = new HashMap<>();
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+
+   	    try {
+   	        // SQL 쿼리: 지정된 월의 각 날짜별 예약 가능한 세미나A 수 계산
+   	        String sql = "SELECT DATE_FORMAT(a.date, '%Y-%m-%d') AS date, MIN(fi.available_people) - IFNULL(b.guest_count, 0) AS available_seminarB FROM seminar_info fi JOIN (SELECT DATE_ADD(?, INTERVAL seq DAY) AS date FROM seq_table WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?) ) a ON 1=1 LEFT JOIN (SELECT fr.seminar_type, a.date AS date, SUM(fr.guest_count) AS guest_count FROM seminar_reservation fr JOIN (SELECT DATE_ADD(?, INTERVAL seq DAY) AS date FROM seq_table  WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?)) a ON a.date = fr.seminar_date WHERE fr.seminar_type = '천로역정 B타임' GROUP BY fr.seminar_type, a.date) b ON fi.seminar_type = b.seminar_type AND a.date = b.date WHERE fi.seminar_type = '천로역정 B타임' GROUP BY a.date";
+
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        
+   	        // 날짜를 기준으로 날짜 범위 지정
+   	     String firstDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, 1).getTime());
+   	  String lastDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, getLastDayOfMonth(year, month)).getTime());
+   	        
+   	        // 첫 번째 날짜와 마지막 날짜 설정
+   	        pstmt.setString(1, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(2, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(3, firstDateOfMonth); // 첫 번째 날짜
+   	        pstmt.setString(4, lastDateOfMonth);  // 마지막 날짜
+   	        
+   	        // 날짜 범위 설정을 위한 추가 파라미터 (서브 쿼리 내에서 사용)
+   	        pstmt.setString(5, firstDateOfMonth);
+   	        pstmt.setString(6, firstDateOfMonth);
+   	        pstmt.setString(7, firstDateOfMonth);
+   	        pstmt.setString(8, lastDateOfMonth);
+
+   	        rs = pstmt.executeQuery();
+
+   	        // 쿼리 결과에서 날짜별로 예약 가능한 시설 수를 Map에 저장
+   	        while (rs.next()) {
+   	        	String date = sdf.format(rs.getDate("date")); // 날짜 (yyyy-MM-dd 형식)
+   	            int availableSeminarB = rs.getInt("available_seminarB");
+
+   	         availableSeminarBMap.put(date, availableSeminarB);
+   	         System.out.println("Adding to map - Date: " + date + ", available_seminarB: " + availableSeminarB);
+
+
+   	            
+   	            // System.out.println(availableFacilitiesMap); 
+   	            
+   	         // System.out.println("Date: " + date + ", Available Facilities: " + totalAvailableFacilities);
+   	         }
+
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+   	    return availableSeminarBMap;
+   	}
+	   	
+	 // 10. 월별 가능한 세미나C 갯수
+   	public Map<String, Integer> getAvailableSeminarCByMonth(int year, int month) {
+   	    Map<String, Integer> availableSeminarCMap = new HashMap<>();
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+
+   	    try {
+   	        // SQL 쿼리: 지정된 월의 각 날짜별 예약 가능한 세미나A 수 계산
+   	        String sql = "SELECT DATE_FORMAT(a.date, '%Y-%m-%d') AS date, MIN(fi.available_people) - IFNULL(b.guest_count, 0) AS available_seminarC FROM seminar_info fi JOIN (SELECT DATE_ADD(?, INTERVAL seq DAY) AS date FROM seq_table WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?) ) a ON 1=1 LEFT JOIN (SELECT fr.seminar_type, a.date AS date, SUM(fr.guest_count) AS guest_count FROM seminar_reservation fr JOIN (SELECT DATE_ADD(?, INTERVAL seq DAY) AS date FROM seq_table  WHERE DATE_ADD(?, INTERVAL seq DAY) BETWEEN ? AND LAST_DAY(?)) a ON a.date = fr.seminar_date WHERE fr.seminar_type = '천로역정 C타임' GROUP BY fr.seminar_type, a.date) b ON fi.seminar_type = b.seminar_type AND a.date = b.date WHERE fi.seminar_type = '천로역정 C타임' GROUP BY a.date";
+
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        
+   	        // 날짜를 기준으로 날짜 범위 지정
+   	     String firstDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, 1).getTime());
+   	  String lastDateOfMonth = sdf.format(new GregorianCalendar(year, month - 1, getLastDayOfMonth(year, month)).getTime());
+   	        
+   	        // 첫 번째 날짜와 마지막 날짜 설정
+   	        pstmt.setString(1, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(2, firstDateOfMonth); // 날짜 생성 시작점
+   	        pstmt.setString(3, firstDateOfMonth); // 첫 번째 날짜
+   	        pstmt.setString(4, lastDateOfMonth);  // 마지막 날짜
+   	        
+   	        // 날짜 범위 설정을 위한 추가 파라미터 (서브 쿼리 내에서 사용)
+   	        pstmt.setString(5, firstDateOfMonth);
+   	        pstmt.setString(6, firstDateOfMonth);
+   	        pstmt.setString(7, firstDateOfMonth);
+   	        pstmt.setString(8, lastDateOfMonth);
+
+   	        rs = pstmt.executeQuery();
+
+   	        // 쿼리 결과에서 날짜별로 예약 가능한 시설 수를 Map에 저장
+   	        while (rs.next()) {
+   	        	String date = sdf.format(rs.getDate("date")); // 날짜 (yyyy-MM-dd 형식)
+   	            int availableSeminarC = rs.getInt("available_seminarC");
+
+   	         availableSeminarCMap.put(date, availableSeminarC);
+   	         System.out.println("Adding to map - Date: " + date + ", available_seminarC: " + availableSeminarC);
+
+
+   	            
+   	            // System.out.println(availableFacilitiesMap); 
+   	            
+   	         // System.out.println("Date: " + date + ", Available Facilities: " + totalAvailableFacilities);
+   	         }
+
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+   	    return availableSeminarCMap;
+   	}
 
 
 
