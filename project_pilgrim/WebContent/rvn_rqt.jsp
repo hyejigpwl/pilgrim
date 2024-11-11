@@ -261,6 +261,10 @@ $(function(){
 		    return `${year}-${month}-${day}`;
 	}*/
 	
+	function formatPrice(price) {
+	    return price.toLocaleString(); // 출력 예시: 70,000
+	}
+	
 	// 객실 예약 가능 정보를 가져오는 함수
 	function fetchAvailableRooms(date) {
 	    // 날짜 포맷을 YYYY-MM-DD 형식으로 변환
@@ -277,7 +281,7 @@ $(function(){
 	                const roomType = room.room_type;
 	                const roomClass = room.available_rooms > 0 ? "blue" : "red";
 	                const roomState = room.available_rooms > 0 ? room.available_rooms + "실 남음" : "예약마감";
-	                roomList += "<li><a href='room_rqt.jsp?room_type=" + roomType + "&checkin_date="+date+"'>" + roomType + "- <span class=" + roomClass + ">" + roomState + "</span></a></li>";
+	                roomList += "<li><a href='room_rqt.jsp?room_type=" + roomType + "&checkin_date="+date+"'>" + roomType+"("+formatPrice(room.room_price)+"원)" + "- <span class=" + roomClass + ">" + roomState + "</span></a></li>";
 	            });
 	            $("#modalContainer_room .modalContent ul").html(roomList);
 	            $("#modalContainer_room").removeClass("hidden");
@@ -302,7 +306,7 @@ $(function(){
                 data.forEach(facility => {
                     let facilityClass = facility.available_facilities > 0 ? "blue" : "red";
                     let facilityState = facility.available_facilities > 0 ? facility.available_facilities + "실 남음" : "예약마감";
-                    facilityList += "<li><a href='facility_rqt.jsp?facility_type="+facility.facility_type+"&checkin_date="+date+"'>"+facility.facility_type+" - <span class=" + facilityClass + ">" +facilityState + "</span></a></li>";
+                    facilityList += "<li><a href='facility_rqt.jsp?facility_type="+facility.facility_type+"&checkin_date="+date+"'>"+facility.facility_type+"("+formatPrice(facility.facility_price)+"원)"+" - <span class=" + facilityClass + ">" +facilityState + "</span></a></li>";
                 });
                 $("#modalContainer_facility .modalContent ul").html(facilityList);
                 $("#modalContainer_facility").removeClass("hidden");

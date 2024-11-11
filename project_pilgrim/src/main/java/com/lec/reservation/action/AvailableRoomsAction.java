@@ -32,6 +32,7 @@ public class AvailableRoomsAction  implements Action {
         	JSONObject json = new JSONObject();
             json.put("room_type", roomData.get("room_type"));
             json.put("available_rooms", roomData.get("available_rooms"));
+            json.put("room_price", roomData.get("room_price"));
             jsonArray.add(json);
         }
 

@@ -32,6 +32,7 @@ public class AvailableFacilitiesAction  implements Action {
         	JSONObject json = new JSONObject();
             json.put("facility_type", facilityData.get("facility_type"));
             json.put("available_facilities", facilityData.get("available_facilities"));
+            json.put("facility_price", facilityData.get("facility_price"));
             jsonArray.add(json);
         }
 

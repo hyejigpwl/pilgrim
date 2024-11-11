@@ -32,15 +32,15 @@
         
         	<p class="seminar_time_title">세미나 신청 타임</p>
             <input type="radio" name="seminar_type" id="seminar_typeA" value="천로역정 A타임" <% if ("천로역정 A타임".equals(seminarType)) out.print("checked"); %>>
-            <label for="seminar_typeA">천로역정 A타임(10:00~12:00)</label>
+            <label for="seminar_typeA">천로역정 A타임(10:00~12:00 / 10,000원)</label>
             
             
             <input type="radio" name="seminar_type" id="seminar_typeB"  value="천로역정 B타임" <% if ("천로역정 B타임".equals(seminarType)) out.print("checked"); %>>
-            <label for="seminar_typeB">천로역정 B타임(12:30~15:20 점심포함)</label>
+            <label for="seminar_typeB">천로역정 B타임(12:30~15:20 점심포함 / 15,000원)</label>
             
             
             <input type="radio" name="seminar_type" id="seminar_typeC" value="천로역정 C타임" <% if ("천로역정 C타임".equals(seminarType)) out.print("checked"); %>>
-            <label for="seminar_typeC">천로역정 C타임(14:30~16:30)</label>
+            <label for="seminar_typeC">천로역정 C타임(14:30~16:30 / 10,000원)</label>
 
             <label for="seminar_date">세미나 신청 날짜 (월~토 중 선택 / 주일 휴강)</label>
             <input type="date" id="seminar_date" name="seminar_date" placeholder="원하는 날짜를 입력하세요" required value="<%= seminarDate != null ? seminarDate : "" %>">
