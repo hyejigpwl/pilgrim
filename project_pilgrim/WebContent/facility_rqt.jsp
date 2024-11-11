@@ -69,57 +69,7 @@
 <script>
 $(document).ready(function() {
 	
-	// URL 파라미터에서 checkin_date 값을 가져오기
-    function getParameterByName(name) {
-        let url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
-    let checkinDateParam = getParameterByName('checkin_date');
-    if (checkinDateParam) {
-        // URL 파라미터로 넘어온 checkin_date를 Date 객체로 변환
-        let checkinDate = new Date(checkinDateParam);
-        let minCheckoutDate = new Date(checkinDate);
-        minCheckoutDate.setDate(checkinDate.getDate() + 1);
-
-        // 퇴실일 달력의 최소 날짜 설정
-        $("#checkout_date").datepicker({
-            dateFormat: 'yy-mm-dd',
-            minDate: minCheckoutDate
-        });
-
-        // 입실일 필드에도 해당 날짜를 설정 (필요한 경우)
-        $("#checkin_date").val(checkinDateParam);
-    }
-
-    // 입실일 선택 시 이벤트 처리
-    $("#checkin_date").datepicker({
-        dateFormat: 'yy-mm-dd',
-        onSelect: function(selectedDate) {
-            let checkinDate = new Date(selectedDate);
-            let minCheckoutDate = new Date(checkinDate);
-            minCheckoutDate.setDate(checkinDate.getDate() + 1);
-
-            // 퇴실일 달력의 최소 날짜 설정
-            $("#checkout_date").datepicker("option", "minDate", minCheckoutDate);
-            $("#checkout_date").val(""); // 이전 날짜가 남아 있을 수 있으므로 초기화
-        }
-    });
-
-    // 퇴실일 달력 설정
-    $("#checkout_date").datepicker({
-        dateFormat: 'yy-mm-dd'
-    });
-    
-    
-    
-    
-    
+	
     // 체크된 시설의 예약 가능한 날짜 가져오기
     function fetchAvailableDatesForCheckedFacility() {
         let selectedFacilityType = $("input[name='facility_type']:checked").val();
@@ -165,6 +115,47 @@ $(document).ready(function() {
     // 시설 타입이 변경될 때 이벤트 발생
     $("input[name='facility_type']").change(function() {
         fetchAvailableDatesForCheckedFacility();
+    });
+    
+    
+    
+    // URL 파라미터에서 checkin_date 값을 가져오기
+    function getParameterByName(name) {
+        let url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    let checkinDateParam = getParameterByName('checkin_date');
+    if (checkinDateParam) {
+        let checkinDate = new Date(checkinDateParam);
+        let minCheckoutDate = new Date(checkinDate);
+        minCheckoutDate.setDate(checkinDate.getDate() + 1);
+
+        $("#checkout_date").datepicker("option", "minDate", minCheckoutDate);
+        $("#checkin_date").val(checkinDateParam);
+    }
+
+    // 입실일 선택 시 이벤트 처리
+    $("#checkin_date").datepicker({
+        dateFormat: 'yy-mm-dd',
+        onSelect: function(selectedDate) {
+            let checkinDate = new Date(selectedDate);
+            let minCheckoutDate = new Date(checkinDate);
+            minCheckoutDate.setDate(checkinDate.getDate() + 1);
+
+            $("#checkout_date").datepicker("option", "minDate", minCheckoutDate);
+            $("#checkout_date").val(""); // 이전 날짜가 남아 있을 수 있으므로 초기화
+        }
+    });
+
+    // 퇴실일 달력 설정
+    $("#checkout_date").datepicker({
+        dateFormat: 'yy-mm-dd'
     });
  
 });

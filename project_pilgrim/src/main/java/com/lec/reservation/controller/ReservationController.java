@@ -13,6 +13,7 @@ import com.lec.common.Action;
 import com.lec.common.ActionForward;
 import com.lec.reservation.action.AvailableFacilitiesAction;
 import com.lec.reservation.action.AvailableFacilityDatesAction;
+import com.lec.reservation.action.AvailableRoomDatesAction;
 import com.lec.reservation.action.AvailableRoomsAction;
 import com.lec.reservation.action.FacilityAction;
 import com.lec.reservation.action.RoomAction;
@@ -64,6 +65,9 @@ public class ReservationController extends HttpServlet {
 			forward = action.execute(req, res); 
 		} else if(command.equalsIgnoreCase("availableFacilityDates")) {
 			action = new AvailableFacilityDatesAction();
+			forward = action.execute(req, res); 
+		}  else if(command.equalsIgnoreCase("availableRoomDates")) {
+			action = new AvailableRoomDatesAction();
 			forward = action.execute(req, res); 
 		} 
 		

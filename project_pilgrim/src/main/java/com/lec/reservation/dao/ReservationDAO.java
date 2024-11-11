@@ -257,6 +257,61 @@ public class ReservationDAO {
    	    return availableRoomsMap;
    	}
 
+   	
+ // 8. 선택한 룸의 예약 가능한 날짜
+   	public List<String> getAvailableDatesByRoom(String roomType) {
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+   	    List<String> availableDates = new ArrayList<>();
+
+   	    try {
+   	        // SQL 쿼리: 특정 시설의 예약 가능한 날짜를 조회
+   	        String sql = "SELECT available_dates.date AS available_date\r\n"
+   	        		+ "FROM (\r\n"
+   	        		+ "    SELECT CURDATE() + INTERVAL num DAY AS date\r\n"
+   	        		+ "    FROM number_table\r\n"
+   	        		+ "    WHERE num BETWEEN 0 AND 92\r\n"
+   	        		+ ") available_dates\r\n"
+   	        		+ "LEFT JOIN (\r\n"
+   	        		+ "    SELECT DATE_ADD(fr.checkin_date, INTERVAL n.num DAY) AS reserved_date, fr.room_type\r\n"
+   	        		+ "    FROM room_reservation fr\r\n"
+   	        		+ "    JOIN number_table n ON DATE_ADD(fr.checkin_date, INTERVAL n.num DAY) < fr.checkout_date\r\n"
+   	        		+ "    WHERE fr.room_type = ?\r\n"
+   	        		+ ") reservations ON available_dates.date = reservations.reserved_date\r\n"
+   	        		+ "JOIN room_info fi ON fi.room_type = ?\r\n"
+   	        		+ "WHERE reservations.reserved_date IS NULL OR (\r\n"
+   	        		+ "    (SELECT COUNT(*) FROM room_reservation fr2\r\n"
+   	        		+ "     WHERE fr2.room_type = fi.room_type\r\n"
+   	        		+ "     AND available_dates.date BETWEEN fr2.checkin_date AND DATE_SUB(fr2.checkout_date, INTERVAL 1 DAY)\r\n"
+   	        		+ "    ) < fi.total_rooms\r\n"
+   	        		+ ")\r\n"
+   	        		+ "AND available_dates.date >= CURRENT_DATE\r\n"
+   	        		+ "GROUP BY available_dates.date;\r\n";
+
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        
+   	        // 시설 유형 설정
+   	        pstmt.setString(1, roomType); // 시설 유형
+   	        pstmt.setString(2, roomType); // 시설 유형
+
+   	        rs = pstmt.executeQuery();
+
+   	        // 결과 처리
+   	        while (rs.next()) {
+   	            availableDates.add(rs.getString("available_date"));
+   	        }
+
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+
+   	    return availableDates;
+   	}
+
 
 
 
@@ -377,53 +432,14 @@ public class ReservationDAO {
    	        // SQL 쿼리: 특정 시설의 예약 가능한 날짜를 조회
    	        String sql = "SELECT available_dates.date AS available_date\r\n"
    	        		+ "FROM (\r\n"
-   	        		+ "    SELECT CURDATE() + INTERVAL seq DAY AS date\r\n"
-   	        		+ "    FROM (\r\n"
-   	        		+ "        SELECT 0 AS seq UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL\r\n"
-   	        		+ "        SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL\r\n"
-   	        		+ "        SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL\r\n"
-   	        		+ "        SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19 UNION ALL\r\n"
-   	        		+ "        SELECT 20 UNION ALL SELECT 21 UNION ALL SELECT 22 UNION ALL SELECT 23 UNION ALL SELECT 24 UNION ALL\r\n"
-   	        		+ "        SELECT 25 UNION ALL SELECT 26 UNION ALL SELECT 27 UNION ALL SELECT 28 UNION ALL SELECT 29 UNION ALL\r\n"
-   	        		+ "        SELECT 30 UNION ALL SELECT 31 UNION ALL SELECT 32 UNION ALL SELECT 33 UNION ALL SELECT 34 UNION ALL\r\n"
-   	        		+ "        SELECT 35 UNION ALL SELECT 36 UNION ALL SELECT 37 UNION ALL SELECT 38 UNION ALL SELECT 39 UNION ALL\r\n"
-   	        		+ "        SELECT 40 UNION ALL SELECT 41 UNION ALL SELECT 42 UNION ALL SELECT 43 UNION ALL SELECT 44 UNION ALL\r\n"
-   	        		+ "        SELECT 45 UNION ALL SELECT 46 UNION ALL SELECT 47 UNION ALL SELECT 48 UNION ALL SELECT 49 UNION ALL\r\n"
-   	        		+ "        SELECT 50 UNION ALL SELECT 51 UNION ALL SELECT 52 UNION ALL SELECT 53 UNION ALL SELECT 54 UNION ALL\r\n"
-   	        		+ "        SELECT 55 UNION ALL SELECT 56 UNION ALL SELECT 57 UNION ALL SELECT 58 UNION ALL SELECT 59 UNION ALL\r\n"
-   	        		+ "        SELECT 60 UNION ALL SELECT 61 UNION ALL SELECT 62 UNION ALL SELECT 63 UNION ALL SELECT 64 UNION ALL\r\n"
-   	        		+ "        SELECT 65 UNION ALL SELECT 66 UNION ALL SELECT 67 UNION ALL SELECT 68 UNION ALL SELECT 69 UNION ALL\r\n"
-   	        		+ "        SELECT 70 UNION ALL SELECT 71 UNION ALL SELECT 72 UNION ALL SELECT 73 UNION ALL SELECT 74 UNION ALL\r\n"
-   	        		+ "        SELECT 75 UNION ALL SELECT 76 UNION ALL SELECT 77 UNION ALL SELECT 78 UNION ALL SELECT 79 UNION ALL\r\n"
-   	        		+ "        SELECT 80 UNION ALL SELECT 81 UNION ALL SELECT 82 UNION ALL SELECT 83 UNION ALL SELECT 84 UNION ALL\r\n"
-   	        		+ "        SELECT 85 UNION ALL SELECT 86 UNION ALL SELECT 87 UNION ALL SELECT 88 UNION ALL SELECT 89 UNION ALL\r\n"
-   	        		+ "        SELECT 90 UNION ALL SELECT 91 UNION ALL SELECT 92\r\n"
-   	        		+ "    ) seq_table\r\n"
+   	        		+ "    SELECT CURDATE() + INTERVAL num DAY AS date\r\n"
+   	        		+ "    FROM number_table\r\n"
+   	        		+ "    WHERE num BETWEEN 0 AND 92\r\n"
    	        		+ ") available_dates\r\n"
    	        		+ "LEFT JOIN (\r\n"
    	        		+ "    SELECT DATE_ADD(fr.checkin_date, INTERVAL n.num DAY) AS reserved_date, fr.facility_type\r\n"
    	        		+ "    FROM facility_reservation fr\r\n"
-   	        		+ "    JOIN (\r\n"
-   	        		+ "        SELECT 0 AS num UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL\r\n"
-   	        		+ "        SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL\r\n"
-   	        		+ "        SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL\r\n"
-   	        		+ "        SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19 UNION ALL\r\n"
-   	        		+ "        SELECT 20 UNION ALL SELECT 21 UNION ALL SELECT 22 UNION ALL SELECT 23 UNION ALL SELECT 24 UNION ALL\r\n"
-   	        		+ "        SELECT 25 UNION ALL SELECT 26 UNION ALL SELECT 27 UNION ALL SELECT 28 UNION ALL SELECT 29 UNION ALL\r\n"
-   	        		+ "        SELECT 30 UNION ALL SELECT 31 UNION ALL SELECT 32 UNION ALL SELECT 33 UNION ALL SELECT 34 UNION ALL\r\n"
-   	        		+ "        SELECT 35 UNION ALL SELECT 36 UNION ALL SELECT 37 UNION ALL SELECT 38 UNION ALL SELECT 39 UNION ALL\r\n"
-   	        		+ "        SELECT 40 UNION ALL SELECT 41 UNION ALL SELECT 42 UNION ALL SELECT 43 UNION ALL SELECT 44 UNION ALL\r\n"
-   	        		+ "        SELECT 45 UNION ALL SELECT 46 UNION ALL SELECT 47 UNION ALL SELECT 48 UNION ALL SELECT 49 UNION ALL\r\n"
-   	        		+ "        SELECT 50 UNION ALL SELECT 51 UNION ALL SELECT 52 UNION ALL SELECT 53 UNION ALL SELECT 54 UNION ALL\r\n"
-   	        		+ "        SELECT 55 UNION ALL SELECT 56 UNION ALL SELECT 57 UNION ALL SELECT 58 UNION ALL SELECT 59 UNION ALL\r\n"
-   	        		+ "        SELECT 60 UNION ALL SELECT 61 UNION ALL SELECT 62 UNION ALL SELECT 63 UNION ALL SELECT 64 UNION ALL\r\n"
-   	        		+ "        SELECT 65 UNION ALL SELECT 66 UNION ALL SELECT 67 UNION ALL SELECT 68 UNION ALL SELECT 69 UNION ALL\r\n"
-   	        		+ "        SELECT 70 UNION ALL SELECT 71 UNION ALL SELECT 72 UNION ALL SELECT 73 UNION ALL SELECT 74 UNION ALL\r\n"
-   	        		+ "        SELECT 75 UNION ALL SELECT 76 UNION ALL SELECT 77 UNION ALL SELECT 78 UNION ALL SELECT 79 UNION ALL\r\n"
-   	        		+ "        SELECT 80 UNION ALL SELECT 81 UNION ALL SELECT 82 UNION ALL SELECT 83 UNION ALL SELECT 84 UNION ALL\r\n"
-   	        		+ "        SELECT 85 UNION ALL SELECT 86 UNION ALL SELECT 87 UNION ALL SELECT 88 UNION ALL SELECT 89 UNION ALL\r\n"
-   	        		+ "        SELECT 90 UNION ALL SELECT 91 UNION ALL SELECT 92\r\n"
-   	        		+ "    ) n ON DATE_ADD(fr.checkin_date, INTERVAL n.num DAY) < fr.checkout_date\r\n"
+   	        		+ "    JOIN number_table n ON DATE_ADD(fr.checkin_date, INTERVAL n.num DAY) < fr.checkout_date\r\n"
    	        		+ "    WHERE fr.facility_type = ?\r\n"
    	        		+ ") reservations ON available_dates.date = reservations.reserved_date\r\n"
    	        		+ "JOIN facility_info fi ON fi.facility_type = ?\r\n"
@@ -434,8 +450,7 @@ public class ReservationDAO {
    	        		+ "    ) < fi.total_facilities\r\n"
    	        		+ ")\r\n"
    	        		+ "AND available_dates.date >= CURRENT_DATE\r\n"
-   	        		+ "GROUP BY available_dates.date;\r\n"
-   	        		+ "";
+   	        		+ "GROUP BY available_dates.date;\r\n";
 
    	        Connection conn = JDBCUtility.getConnection();
    	        pstmt = conn.prepareStatement(sql);
@@ -457,8 +472,6 @@ public class ReservationDAO {
    	        JDBCUtility.close(null, pstmt, rs);
    	    }
 
-   	    System.out.println("Queried facility type: " + facilityType);
-   	    System.out.println("Available Dates from DB: " + availableDates);
 
    	    return availableDates;
    	}
@@ -468,7 +481,7 @@ public class ReservationDAO {
    	
    	
 
-   	// 8. 월별 가능한 세미나A 갯수
+   	// 9. 월별 가능한 세미나A 갯수
    	public Map<String, Integer> getAvailableSeminarAByMonth(int year, int month) {
    	    Map<String, Integer> availableSeminarAMap = new HashMap<>();
    	    PreparedStatement pstmt = null;
