@@ -72,7 +72,7 @@
 	                    체크아웃 날짜: <%= roomReservation.getCheckout_date() %><br>
 	                    객실 타입: <%= roomReservation.getRoom_type() %><br>
 	                    예약 일시 :  <%= roomReservation.getReg_date() %><br>
-	                    <a href="#none" class="res_cancel">예약취소</a>
+	                    <a href="qna_write.jsp" class="res_cancel">예약취소</a>
 	                    <hr>
 	        <%
 	                }
@@ -101,7 +101,7 @@
 	                    신청 인원: <%= seminarReservation.getGuest_count() %><br>
 	                    신청 날짜: <%= seminarReservation.getSeminar_date() %><br>
 	                    예약 일시 :  <%= seminarReservation.getReg_date() %><br>
-	                    <a href="#none" class="res_cancel">예약취소</a>
+	                    <a href="qna_write.jsp" class="res_cancel">예약취소</a>
 	                     <hr>
 	        <%
 	                }
@@ -129,7 +129,7 @@
 	                    체크인 날짜: <%= facilityReservation.getCheckin_date() %><br>
 	                    체크아웃 날짜: <%= facilityReservation.getCheckout_date() %><br>
 	                    예약 일시 :  <%= facilityReservation.getReg_date() %><br>
-	                    <a href="#none" class="res_cancel">예약취소</a>
+	                    <a href="qna_write.jsp" class="res_cancel">예약취소</a>
 	                    
 	                    <hr>
 	        <%

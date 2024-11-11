@@ -1,4 +1,4 @@
-package com.lec.member.vo;
+package com.lec.common;
 
 public class PageInfo {
 	

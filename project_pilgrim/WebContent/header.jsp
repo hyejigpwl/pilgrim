@@ -30,7 +30,7 @@
 							<ul class="submenu">
 								<li><a>시설 및 사용요금</a></li>
 								<li><a href="rvn_rqt.jsp">예약신청</a></li>
-								<li><a>예약문의 및 취소</a></li>
+								<li><a href="qnaList.qa">예약문의 및 취소</a></li>
 								<li><a href="my_page.jsp">나의 예약</a></li>
 							</ul>
 						</li>
