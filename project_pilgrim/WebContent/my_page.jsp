@@ -21,7 +21,9 @@
     <title>나의 예약</title>
 </head>
 <%@include file="header.jsp"%>
-
+<div class="sub_top">
+	<h3>나의 예약</h3>
+</div>
 <%
     // 세션에서 로그인된 사용자 정보 가져오기
     String member_id = (String) session.getAttribute("member_id");
@@ -44,7 +46,7 @@
     List<FacilityReservationVO> facilityReservationList = facilityReservationService.getReservationsForMember(member_id);
 %>
 
-<div id="container" class="container my_page">
+<div  class="container my_page">
 	<div class="title_wrap">
 		
 		<h2><%= member_id %>님 환영합니다.</h2>

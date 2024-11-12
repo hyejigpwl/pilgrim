@@ -62,12 +62,17 @@
 <title>예약신청</title>
 </head>
 <%@include file="header.jsp"%>
+<div class="sub_top">
+	<h3>예약신청</h3>
+</div>
 <div id="container" class="calendar container">
 	<!-- <ul class="actions two_btn">
 		<li><a href="seminar_rqt.jsp" class="button special big">천로역정 세미나 예약</a></li>
 		<li><a href="room_rqt.jsp" class="button big">객실 예약</a></li>
 		<li><a href="facility_rqt.jsp" class="button big">시설 예약</a></li>
 	</ul>-->
+	
+	
 
 	<div class="title">
 		<a href="rvn_rqt.jsp?year=<%=year%>&month=<%=month-1%>">&lt;</a>

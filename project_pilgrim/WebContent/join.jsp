@@ -22,7 +22,7 @@
         <form method="post" action="joinForm.mb" id="login-form">
             <!-- 아이디 -->
             <label for="member_id">아이디</label>
-            <div style="display: flex;">
+            <div style="display: flex; margin-bottom:1em;">
                 <input type="text" id="member_id" name="member_id" placeholder="아이디를 입력하세요" required>
                 <button type="button" id="check-id-btn">중복 확인</button>
             </div>

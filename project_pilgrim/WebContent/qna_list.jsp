@@ -21,11 +21,13 @@
 <title>예약문의 및 취소</title>
 </head>
 <%@include file="header.jsp"%>
+<div class="sub_top">
+	<h3>예약문의 및 취소</h3>
+</div>
 <div class="container mt-sm-5 qna_page" align="center">
 		<div class="jumbotron">
-			<h3>예약문의 및 취소</h3>
 			<c:if test="${ qnaList.isEmpty() }">
-				<h5><p class="bg-danger text-white">등록된 게시글이 없습니다!!!</p></h5>
+				<h5><p class="bg-danger text-white">등록된 게시글이 없습니다.</p></h5>
 			</c:if>
 		</div>
 		
@@ -56,36 +58,39 @@
 			<tbody>
 			<c:forEach var="qna" items="${ qnaList }">
 				<tr>
-					<td class="bno">${ qna.getBno() }</td>
-					<td class="title">
-						<a href="qnaDetail.qa?p=${ param.p }&bno=${ qna.getBno() }">${ qna.getTitle() }</a>
-						<span class="badge badge-danger ml-sm-3"> ${ qna.getView_count() }</span>	
-						<c:if test="${ !empty qna.getFile()}">
-							<i class="fas fa-file-download"> <!-- ${qna.getFile() }--></i>
-						</c:if>
-					</td>
-					<td class="member_id">${ qna.getMember_id() }</td>
-					<td class="date">${ qna.getDate() }</td>
-					<!-- <td align="center">
-						<c:if test="${ !empty qna.getFile()}">
-							<a href="download.qa?bno=${qna.getBno() }&fn=${qna.getFile()}">
-								<i class="fas fa-file-download"> ${qna.getFile() }</i>
-							</a>
-						</c:if>
-				
-					</td>-->
-					<!-- <td align="center">
-						<a href="qnaDelete.qa?p=${param.p}&bno=${ qna.getBno() }"><i class="fas fa-trash-alt"></i></a>
-					</td>-->
-				</tr>
+			        <td class="bno">${ qna.getBno() }</td>
+			        <td class="title">
+			        	<c:set var="sessionMemberId" value="${sessionScope.member_id}" />
+						<c:set var="isAdmin" value="${sessionMemberId == '관리자'}" />
+			            <c:choose>
+			                <c:when test="${ qna.getMember_id() == sessionMemberId || isAdmin }">
+			                    <!-- ID가 같거나 관리자인 경우 링크 활성화 -->
+			                    <a href="qnaDetail.qa?p=${ param.p }&bno=${ qna.getBno() }">${ qna.getTitle() }</a>
+			                </c:when>
+			                <c:otherwise>
+			                    <!-- ID가 다르고 관리자가 아닌 경우 경고 메시지 -->
+			                    <a href="#" onclick="alert('접근권한이 없습니다'); return false;">${ qna.getTitle() }</a>
+			                </c:otherwise>
+			            </c:choose>
+			            <span class="badge badge-danger ml-sm-3">${ qna.getView_count() }</span>
+			            <c:if test="${ !empty qna.getFile() }">
+			                <i class="fas fa-file-download"></i>
+			            </c:if>
+			            <img class="lock" src="./assets/images/lock.png" alt="">
+			        </td>
+			        <td class="member_id">${ qna.getMember_id() }</td>
+			        <td class="date">${ qna.getDate() }</td>
+			    </tr>
 			</c:forEach>
+
+
 			</tbody>
 		</table>
-		<a href="qnaWriteForm.qa?p=${ param.p }" class="button btn btn-primary col-sm-1 login-btn">글쓰기</a>
+		<a href="qnaWriteForm.qa?p=${ param.p }" class="button btn btn-primary col-sm-1 login-btn small">글쓰기</a>
 	</div>
 	<br />
 	
-	<div class="container" align="center">
+	<div class="pagination_wrap" align="center">
 		<ul class="pagination justify-content-center">
 			<c:if test="${ pageInfo.getStartPage() != 1 }">
 				<li class="page-item page-link"><a href="qnaList.qa?p=1"><i class="fas fa-fast-backward"></i></a></li>

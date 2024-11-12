@@ -58,8 +58,8 @@
 					</div>
 				</section>--><!-- Two --><section id="two" class="wrapper style2 special"><div class="container">
 				
-				<ul class="actions two_btn"><li><a href="#" class="button special big">천로역정 세미나 예약</a></li>
-							<li><a href="#" class="button big">객실 예약</a></li>
+				<ul class="actions two_btn"><li><a href="seminar_rqt.jsp" class="button special big">천로역정 세미나 예약</a></li>
+							<li><a href="room_rqt.jsp" class="button big">객실 예약</a></li>
 						</ul>
 						<header class="major"><h2>Pilgrim House</h2>
 							<p><strong>침묵과 독거</strong>는 우리의 존재 양식이요.<br> 우리의 비전은 <strong>세상의 희망.묵상과행동</strong>입니다.</p>

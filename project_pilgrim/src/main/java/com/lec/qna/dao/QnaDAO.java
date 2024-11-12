@@ -32,40 +32,35 @@ public class QnaDAO {
 	}
 	
 	// 1. 글쓰기
+	// 1. 글쓰기
 	public int insert(QnaVO qna) {
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "insert into qna(bno, member_id, date, title, content, file, "
-				   + " view_count) "
-				   + " values(?,?,now(),?,?,?,?)";
-		int insertCount = 0;
-		int bno = 0;
-		
-		try {
-			pstmt = conn.prepareStatement("select max(bno) from qna");
-			rs = pstmt.executeQuery();
-			if(rs.next()) bno = rs.getInt(1) + 1;
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, bno);
-			pstmt.setString(2, qna.getMember_id());
-			pstmt.setString(3, qna.getTitle());
-			pstmt.setString(4, qna.getContent());
-			pstmt.setString(5, qna.getFile());
-			pstmt.setInt(6, qna.getView_count());
-			insertCount = pstmt.executeUpdate();
-			
-			
-		} catch (Exception e) {
-			System.out.println("게시글등록실패!!!");
-			System.out.println(qna.getMember_id());
-			e.printStackTrace();
-		} finally {
-			JDBCUtility.close(null, pstmt, rs);
-		}
-		return insertCount;
+	    
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql = "INSERT INTO qna (member_id, date, title, content, file, view_count) "
+	               + "VALUES (?, NOW(), ?, ?, ?, ?)";
+	    int insertCount = 0;
+	    
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, qna.getMember_id());
+	        pstmt.setString(2, qna.getTitle());
+	        pstmt.setString(3, qna.getContent());
+	        pstmt.setString(4, qna.getFile());
+	        pstmt.setInt(5, qna.getView_count());
+	        
+	        insertCount = pstmt.executeUpdate();
+	        
+	    } catch (Exception e) {
+	        System.out.println("게시글 등록 실패!!!");
+	        System.out.println(qna.getMember_id());
+	        e.printStackTrace();
+	    } finally {
+	        JDBCUtility.close(null, pstmt, rs);
+	    }
+	    return insertCount;
 	}
+
 	
 	// 2. 글갯수구하기
 	public int selectListCount(String f, String q) {

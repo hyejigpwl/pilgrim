@@ -20,6 +20,9 @@
 <title>게시글 상세</title>
 </head>
 <%@include file="header.jsp"%>
+<div class="sub_top">
+	<h3>예약문의 및 취소</h3>
+</div>
 <div class="container">
 	<div class="bn-view-common01 type01 ">
 	<input type="hidden" name="articleNo" value="50433" />
@@ -60,14 +63,62 @@
 		<div class="b-content-box">
 			${qna.getContent() }
 		</div>
+		
+		
 	</div>
 </div>
 
-	<a href="qnaModifyForm.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">수정</a>
-			<a href="qnaDelete.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">삭제</a>
-			<!-- <a href="qnaReplyForm.do?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">답변</a> -->
-			<a href="qnaList.qa?p=${ param.p }" class="button btn btn-success mr-sm-3 login-btn">글목록</a>
+
+<!--  댓글 -->
+<div class="comments-section">
+    <!-- 댓글 목록 -->
+    <div class="comments-list">
+        <div class="comment">
+            <div class="comment-author">User1</div>
+            <div class="comment-date">2024-11-12 16:20:58</div>
+            <div class="comment-content">이것은 댓글 내용입니다.</div>
+        </div>
+        <div class="comment">
+            <div class="comment-author">User2</div>
+            <div class="comment-date">2024-11-12 16:30:00</div>
+            <div class="comment-content">이것은 또 다른 댓글입니다.</div>
+        </div>
+        <!-- 더 많은 댓글이 있을 수 있음 -->
+    </div>
+
+    <!-- 댓글 입력 창 -->
+    <div class="comment-input">
+        <textarea placeholder="댓글을 입력하세요..." rows="3"></textarea>
+        <button class="button small">댓글 달기</button>
+    </div>
 </div>
+
+
+
+	<%-- 로그인한 사용자 ID 가져오기 --%>
+<%-- 로그인한 사용자 ID 가져오기 --%>
+<c:set var="sessionMemberId" value="${sessionScope.member_id}" />
+<c:set var="isAdmin" value="${sessionMemberId == '관리자'}" />
+
+<!-- 삭제 버튼: 관리자이거나 작성자 본인인 경우 -->
+<c:if test="${ qna.getMember_id() == sessionMemberId || isAdmin }">
+    <a href="qnaDelete.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">삭제</a>
+</c:if>
+
+<!-- 수정 버튼: 작성자 본인인 경우에만 -->
+<c:if test="${ qna.getMember_id() == sessionMemberId }">
+    <a href="qnaModifyForm.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">수정</a>
+</c:if>
+
+<!-- 글 목록 버튼 -->
+<a href="qnaList.qa?p=${ param.p }" class="button btn btn-success mr-sm-3 login-btn">글목록</a>
+
+
+
+
+
+</div>
+
 
 
 
