@@ -74,22 +74,21 @@
     <!-- 댓글 목록 -->
     <div class="comments-list">
         <div class="comment">
-            <div class="comment-author">User1</div>
-            <div class="comment-date">2024-11-12 16:20:58</div>
-            <div class="comment-content">이것은 댓글 내용입니다.</div>
-        </div>
-        <div class="comment">
-            <div class="comment-author">User2</div>
-            <div class="comment-date">2024-11-12 16:30:00</div>
-            <div class="comment-content">이것은 또 다른 댓글입니다.</div>
+            <div class="comment-author">${reply.getMember_id() }</div>
+            <div class="comment-date">${reply.getDate() }</div>
+            <div class="comment-content">${reply.getContent() }</div>
         </div>
         <!-- 더 많은 댓글이 있을 수 있음 -->
     </div>
 
-    <!-- 댓글 입력 창 -->
+   <!-- 댓글 입력 창 -->
     <div class="comment-input">
-        <textarea placeholder="댓글을 입력하세요..." rows="3"></textarea>
-        <button class="button small">댓글 달기</button>
+        <form action="qnaReply.qa" method="post">
+            <!-- 게시글 ID를 서버로 보내기 위한 hidden 필드 -->
+            <input type="hidden" name="bno" value="${qna.bno}">
+            <textarea name="content" placeholder="댓글을 입력하세요..." rows="3" required></textarea>
+            <button type="submit" class="button small">댓글 달기</button>
+        </form>
     </div>
 </div>
 

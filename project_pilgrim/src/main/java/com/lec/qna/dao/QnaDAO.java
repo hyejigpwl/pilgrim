@@ -3,6 +3,7 @@ package com.lec.qna.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.sql.DataSource;
 
 
 import com.lec.db.JDBCUtility;
+import com.lec.qna.vo.QnaReplyVO;
 import com.lec.qna.vo.QnaVO;
 
 public class QnaDAO {
@@ -245,35 +247,56 @@ public class QnaDAO {
 	}
 	
 	// 9. 댓글작성하기
-	/*
-	 * public int insertReplyQna(QnaVO qna) {
-	 * 
-	 * int insertCount = 0;
-	 * 
-	 * PreparedStatement pstmt = null; ResultSet rs = null; String sql =
-	 * "update qna set re_seq = re_seq + 1 " + " where re_ref = ? and re_seq > ?";
-	 * 
-	 * int bno = 0; int re_ref = qna.getRe_ref(); int re_lev = qna.getRe_lev(); int
-	 * re_seq = qna.getRe_seq();
-	 * 
-	 * try { pstmt = conn.prepareStatement("select max(bno) from board"); rs =
-	 * pstmt.executeQuery(); if(rs.next()) bno = rs.getInt(1) + 1;
-	 * 
-	 * // 원글수정 pstmt = conn.prepareStatement(sql); pstmt.setInt(1, re_ref);
-	 * pstmt.setInt(2, re_seq); int updateCount = pstmt.executeUpdate();
-	 * if(updateCount > 0) JDBCUtility.commit(conn);
-	 * 
-	 * // 댓글등록 re_lev += 1; re_seq += 1; sql =
-	 * "insert into board(bno, writer, pass, subject, content, file, " +
-	 * " re_ref, re_lev, re_seq, readcount, crtdate) " +
-	 * " values(?,?,?,?,?,?,?,?,?,?,now())";
-	 * 
-	 * pstmt = conn.prepareStatement(sql); pstmt.setInt(1, bno); pstmt.setString(2,
-	 * qna.getWriter()); pstmt.setString(3, qna.getPass()); pstmt.setString(4,
-	 * qna.getSubject()); pstmt.setString(5, qna.getContent()); pstmt.setString(6,
-	 * ""); pstmt.setInt(7, re_ref); pstmt.setInt(8, re_lev); pstmt.setInt(9,
-	 * re_seq); pstmt.setInt(10, 0); insertCount = pstmt.executeUpdate(); } catch
-	 * (Exception e) { System.out.println("댓글등록실패!!! "+ e.getMessage()); } finally {
-	 * JDBCUtility.close(null, pstmt, rs); } return insertCount; }
-	 */
+	 public boolean insertReply(QnaReplyVO reply) {
+	        PreparedStatement pstmt = null;
+	        boolean isInsertSuccess = false;
+	        String sql = "INSERT INTO qna_comment (bno, member_id, content, date) VALUES (?, ?, ?, NOW())";
+	        
+	        try {
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setInt(1, reply.getBno());
+	            pstmt.setString(2, reply.getMember_id());
+	            pstmt.setString(3, reply.getContent());
+	            int result = pstmt.executeUpdate();
+	            
+	            if (result > 0) {
+	                isInsertSuccess = true;
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            JDBCUtility.close(null,pstmt,null);
+	        }
+	        
+	        return isInsertSuccess;
+	    }
+	 
+	 // 10. 댓글 목록보기
+	 public List<QnaReplyVO> getRepliesByBno(int bno) {
+		    List<QnaReplyVO> replyList = new ArrayList<>();
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    String sql = "SELECT * FROM qna_comment WHERE bno = ? ORDER BY date DESC";
+		    
+		    try {
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setInt(1, bno);
+		        rs = pstmt.executeQuery();
+		        
+		        while (rs.next()) {
+		            QnaReplyVO reply = new QnaReplyVO();
+		            reply.setComment_id(rs.getInt("comment_id"));
+		            reply.setBno(rs.getInt("bno"));
+		            reply.setMember_id(rs.getString("member_id"));
+		            reply.setContent(rs.getString("content"));
+		            reply.setDate(rs.getTimestamp("date"));
+		            replyList.add(reply);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        JDBCUtility.close(null, pstmt, rs);
+		    }
+		    return replyList;
+		}
 }

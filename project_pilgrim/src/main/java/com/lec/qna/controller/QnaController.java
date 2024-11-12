@@ -64,13 +64,10 @@ public class QnaController extends HttpServlet {
 		} else if(command.equalsIgnoreCase("qnaDelete")) {
 			action = new QnaDeleteAction();
 			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("qnaReplyForm")) {
-			action = new QnaReplyFormAction();
-			forward = action.execute(req, res);
-		} /*
-			 * else if(command.equalsIgnoreCase("boardReply")) { action = new
-			 * QnaReplyAction(); forward = action.execute(req, res); }
-			 */else if(command.equalsIgnoreCase("download")) {
+		} else if(command.equalsIgnoreCase("qnaReply")) { 
+			action = new QnaReplyAction(); 
+			forward = action.execute(req, res); 
+		 } else if(command.equalsIgnoreCase("download")) {
 			forward = new ActionForward();
 			forward.setPath("/qna_download.jsp");
 		} else if(command.equalsIgnoreCase("error")) {
