@@ -1,9 +1,11 @@
 package com.lec.qna.action;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.lec.qna.service.QnaDeleteService;
 import com.lec.common.Action;
@@ -18,30 +20,31 @@ public class QnaDeleteAction implements Action {
 		boolean isWriter = false;
 		boolean isDeleteSuccess = false;
 		
+		HttpSession session = req.getSession();
+        String member_id = (String) session.getAttribute("member_id");
+		
 		int p = Integer.parseInt(req.getParameter("p"));
 		int bno = Integer.parseInt(req.getParameter("bno"));
 		
 		QnaDeleteService qnaDeleteService = QnaDeleteService.getInstance();
-		isWriter = qnaDeleteService.isQnaWriter(bno, req.getParameter("member_id"));
+		isWriter = qnaDeleteService.isQnaWriter(bno, member_id);
 		String msg = "";
 		
 		if(isWriter) {
 			isDeleteSuccess = qnaDeleteService.deleteQna(bno);
 			
 			if(isDeleteSuccess) {
-				forward = new ActionForward();
-				forward.setRedirect(true);
-				forward.setPath(String.format("qnaList.qa?p=%d", p));				
-			} else {
+				msg = "게시글이 삭제되었습니다.";
+				res.setContentType("text/html; charset=utf-8");
+				PrintWriter out;
 				try {
-					msg = "게시글 삭제 실패!!!";
-					res.setContentType("text/html; charset=utf-8");
-					PrintWriter out = res.getWriter();
-					out.println("<script>");
-					out.println("  alert('" + msg + "')");
-					out.println("  history.back()");
-					out.println("</script>");					
-				} catch (Exception e) {
+					 out = res.getWriter();
+			            out.println("<script>");
+			            out.println("  alert('" + msg + "');");
+			            out.println("  location.href='qnaList.qa?p=" + p + "';");
+			            out.println("</script>");	
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

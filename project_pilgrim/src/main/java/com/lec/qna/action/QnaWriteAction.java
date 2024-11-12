@@ -1,5 +1,6 @@
 package com.lec.qna.action;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -58,9 +59,19 @@ public class QnaWriteAction implements Action {
 		boolean isWriteSuccess = qnaWriteService.registerQna(qna);
 			
 			if(isWriteSuccess) {
-				forward = new ActionForward();
-				forward.setRedirect(true);
-				forward.setPath("qnaList.qa");
+				String msg = "게시글이 작성되었습니다.";
+				res.setContentType("text/html; charset=utf-8");
+				PrintWriter out;
+				try {
+					 out = res.getWriter();
+			            out.println("<script>");
+			            out.println("  alert('" + msg + "');");
+			            out.println("  location.href='qnaList.qa';");
+			            out.println("</script>");	
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				res.setContentType("text/html; charset=utf-8");
 				PrintWriter out = res.getWriter();

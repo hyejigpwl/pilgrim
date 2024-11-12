@@ -21,9 +21,9 @@
 <title>예약문의 및 취소</title>
 </head>
 <%@include file="header.jsp"%>
-<div class="container mt-sm-5" align="center">
+<div class="container mt-sm-5 qna_page" align="center">
 		<div class="jumbotron">
-			<h3>게시글목록조회</h3>
+			<h3>예약문의 및 취소</h3>
 			<c:if test="${ qnaList.isEmpty() }">
 				<h5><p class="bg-danger text-white">등록된 게시글이 없습니다!!!</p></h5>
 			</c:if>
@@ -37,8 +37,7 @@
 				</select>
 				<input type="text" name="q" class="form-control col-sm-8 mr-sm-2" value="${ param.q }"
 					placeholder="검색어를 입력하세요!!!"/>
-				<button type="submit" class="btn btn-primary col-sm-1 mr-sm-2 login-btn">검색</button>
-				<a href="qnaWriteForm.qa?p=${ param.p }" class="btn btn-success col-sm-1 login-btn">글쓰기</a>
+				<button type="submit" class="btn btn-primary col-sm-1 mr-sm-2 login-btn search_btn">검색</button>
 			</div>
 		</form>
 		<br class="mt-sm-5" />
@@ -46,39 +45,43 @@
 		<table class="table table-bordered table-striped table-hover">
 			<thead class="table-dark" align="center">
 				<tr>
-					<th width="10%">글번호</th>
-					<th width="35%">제목</th>
-					<th width="10%">작성자</th>
-					<th width="10%">등록일</th>
-					<th width="25%">파일</th>
-					<th width="10%">삭제</th>				
+					<th width="5%">번호</th>
+					<th width="55%">제목</th>
+					<th width="20%">작성자</th>
+					<th width="20%">등록일</th>
+					<!--<th width="10%">파일</th>
+					 <th width="15%">삭제</th> -->			
 				</tr>
 			</thead>
 			<tbody>
 			<c:forEach var="qna" items="${ qnaList }">
 				<tr>
-					<td>${ qna.getBno() }</td>
-					<td>
+					<td class="bno">${ qna.getBno() }</td>
+					<td class="title">
 						<a href="qnaDetail.qa?p=${ param.p }&bno=${ qna.getBno() }">${ qna.getTitle() }</a>
-						<span class="badge badge-danger ml-sm-3"> ${ qna.getView_count() }</span>						
+						<span class="badge badge-danger ml-sm-3"> ${ qna.getView_count() }</span>	
+						<c:if test="${ !empty qna.getFile()}">
+							<i class="fas fa-file-download"> <!-- ${qna.getFile() }--></i>
+						</c:if>
 					</td>
-					<td>${ qna.getMember_id() }</td>
-					<td>${ qna.getDate() }</td>
-					<td align="center">
+					<td class="member_id">${ qna.getMember_id() }</td>
+					<td class="date">${ qna.getDate() }</td>
+					<!-- <td align="center">
 						<c:if test="${ !empty qna.getFile()}">
 							<a href="download.qa?bno=${qna.getBno() }&fn=${qna.getFile()}">
 								<i class="fas fa-file-download"> ${qna.getFile() }</i>
 							</a>
 						</c:if>
 				
-					</td>
-					<td align="center">
+					</td>-->
+					<!-- <td align="center">
 						<a href="qnaDelete.qa?p=${param.p}&bno=${ qna.getBno() }"><i class="fas fa-trash-alt"></i></a>
-					</td>
+					</td>-->
 				</tr>
 			</c:forEach>
 			</tbody>
 		</table>
+		<a href="qnaWriteForm.qa?p=${ param.p }" class="button btn btn-primary col-sm-1 login-btn">글쓰기</a>
 	</div>
 	<br />
 	
