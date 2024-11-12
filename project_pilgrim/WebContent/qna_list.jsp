@@ -44,7 +44,7 @@
 		
 		<table class="table table-bordered table-striped table-hover">
 			<thead class="table-dark" align="center">
-				<tr>
+				<tr style="display:none;">
 					<th width="5%">번호</th>
 					<th width="55%">제목</th>
 					<th width="20%">작성자</th>

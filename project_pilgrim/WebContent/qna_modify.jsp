@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,52 +17,60 @@
 <script src="assets/js/skel.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/header.js"></script>
-<title>예약문의 글쓰기</title>
+<title>게시글 수정</title>
 </head>
-
 <%@include file="header.jsp"%>
-<div class="container" align="center">
+	<div class="container mt-sm-5" align="center">
 		<div class="jumbotron">
-			<h3>게시판글쓰기</h3>
-			<p>게시판글쓰기 페이지 입니다!! 글을 작성해 주세요!!</p>
-		</div>	
+			<h3>게시글수정하기</h3>
+		</div>
 		
-		<form action="qnaWrite.qa" method="post" 
-			name="qnaForm" enctype="multipart/form-data">
-			
+		<form action="qnaModify.qa" method="post" 
+				name="qnaForm" enctype="multipart/form-data">
+			<input type="hidden" name="p" value="${ param.p }"/>
+			<input type="hidden" name="bno" value="${ qna.getBno() }"/>
+								
 			<div class="form-group input-group">
 				<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-clipboard"></i></span></div>
-				<input type="text" class="form-control" name="title" id="title" value="게시글제목" required placeholder="게시글 제목을 입력하세요..."/>
+				<input type="text" class="form-control" name="title" id="title" value="${ qna.getTitle() }"/>
 			</div>
 			
 			<div class="form-group input-group">
 				<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-comment-dots"></i></span></div>
-				<textarea name="content" id="content" cols="40" rows="15" class="form-control" required placeholder="상세내용을 입력하세요!!!">상세글내용...</textarea>
-			</div>
+				<textarea name="content" id="content" cols="40" rows="15" class="form-control" >${ qna.getContent() }</textarea>
+			</div>	
 			
 			<div class="form-group input-group">
+				<c:choose>
+					<c:when test="${ !empty qna.getFile() }">
+						<c:set var="choose_file" value="${ qna.getFile() }"/>
+					</c:when>
+					<c:otherwise>
+						<c:set var="choose_file" value="업로드할 파일을 선택하세요"/>
+					</c:otherwise>
+				</c:choose>
 				<div class="form-group input-group">
 					<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-file-alt"></i></span></div>
 					<div class="custom-file">
-						<label for="file" class="custom-file-label" style="text-align: left;">업로드할 파일을 선택하세요!!</label>
+						<label for="file" class="custom-file-label" style="text-align: left;">${ choose_file }</label>
 						<input type="file" class="custom-file-input" id="file" name="file"/>
-					</div>	
+					</div>
 				</div>
 				
 				<div class="form-group input-group mt-md-5 justify-content-center">
-					<input type="submit" class="btn btn-success float-right login-btn" value="게시글등록"/>
+					<input type="submit" class="btn btn-success float-right login-btn" value="게시글수정"/>
 					<input type="reset" class="btn btn-success float-right login-btn ml-sm-2" value="새로고침"/>
 					<a href="javascript:history.go(-1)" class="btn btn-success ml-sm-2 float-right button">이전</a>
-				</div>			
+				</div>				
 			</div>		
 		</form>
 	</div>
-	<%@include file="footer.jsp"%>
-	<script>
+		<script>
 		$(".custom-file-input").on('change', function() {
 			let fileName = $(this).val().split('\\').pop(); // 파일명만선택
 			// alert(this.value + "\n" + fileName);
 			$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 		})
 	</script>
+<%@include file="footer.jsp"%>
 </html>

@@ -55,14 +55,11 @@ public class QnaController extends HttpServlet {
 		} else if(command.equalsIgnoreCase("qnaDetail")) {
 			action = new QnaDetailAction();
 			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("qnaModifyForm")) {
-			action = new QnaModifyFormAction();
-			forward = action.execute(req, res);
 		} else if(command.equalsIgnoreCase("qnaModify")) {
 			action = new QnaModifyAction();
 			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("qnaDeleteForm")) {
-			action = new QnaDeleteFormAction();
+		}else if(command.equalsIgnoreCase("qnaModifyForm")) {
+			action = new QnaModifyFormAction();
 			forward = action.execute(req, res);
 		} else if(command.equalsIgnoreCase("qnaDelete")) {
 			action = new QnaDeleteAction();

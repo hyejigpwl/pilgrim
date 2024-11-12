@@ -1,11 +1,13 @@
 package com.lec.qna.action;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.lec.common.Action;
 import com.lec.common.ActionForward;
@@ -38,7 +40,9 @@ public class QnaModifyAction implements Action {
 			
 			int p = Integer.parseInt(multi.getParameter("p"));
 			int bno = Integer.parseInt(multi.getParameter("bno"));
-			String member_id = multi.getParameter("member_id");
+			
+			HttpSession session = req.getSession();
+	        String member_id = (String) session.getAttribute("member_id");
 			
 			qna = new QnaVO();
 			QnaModifyService qnaModifyService = QnaModifyService.getInstance();
@@ -55,36 +59,48 @@ public class QnaModifyAction implements Action {
 // 				isModifySuccess = false;
 				
 				if(isModifySuccess) {
-					forward = new ActionForward();
-					forward.setRedirect(true);
-					forward.setPath(String.format("qnaDetail.qa?p=%d&bno=%d", p, bno));					
+					msg = "게시글이 수정되었습니다.";
+					res.setContentType("text/html; charset=utf-8");
+					PrintWriter out;
+					try {
+						 out = res.getWriter();
+				            out.println("<script>");
+				            out.println("  alert('" + msg + "');");
+				            out.println("  location.href='qnaList.qa';");
+				            out.println("</script>");	
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else {
-					msg = "게시글 수정 실패!!!";
+					msg = "게시글 수정 실패";
 					res.setContentType("text/html; charset=utf-8");
 					PrintWriter out = res.getWriter();
 					out.println("<script>");
 					out.println("  alert('" + msg + "')");
 					out.println("  history.back()");
 					out.println("</script>");
-					forward = new ActionForward();
-					forward.setRedirect(true);
-					forward.setPath("error.do?msg=" + URLEncoder.encode(msg, "utf-8"));	
+					/*
+					 * forward = new ActionForward(); forward.setRedirect(true);
+					 * forward.setPath("error.do?msg=" + URLEncoder.encode(msg, "utf-8"));
+					 */
 				}
 			} else {
-				msg = "게시글을 수정할 권한이 없습니다!\n 비밀번호를 확인하세요!!";
+				msg = "게시글을 수정할 권한이 없습니다.";
 				res.setContentType("text/html; charset=utf-8");
 				PrintWriter out = res.getWriter();
 				out.println("<script>");
 				out.println("  alert('" + msg + "')");
 				out.println("  history.back()");
 				out.println("</script>");
-				forward = new ActionForward();
-				forward.setRedirect(true);
-				forward.setPath("error.do?msg=" + URLEncoder.encode(msg, "utf-8"));				
+				/*
+				 * forward = new ActionForward(); forward.setRedirect(true);
+				 * forward.setPath("error.do?msg=" + URLEncoder.encode(msg, "utf-8"));
+				 */			
 			}		
 			
 		} catch (Exception e) {
-			System.out.println("게시글수정실패!!!" + e.getMessage());
+			System.out.println("게시글수정실패" + e.getMessage());
 		} 
 	
 		return forward;

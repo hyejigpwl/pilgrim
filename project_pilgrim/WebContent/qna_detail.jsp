@@ -17,7 +17,7 @@
 <script src="assets/js/skel.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/header.js"></script>
-<title></title>
+<title>게시글 상세</title>
 </head>
 <%@include file="header.jsp"%>
 <div class="container">
@@ -38,7 +38,7 @@
 					
 					<li class="b-date-box">
 						<span>작성일</span>
-						<span>${qna.getDate() })</span>
+						<span>${qna.getDate() }</span>
 					</li>
 					
 					<li class="b-hit-box">
@@ -48,7 +48,7 @@
 				</ul>
 			</div>
 		</div>
-	
+		<c:if test="${ !empty qna.getFile()}">
 		<div class="b-file-box">
 			<ul>
 				<li>
@@ -56,7 +56,7 @@
 				</li>
 			</ul>
 		</div>
-		
+		</c:if>
 		<div class="b-content-box">
 			${qna.getContent() }
 		</div>

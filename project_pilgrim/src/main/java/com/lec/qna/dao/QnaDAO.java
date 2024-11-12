@@ -211,7 +211,7 @@ public class QnaDAO {
 		int updateCount = 0;
 		
 		PreparedStatement pstmt = null;
-		String sql = "update board set title = ?, content = ?, file = ? "
+		String sql = "update qna set title = ?, content = ?, file = ? "
 				   + " where bno = ?";
 		
 		try {

@@ -23,7 +23,7 @@ public class QnaModifyFormAction implements Action {
 		
 		ActionForward forward = new ActionForward();
 		req.setAttribute("qna", qna);
-		forward.setPath(String.format("/project_pilgrim/qna_modify.jsp?p=%d&bno=%d", p, bno));
+		forward.setPath(String.format("/qna_modify.jsp?p=%d&bno=%d", p, bno));
 		return forward;
 	}
 

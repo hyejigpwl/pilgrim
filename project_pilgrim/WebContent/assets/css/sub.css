@@ -779,8 +779,7 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 
 .bn-view-common01 .b-file-box {
     padding: 15px 30px;
-    /*border-top:1px solid #dedede;*/
-    border-bottom: 1px solid #d6def2;
+  	 border-bottom: 1px solid rgba(144, 144, 144, 0.25);
 }
 
 .bn-view-common01 .b-file-box ul li {
@@ -1006,7 +1005,7 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 
 /* bn-view-common01 type01 */
 .bn-view-common01.type01 .b-main-box {
-    border-top: 2px solid #345abe;
+    border-top: solid 2px rgba(144, 144, 144, 0.25);
 }
 
 .bn-view-common01.type01 .b-main-box .b-top-box .b-title-box {
