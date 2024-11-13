@@ -38,7 +38,7 @@ public class QnaReplyService {
     
     
     
-    public static List<QnaReplyVO> getReplyList(int bno) {
+    public List<QnaReplyVO> getReplyList(int bno) {
         Connection conn = JDBCUtility.getConnection();
         QnaDAO dao = QnaDAO.getInstance();
         dao.setConnection(conn);

@@ -299,4 +299,23 @@ public class QnaDAO {
 		    }
 		    return replyList;
 		}
+	 
+	// 11. 글삭제하기
+		public int deleteReplyQna(int bno) {
+			int deleteCount = 0;
+			
+			PreparedStatement pstmt = null;
+			String sql = "delete from qna_comment where bno = ?";
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, bno);
+				deleteCount = pstmt.executeUpdate();
+			} catch (Exception e) {
+				System.out.println("댓글 삭제 실패!!! " + e.getMessage());
+			} finally {
+				JDBCUtility.close(null, pstmt, null);
+			}			
+			return deleteCount;
+		}
 }

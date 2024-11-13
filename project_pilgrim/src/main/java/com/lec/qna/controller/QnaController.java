@@ -67,6 +67,9 @@ public class QnaController extends HttpServlet {
 		} else if(command.equalsIgnoreCase("qnaReply")) { 
 			action = new QnaReplyAction(); 
 			forward = action.execute(req, res); 
+		 }  else if(command.equalsIgnoreCase("qnaReplyDelete")) { 
+			action = new QnaReplyDeleteAction(); 
+			forward = action.execute(req, res); 
 		 } else if(command.equalsIgnoreCase("download")) {
 			forward = new ActionForward();
 			forward.setPath("/qna_download.jsp");

@@ -23,13 +23,18 @@ public class QnaReplyAction implements Action {
         HttpSession session = req.getSession();
         String member_id = (String) session.getAttribute("member_id");
 
-        // URL 파라미터에서 bno 가져오기
+        // URL 파라미터에서 bno, p 가져오기
         int bno = 0;
+        int p = 1;
+        String pParam = req.getParameter("p");
         String bnoParam = req.getParameter("bno");
         System.out.println(bnoParam);
         if (bnoParam != null) {
             try {
                 bno = Integer.parseInt(bnoParam);
+                if (pParam != null) {
+                    p = Integer.parseInt(pParam);
+                }
                
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -66,7 +71,7 @@ public class QnaReplyAction implements Action {
             // 댓글이 성공적으로 추가된 경우, 게시글 상세 페이지로 이동
             forward = new ActionForward();
             forward.setRedirect(true);
-            forward.setPath("qnaDetail.qa?p=1&bno=" + bno); // 게시글 상세 페이지로 리다이렉트
+            forward.setPath("qnaDetail.qa?p=" + p + "&bno="+bno); 
         } else {
             sendErrorMessage(res, "댓글 등록에 실패했습니다.");
         }

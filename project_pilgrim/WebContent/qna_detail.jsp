@@ -81,6 +81,7 @@
             </div> 
             <div class="comment-content">${reply.content }</div> 
         </div>
+        <a href="qnaReplyDelete.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">삭제</a>
     </c:forEach>
 
    <!-- 댓글 입력 창 -->
@@ -88,6 +89,7 @@
         <form action="qnaReply.qa" method="post">
             <!-- 게시글 ID를 서버로 보내기 위한 hidden 필드 -->
             <input type="hidden" name="bno" value="${qna.bno}">
+             <input type="hidden" name="p" value="${param.p}">
             <textarea name="content" placeholder="댓글을 입력하세요..." rows="3" required></textarea>
             <button type="submit" class="button small">댓글 달기</button>
         </form>
