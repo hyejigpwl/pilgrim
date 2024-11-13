@@ -38,8 +38,8 @@ public class QnaDAO {
 	    
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
-	    String sql = "INSERT INTO qna (member_id, date, title, content, file, view_count, reply_count) "
-	               + "VALUES (?, NOW(), ?, ?, ?, ?, ?)";
+	    String sql = "INSERT INTO qna (member_id, date, title, content, file, view_count) "
+	               + "VALUES (?, NOW(), ?, ?, ?, ?)";
 	    int insertCount = 0;
 	    
 	    try {

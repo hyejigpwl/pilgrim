@@ -649,5 +649,56 @@ public class ReservationDAO {
    	}
 
 
+ // 11. 선택한 시설의 예약 가능한 날짜
+   	public List<String> getAvailableDatesBySeminar(String seminarType) {
+   	    PreparedStatement pstmt = null;
+   	    ResultSet rs = null;
+   	    List<String> availableDates = new ArrayList<>();
+
+   	    try {
+   	        // SQL 쿼리: 특정 시설의 예약 가능한 날짜를 조회
+   	        String sql = "SELECT available_dates.date AS available_date\r\n"
+   	        		+ "FROM (\r\n"
+   	        		+ "    SELECT CURDATE() + INTERVAL seq DAY AS date\r\n"
+   	        		+ "    FROM seq_table\r\n"
+   	        		+ "    WHERE seq BETWEEN 0 AND 92 -- 3개월 범위\r\n"
+   	        		+ ") AS available_dates\r\n"
+   	        		+ "LEFT JOIN (\r\n"
+   	        		+ "    SELECT seminar_date, seminar_type, SUM(guest_count) AS total_guests\r\n"
+   	        		+ "    FROM seminar_reservation\r\n"
+   	        		+ "    WHERE seminar_type = ? -- 특정 세미나 유형\r\n"
+   	        		+ "    GROUP BY seminar_date, seminar_type\r\n"
+   	        		+ ") AS reservations ON available_dates.date = reservations.seminar_date\r\n"
+   	        		+ "JOIN seminar_info ON seminar_info.seminar_type = ?\r\n"
+   	        		+ "WHERE (reservations.total_guests IS NULL OR reservations.total_guests < seminar_info.available_people)\r\n"
+   	        		+ "AND available_dates.date >= CURRENT_DATE\r\n"
+   	        		+ "GROUP BY available_dates.date;\r\n"
+   	        		+ "";
+
+   	        Connection conn = JDBCUtility.getConnection();
+   	        pstmt = conn.prepareStatement(sql);
+   	        
+   	        // 시설 유형 설정
+   	        pstmt.setString(1, seminarType); // 시설 유형
+   	        pstmt.setString(2, seminarType); // 시설 유형
+
+   	        rs = pstmt.executeQuery();
+
+   	        // 결과 처리
+   	        while (rs.next()) {
+   	            availableDates.add(rs.getString("available_date"));
+   	        }
+
+   	    } catch (Exception e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        JDBCUtility.close(null, pstmt, rs);
+   	    }
+
+
+   	    return availableDates;
+   	}
+
+
 
 }

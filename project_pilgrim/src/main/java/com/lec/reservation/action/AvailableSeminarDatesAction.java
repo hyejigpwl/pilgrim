@@ -13,16 +13,16 @@ import com.lec.common.Action;
 import com.lec.common.ActionForward;
 import com.lec.reservation.dao.ReservationDAO;
 
-public class AvailableRoomDatesAction implements Action {
+public class AvailableSeminarDatesAction implements Action {
 
     @Override
     public ActionForward execute(HttpServletRequest req, HttpServletResponse res) {
         // 클라이언트에서 room_type 파라미터 가져오기
-        String roomType = req.getParameter("seminar_type");
+        String seminarType = req.getParameter("seminar_type");
 
         // 데이터베이스에서 해당 시설의 예약 가능한 날짜 조회
         ReservationDAO dao = ReservationDAO.getInstance();
-        List<String> availableDates = dao.getAvailableDatesByRoom(roomType);
+        List<String> availableDates = dao.getAvailableDatesBySeminar(seminarType);
 
         // JSON 형식으로 변환
         JSONArray jsonArray = new JSONArray();
