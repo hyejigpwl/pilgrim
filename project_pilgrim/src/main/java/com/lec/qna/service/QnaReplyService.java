@@ -35,7 +35,10 @@ public class QnaReplyService {
         return isInsertSuccess;
     }
     
-    public List<QnaReplyVO> getReplyList(int bno) {
+    
+    
+    
+    public static List<QnaReplyVO> getReplyList(int bno) {
         Connection conn = JDBCUtility.getConnection();
         QnaDAO dao = QnaDAO.getInstance();
         dao.setConnection(conn);

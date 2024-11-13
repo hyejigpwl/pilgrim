@@ -1,5 +1,6 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,14 +73,15 @@
 <!--  댓글 -->
 <div class="comments-section">
     <!-- 댓글 목록 -->
-    <div class="comments-list">
+    <c:forEach var="reply" items="${replyList}">
         <div class="comment">
-            <div class="comment-author">${reply.getMember_id() }</div>
-            <div class="comment-date">${reply.getDate() }</div>
-            <div class="comment-content">${reply.getContent() }</div>
+            <div class="comment-author">${reply.member_id }</div> 
+            <div class="comment-date">
+                <fmt:formatDate value="${reply.date}" pattern="yyyy-MM-dd HH:mm:ss" timeZone="Asia/Seoul" />
+            </div> 
+            <div class="comment-content">${reply.content }</div> 
         </div>
-        <!-- 더 많은 댓글이 있을 수 있음 -->
-    </div>
+    </c:forEach>
 
    <!-- 댓글 입력 창 -->
     <div class="comment-input">

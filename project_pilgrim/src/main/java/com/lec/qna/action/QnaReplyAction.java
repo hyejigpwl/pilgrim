@@ -2,6 +2,7 @@ package com.lec.qna.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ public class QnaReplyAction implements Action {
         if (bnoParam != null) {
             try {
                 bno = Integer.parseInt(bnoParam);
+               
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 sendErrorMessage(res, "잘못된 게시글 번호입니다.");
@@ -39,6 +41,10 @@ public class QnaReplyAction implements Action {
             return null;
         }
 
+       
+        
+        
+        
         // 댓글 내용 가져오기
         String content = req.getParameter("content");
         if (content == null || content.trim().isEmpty()) {
