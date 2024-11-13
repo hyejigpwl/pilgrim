@@ -18,7 +18,7 @@ public class AvailableRoomDatesAction implements Action {
     @Override
     public ActionForward execute(HttpServletRequest req, HttpServletResponse res) {
         // 클라이언트에서 room_type 파라미터 가져오기
-        String roomType = req.getParameter("seminar_type");
+        String roomType = req.getParameter("room_type");
 
         // 데이터베이스에서 해당 시설의 예약 가능한 날짜 조회
         ReservationDAO dao = ReservationDAO.getInstance();

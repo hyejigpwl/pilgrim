@@ -315,6 +315,8 @@ public class ReservationDAO {
 
 
 
+
+
    	
  // 6. 일별 가능한 시설 개수 파악
    	public List<Map<String, Object>> getAvailableFacilitesByDate(String date) {
