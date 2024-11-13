@@ -117,4 +117,35 @@ public class MemberDAO {
  	    }
  	    return isAvailable;
  	}
+ 	
+ 	
+ 	// 4. 내정보 상세보기
+public MemberVO getMyInfo(String member_id) {
+		
+		MemberVO member = new MemberVO();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from member where member_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				member.setMember_id(member_id);
+				member.setName(rs.getString("name"));
+				member.setPwd(rs.getString("pwd"));
+				member.setPhone(rs.getString("phone"));
+				member.setEmail(rs.getString("email"));
+				/* member.setFile(rs.getString("file")); */
+			}
+		} catch (Exception e) {
+			System.out.println("회원정보 상세보기 실패!!! " + e.getMessage());
+		} finally {
+			JDBCUtility.close(conn, pstmt, rs);
+		}
+		return member;
+	}
+ 	
 }

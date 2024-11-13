@@ -15,10 +15,13 @@
 <title>회원가입</title>
 </head>	
 <%@include file="header.jsp"%>
+<div class="sub_top">
+	<h3>회원가입</h3>
+</div>
 <!--  html 전체 영역을 지정하는 container -->
     <div id="container" class="login_page join_page container">
          <div class="login-wrapper">
-        <h2>JOIN</h2>
+        <!-- <h2>JOIN</h2> -->
         <form method="post" action="joinForm.mb" id="login-form">
             <!-- 아이디 -->
             <label for="member_id">아이디</label>

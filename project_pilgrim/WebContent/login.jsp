@@ -24,6 +24,7 @@
 <title>로그인</title>
 </head>	
 <%@include file="header.jsp"%>
+
 <!--  html 전체 영역을 지정하는 container -->
     <div id="container" class="login_page container">
          <div class="login-wrapper">

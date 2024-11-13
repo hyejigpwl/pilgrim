@@ -52,7 +52,7 @@
 		<h2><%= member_id %>님 환영합니다.</h2>
 		
 		<div class="actions two_btn">
-			 <a href="#none" class="button big special">나의 정보</a>
+			 <a href="myInfolist.mb?member_id= <%= member_id %>" class="button big special">나의 정보</a>
 		    <!-- 로그아웃 버튼 -->
 		    <form action="logout.mb" method="post">
 		        <input type="submit" value="Logout">

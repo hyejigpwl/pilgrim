@@ -27,6 +27,7 @@
 		String seminarDate = request.getParameter("seminar_date");
 	%>
 <%@include file="header.jsp"%>
+
 <div id="container" class="login_page room_rqt_page container">
          <div class="login-wrapper">
         <h2>천로역정 세미나 예약</h2>
