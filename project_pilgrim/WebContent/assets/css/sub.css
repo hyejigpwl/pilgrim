@@ -1768,6 +1768,9 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 .comment {
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    display:flex;
+    justify-content:space-between;
+	align-items: center;
 }
 
 .comment:last-child {

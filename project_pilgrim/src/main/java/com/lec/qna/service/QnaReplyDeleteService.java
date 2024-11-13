@@ -23,23 +23,21 @@ public class QnaReplyDeleteService {
 		return isWriter;
 	}
 
-	public boolean deleteQna(int bno) {
-		
-		boolean isDeleteSuccess = false;
-		
-		Connection conn = JDBCUtility.getConnection();
-		QnaDAO qnaDAO = QnaDAO.getInstance();
-		qnaDAO.setConnection(conn); 		
-		int deleteCount = qnaDAO.deleteReplyQna(bno);
-		
-		if(deleteCount > 0) {
-			JDBCUtility.commit(conn);
-			JDBCUtility.close(conn, null, null);
-			isDeleteSuccess = true;
-		} else {
-			JDBCUtility.rollback(conn);
-		}
-		return isDeleteSuccess;
+	public boolean deleteReply(int replyId) {
+	    Connection conn = JDBCUtility.getConnection();
+	    QnaDAO dao = QnaDAO.getInstance();
+	    dao.setConnection(conn);
+
+	    boolean isDeleteSuccess = dao.deleteReply(replyId);
+
+	    if (isDeleteSuccess) {
+	        JDBCUtility.commit(conn);
+	    } else {
+	        JDBCUtility.rollback(conn);
+	    }
+
+	    JDBCUtility.close(conn, null, null);
+	    return isDeleteSuccess;
 	}
 
 }

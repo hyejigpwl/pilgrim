@@ -20,6 +20,11 @@
 <script src="assets/js/header.js"></script>
 <title>게시글 상세</title>
 </head>
+
+<c:set var="sessionMemberId" value="${sessionScope.member_id}" />
+<c:set var="isAdmin" value="${sessionMemberId == '관리자'}" />
+
+
 <%@include file="header.jsp"%>
 <div class="sub_top">
 	<h3>예약문의 및 취소</h3>
@@ -75,13 +80,20 @@
     <!-- 댓글 목록 -->
     <c:forEach var="reply" items="${replyList}">
         <div class="comment">
-            <div class="comment-author">${reply.member_id }</div> 
-            <div class="comment-date">
-                <fmt:formatDate value="${reply.date}" pattern="yyyy-MM-dd HH:mm:ss" timeZone="Asia/Seoul" />
-            </div> 
-            <div class="comment-content">${reply.content }</div> 
+        	<div class="comment_left">
+        		<div class="comment-author">${reply.member_id }</div> 
+	            <div class="comment-date">
+		            <fmt:formatDate value="${reply.date}" pattern="yyyy-MM-dd HH:mm:ss" timeZone="Asia/Seoul" />
+		        </div>  
+	            <div class="comment-content">${reply.content }</div> 
+        	</div>
+        	
+        	<c:if test="${ qna.getMember_id() == sessionMemberId }">
+			    <a href="qnaReplyDelete.qa?p=${param.p}&bno=${qna.getBno()}&reply_id=${reply.comment_id}" 
+       class="btn btn-success mr-sm-3 login-btn"><i class="fa fa-times" aria-hidden="true"></i></a>
+			</c:if>
+            
         </div>
-        <a href="qnaReplyDelete.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">삭제</a>
     </c:forEach>
 
    <!-- 댓글 입력 창 -->
@@ -100,9 +112,6 @@
 
 	<%-- 로그인한 사용자 ID 가져오기 --%>
 <%-- 로그인한 사용자 ID 가져오기 --%>
-<c:set var="sessionMemberId" value="${sessionScope.member_id}" />
-<c:set var="isAdmin" value="${sessionMemberId == '관리자'}" />
-
 <!-- 삭제 버튼: 관리자이거나 작성자 본인인 경우 -->
 <c:if test="${ qna.getMember_id() == sessionMemberId || isAdmin }">
     <a href="qnaDelete.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">삭제</a>

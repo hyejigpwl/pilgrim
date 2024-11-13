@@ -63,15 +63,29 @@ public class QnaReplyAction implements Action {
         reply.setMember_id(member_id);
         reply.setContent(content);
 
+        
+        
+        
+        
+        
         // 댓글 추가 서비스 호출
         QnaReplyService replyService = QnaReplyService.getInstance();
         boolean isReplySuccess = replyService.addReply(reply);
 
         if (isReplySuccess) {
             // 댓글이 성공적으로 추가된 경우, 게시글 상세 페이지로 이동
-            forward = new ActionForward();
-            forward.setRedirect(true);
-            forward.setPath("qnaDetail.qa?p=" + p + "&bno="+bno); 
+        	String msg = "댓글이 입력되었습니다.";
+			res.setContentType("text/html; charset=utf-8");
+			PrintWriter out;
+			try {
+				out = res.getWriter();
+				out.println("<script>");
+				out.println("  alert('" + msg + "');");
+				out.println("  location.href='qnaDetail.qa?p=" + p + "&bno="+bno+"'");
+				out.println("</script>");	
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         } else {
             sendErrorMessage(res, "댓글 등록에 실패했습니다.");
         }

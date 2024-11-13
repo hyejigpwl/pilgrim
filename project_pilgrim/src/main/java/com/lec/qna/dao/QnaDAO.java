@@ -301,21 +301,24 @@ public class QnaDAO {
 		}
 	 
 	// 11. 글삭제하기
-		public int deleteReplyQna(int bno) {
-			int deleteCount = 0;
-			
-			PreparedStatement pstmt = null;
-			String sql = "delete from qna_comment where bno = ?";
-			
-			try {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, bno);
-				deleteCount = pstmt.executeUpdate();
-			} catch (Exception e) {
-				System.out.println("댓글 삭제 실패!!! " + e.getMessage());
-			} finally {
-				JDBCUtility.close(null, pstmt, null);
-			}			
-			return deleteCount;
+	 public boolean deleteReply(int replyId) {
+		    PreparedStatement pstmt = null;
+		    boolean isSuccess = false;
+		    String sql = "DELETE FROM qna_comment WHERE comment_id = ?";
+
+		    try {
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setInt(1, replyId);
+		        int count = pstmt.executeUpdate();
+		        if (count > 0) {
+		            isSuccess = true;
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        JDBCUtility.close(null, pstmt, null);
+		    }
+
+		    return isSuccess;
 		}
 }
