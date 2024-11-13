@@ -42,6 +42,9 @@ button{
 	.sub_top{
 		height:150px;
 	}
+	.sub_top h3{
+		font-size:1.3em;
+	}
 	
 	.container{
 		margin-top:3em;

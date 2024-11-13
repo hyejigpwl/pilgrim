@@ -30,10 +30,11 @@ public class QnaReplyDeleteAction implements Action {
 		int p = Integer.parseInt(req.getParameter("p"));
 		int bno = Integer.parseInt(req.getParameter("bno"));
 		int replyId = Integer.parseInt(req.getParameter("reply_id"));
+		System.out.println("삭제할 댓글 ID: " + replyId); // 디버그용 로그
 		
 		QnaReplyDeleteService qnaReplyDeleteService = QnaReplyDeleteService.getInstance();
 		isWriter = qnaReplyDeleteService.isQnaWriter(bno, member_id);
-		isDeleteSuccess = qnaReplyDeleteService.deleteReply(replyId);
+		isDeleteSuccess = qnaReplyDeleteService.deleteReply(bno, replyId);
 		String msg = "";
 		
 		// 작성자이거나 관리자인 경우 삭제 가능

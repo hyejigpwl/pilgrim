@@ -23,12 +23,12 @@ public class QnaReplyDeleteService {
 		return isWriter;
 	}
 
-	public boolean deleteReply(int replyId) {
+	public boolean deleteReply(int bno, int replyId) {
 	    Connection conn = JDBCUtility.getConnection();
 	    QnaDAO dao = QnaDAO.getInstance();
 	    dao.setConnection(conn);
 
-	    boolean isDeleteSuccess = dao.deleteReply(replyId);
+	    boolean isDeleteSuccess = dao.deleteReply(bno, replyId);
 
 	    if (isDeleteSuccess) {
 	        JDBCUtility.commit(conn);

@@ -11,6 +11,7 @@ public class QnaVO {
 	private String content;
 	private String file;
 	private int view_count;
+	private int reply_count;
 	public int getBno() {
 		return bno;
 	}
@@ -53,9 +54,15 @@ public class QnaVO {
 	public void setView_count(int view_count) {
 		this.view_count = view_count;
 	}
+	public int getReply_count() {
+		return reply_count;
+	}
+	public void setReply_count(int reply_count) {
+		this.reply_count = reply_count;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(bno, content, date, file, member_id, title, view_count);
+		return Objects.hash(bno, content, date, file, member_id, reply_count, title, view_count);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -68,13 +75,16 @@ public class QnaVO {
 		QnaVO other = (QnaVO) obj;
 		return bno == other.bno && Objects.equals(content, other.content) && Objects.equals(date, other.date)
 				&& Objects.equals(file, other.file) && Objects.equals(member_id, other.member_id)
-				&& Objects.equals(title, other.title) && view_count == other.view_count;
+				&& reply_count == other.reply_count && Objects.equals(title, other.title)
+				&& view_count == other.view_count;
 	}
 	@Override
 	public String toString() {
 		return "QnaVO [bno=" + bno + ", member_id=" + member_id + ", date=" + date + ", title=" + title + ", content="
-				+ content + ", file=" + file + ", view_count=" + view_count + "]";
+				+ content + ", file=" + file + ", view_count=" + view_count + ", reply_count=" + reply_count + "]";
 	}
+	
+	
 	
 	
 	

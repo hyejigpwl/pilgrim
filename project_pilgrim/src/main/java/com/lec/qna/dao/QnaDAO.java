@@ -34,13 +34,12 @@ public class QnaDAO {
 	}
 	
 	// 1. 글쓰기
-	// 1. 글쓰기
 	public int insert(QnaVO qna) {
 	    
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
-	    String sql = "INSERT INTO qna (member_id, date, title, content, file, view_count) "
-	               + "VALUES (?, NOW(), ?, ?, ?, ?)";
+	    String sql = "INSERT INTO qna (member_id, date, title, content, file, view_count, reply_count) "
+	               + "VALUES (?, NOW(), ?, ?, ?, ?, ?)";
 	    int insertCount = 0;
 	    
 	    try {
@@ -50,6 +49,7 @@ public class QnaDAO {
 	        pstmt.setString(3, qna.getContent());
 	        pstmt.setString(4, qna.getFile());
 	        pstmt.setInt(5, qna.getView_count());
+	        pstmt.setInt(5, qna.getReply_count());
 	        
 	        insertCount = pstmt.executeUpdate();
 	        
@@ -119,6 +119,7 @@ public class QnaDAO {
 				qna.setContent(rs.getString("content"));
 				qna.setFile(rs.getString("file"));
 				qna.setView_count(rs.getInt("view_count"));
+				qna.setReply_count(rs.getInt("reply_count"));
 				qnaList.add(qna);
 			}
 		} catch (Exception e) {
@@ -147,6 +148,10 @@ public class QnaDAO {
 		}	
 		return view_count;
 	}
+	
+	
+	
+	
 
 	// 5. 글상세보기
 	public QnaVO selectQna(int bno) {
@@ -247,29 +252,58 @@ public class QnaDAO {
 	}
 	
 	// 9. 댓글작성하기
-	 public boolean insertReply(QnaReplyVO reply) {
-	        PreparedStatement pstmt = null;
-	        boolean isInsertSuccess = false;
-	        String sql = "INSERT INTO qna_comment (bno, member_id, content, date) VALUES (?, ?, ?, NOW())";
-	        
-	        try {
-	            pstmt = conn.prepareStatement(sql);
+	public boolean insertReply(QnaReplyVO reply) {
+	    PreparedStatement pstmt = null;
+	    boolean isInsertSuccess = false;
+	    String insertReplySQL = "INSERT INTO qna_comment (bno, member_id, content, date) VALUES (?, ?, ?, NOW())";
+	    String updateReplyCountSQL = "UPDATE qna SET reply_count = (SELECT COUNT(*) FROM qna_comment WHERE bno = ?) WHERE bno = ?";
+
+	    try {
+	        conn.setAutoCommit(false); // 트랜잭션 시작
+
+	        // 댓글 추가
+	        pstmt = conn.prepareStatement(insertReplySQL);
+	        pstmt.setInt(1, reply.getBno());
+	        pstmt.setString(2, reply.getMember_id());
+	        pstmt.setString(3, reply.getContent());
+	        int result = pstmt.executeUpdate();
+
+	        if (result > 0) {
+	            // 댓글 추가 성공 시 댓글 수 계산 후 업데이트
+	            pstmt = conn.prepareStatement(updateReplyCountSQL);
 	            pstmt.setInt(1, reply.getBno());
-	            pstmt.setString(2, reply.getMember_id());
-	            pstmt.setString(3, reply.getContent());
-	            int result = pstmt.executeUpdate();
-	            
-	            if (result > 0) {
+	            pstmt.setInt(2, reply.getBno());
+	            int updateResult = pstmt.executeUpdate();
+
+	            if (updateResult > 0) {
+	                conn.commit(); // 두 작업 모두 성공 시 커밋
 	                isInsertSuccess = true;
+	            } else {
+	                conn.rollback(); // 댓글 수 업데이트 실패 시 롤백
 	            }
+	        } else {
+	            conn.rollback(); // 댓글 추가 실패 시 롤백
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            conn.rollback(); // 예외 발생 시 롤백
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	        }
+	    } finally {
+	        JDBCUtility.close(null, pstmt, null);
+	        try {
+	            conn.setAutoCommit(true); // 자동 커밋 모드로 복구
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        } finally {
-	            JDBCUtility.close(null,pstmt,null);
 	        }
-	        
-	        return isInsertSuccess;
 	    }
+
+	    return isInsertSuccess;
+	}
+
+
 	 
 	 // 10. 댓글 목록보기
 	 public List<QnaReplyVO> getRepliesByBno(int bno) {
@@ -300,25 +334,64 @@ public class QnaDAO {
 		    return replyList;
 		}
 	 
-	// 11. 글삭제하기
-	 public boolean deleteReply(int replyId) {
-		    PreparedStatement pstmt = null;
+	 
+	 
+	 
+	 public boolean deleteReply(int bno, int replyId) {
 		    boolean isSuccess = false;
-		    String sql = "DELETE FROM qna_comment WHERE comment_id = ?";
+		    String deleteReplySQL = "DELETE FROM qna_comment WHERE comment_id = ?";
+		    String updateReplyCountSQL = "UPDATE qna SET reply_count = (SELECT COUNT(*) FROM qna_comment WHERE bno = ?) WHERE bno = ?";
 
 		    try {
-		        pstmt = conn.prepareStatement(sql);
-		        pstmt.setInt(1, replyId);
-		        int count = pstmt.executeUpdate();
-		        if (count > 0) {
-		            isSuccess = true;
+		        conn.setAutoCommit(false); // 트랜잭션 시작
+
+		        // 댓글 삭제
+		        try (PreparedStatement pstmt = conn.prepareStatement(deleteReplySQL)) {
+		        	System.out.println("삭제 ID" + replyId);
+		            pstmt.setInt(1, replyId);
+		            int deleteCount = pstmt.executeUpdate();
+		            System.out.println("deleteCount: " + deleteCount); // 디버그용 로그
+
+		            if (deleteCount > 0) {
+		                // 댓글 삭제 성공 후 reply_count 업데이트
+		                try (PreparedStatement updatePstmt = conn.prepareStatement(updateReplyCountSQL)) {
+		                    updatePstmt.setInt(1, bno);
+		                    updatePstmt.setInt(2, bno);
+		                    int updateCount = updatePstmt.executeUpdate();
+		                    System.out.println("updateCount: " + updateCount); // 디버그용 로그
+
+		                    if (updateCount > 0) {
+		                        conn.commit(); // 두 작업 모두 성공 시 커밋
+		                        isSuccess = true;
+		                    } else {
+		                        System.out.println("reply_count 업데이트 실패");
+		                        conn.rollback(); // reply_count 업데이트 실패 시 롤백
+		                    }
+		                }
+		            } else {
+		                System.out.println("댓글 삭제 실패");
+		                conn.rollback(); // 댓글 삭제 실패 시 롤백
+		            }
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        try {
+		            conn.rollback(); // 예외 발생 시 롤백
+		            System.out.println("트랜잭션 롤백됨");
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        }
 		    } finally {
-		        JDBCUtility.close(null, pstmt, null);
+		        try {
+		            conn.setAutoCommit(true); // 자동 커밋 모드로 복구
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        }
 		    }
 
 		    return isSuccess;
 		}
+
+
+
 }

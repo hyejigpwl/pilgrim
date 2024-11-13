@@ -72,13 +72,14 @@
 			                    <a href="#" onclick="alert('접근권한이 없습니다'); return false;">${ qna.getTitle() }</a>
 			                </c:otherwise>
 			            </c:choose>
-			            <span class="badge badge-danger ml-sm-3">${ qna.getView_count() }</span>
+			            <span class="badge badge-danger ml-sm-3">${ qna.getReply_count() }</span>
 			            <c:if test="${ !empty qna.getFile() }">
 			                <i class="fas fa-file-download"></i>
 			            </c:if>
 			            <img class="lock" src="./assets/images/lock.png" alt="">
 			        </td>
 			        <td class="member_id">${ qna.getMember_id() }</td>
+			        
 			        <td class="date">${ qna.getDate() }</td>
 			    </tr>
 			</c:forEach>
