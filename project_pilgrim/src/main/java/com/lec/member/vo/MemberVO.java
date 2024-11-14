@@ -1,6 +1,5 @@
 package com.lec.member.vo;
 
-import java.sql.Connection;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,6 +13,9 @@ public class MemberVO {
 	private String file;
 	private Date reg_date;
 	private int terms_agreed;
+	
+	
+	
 	public String getMember_id() {
 		return member_id;
 	}
@@ -45,7 +47,7 @@ public class MemberVO {
 		this.email = email;
 	}
 	public String getFile() {
-		return email;
+		return file;
 	}
 	public void setFile(String file) {
 		this.file = file;

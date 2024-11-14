@@ -25,9 +25,11 @@ public class MemberModifyService {
 	public boolean modifyMember(MemberVO member, String member_id_bf) {
 		boolean isModifySuccess = false;
 		
+		System.out.println(member.getFile());
+		
 		Connection conn = JDBCUtility.getConnection();
 		MemberDAO memberDAO = MemberDAO.getInstance();
-		memberDAO.setConnection(conn);  	
+		memberDAO.setConnection(conn); 
 		int updateCount = memberDAO.updateMember(member, member_id_bf);
 		
 		if(updateCount > 0) {

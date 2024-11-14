@@ -22,6 +22,22 @@
 
 <div class="container my_info">
 	<div class="my_info_wrap">
+		<p class="category profile">
+    <c:choose>
+        <c:when test="${not empty member.file}">
+            <label for="">프로필이미지</label>
+            <img id="preview_image" src="${pageContext.request.contextPath}/image?file=${member.file}" alt="프로필 이미지">
+        </c:when>
+        <c:otherwise>
+            <label for="">프로필 이미지를 설정하세요</label>
+            <img id="preview_image" src="https://www.du.plus/images/mypage/img-upload.svg" alt="Default 이미지">
+        </c:otherwise>
+    </c:choose>
+    <span class="upload_img_btn">
+        <input type="file" name="file" accept=".gif,.jpg,.png" style="display:none">
+    </span>
+</p>
+
 		<p>아이디: ${member.member_id}</p>
 	    <p>비밀번호: ${member.pwd}</p>
 	    <p>이름: ${member.name}</p>
@@ -32,4 +48,6 @@
 </div>  
 
 <%@include file="footer.jsp"%>
+
+
 </html>

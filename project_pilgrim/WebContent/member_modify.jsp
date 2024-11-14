@@ -22,7 +22,28 @@
 
 	<div class="container qna_page" align="center">
 		<form action="memberModify.mb" method="post" 
-				id="memberForm">
+				id="memberForm" enctype="multipart/form-data">
+			
+			<p class="category profile">
+			    <c:choose>
+			        <c:when test="${not empty member.file}">
+			            <span class="upload_img_btn">
+			                <img id="preview_image" src="${pageContext.request.contextPath}/image?file=${member.file}" alt="프로필 이미지">
+			                <span>이미지 업로드</span>
+			                <input type="file" name="file" accept=".gif,.jpg,.png" style="display:none;">
+			            </span>
+			        </c:when>
+			        <c:otherwise>
+			            <span class="upload_img_btn">
+			                <img id="preview_image" src="https://www.du.plus/images/mypage/img-upload.svg" alt="Default 이미지">
+			                <span>프로필 이미지를 설정하세요</span>
+			                <input type="file" name="file" accept=".gif,.jpg,.png" style="display:none;">
+			            </span>
+			        </c:otherwise>
+			    </c:choose>
+			</p>
+
+			
 			
 			<div class="form-group input-group">
 				<div class="input-group-prepend"><span class="input-group-text">아이디</span></div>
@@ -51,7 +72,7 @@
 			</div>
 		
 			
-			<%-- <div class="form-group input-group">
+			<!-- <div class="form-group input-group">
 				<c:choose>
 					<c:when test="${ !empty member.getFile() }">
 						<c:set var="choose_file" value="${ member.getFile() }"/>
@@ -66,7 +87,8 @@
 						<label for="file" class="custom-file-label" style="text-align: left;">${ choose_file }</label>
 						<input type="file" class="custom-file-input" id="file" name="file"/>
 					</div>
-				</div> --%>
+				</div>
+			</div>-->
 				
 			<div class="form-group input-group mt-md-5 justify-content-center btn_wrap">
 				
@@ -132,7 +154,66 @@
             }
 
         });
+        
     });
+    
+    
+    
+    // 프로필 이미지 변경
+    // upload_img_btn 클릭 이벤트 감지
+       const uploadBtn = document.querySelector('.upload_img_btn');
+       uploadBtn.addEventListener('click', function() {
+           // 파일 선택 대화상자 열기
+           const fileInput = uploadBtn.querySelector('input[type="file"]');
+           fileInput.click();
+       });
+
+       const fileInput2 = document.querySelector('.upload_img_btn input[type="file"]');
+       fileInput2.addEventListener('change', function() {
+           const file = fileInput2.files[0];
+           if (file) {
+               if (file.type.match('image.*')){
+                   const reader = new FileReader();
+                   reader.onload = function(e) {
+                       const profileWrap = document.querySelector('.profile');
+                       const previewImage = document.getElementById('preview_image');
+                       const imgBtn = document.querySelector('.upload_img_btn');
+                       const imgText = document.querySelector('.upload_img_btn span');
+
+                       previewImage.src = e.target.result;
+                       previewImage.alt = '업로드된 이미지';
+                       previewImage.style.width = "160px";
+                       previewImage.style.height = "160px";
+                       previewImage.style.objectFit = "cover";
+
+                       imgBtn.style.backgroundColor = "#fff";
+                       imgBtn.style.border = "none";
+                       imgBtn.style.borderRadius = "50%";
+                       imgBtn.style.overflow = "hidden";
+
+                       imgText.style.display = "none";
+
+                       const existingBtn = profileWrap.querySelector('.edit_btn');
+                       /*if(existingBtn){
+                           profileWrap.removeChild(existingBtn);
+                       }*/
+
+                      /* const editButton = document.createElement('button');
+                       const editImage = document.createElement('img');
+                       editImage.src = '../img/ic-edit-profile.svg';
+                       editImage.alt = '수정아이콘';
+
+                       editButton.classList.add("edit_btn");
+                       editButton.appendChild(editImage);
+                       profileWrap.appendChild(editButton); */
+                   }
+                   reader.readAsDataURL(file);
+               } else {
+                   console.log('이미지 파일이 아닙니다.');
+               }
+           }
+       });
+
 </script>
 <%@include file="footer.jsp"%>
 </html>

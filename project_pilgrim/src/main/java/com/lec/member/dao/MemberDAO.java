@@ -86,6 +86,15 @@ public class MemberDAO {
  			pstmt.setInt(6, member.getTerms_agreed());
  			insertCount = pstmt.executeUpdate();
  			
+ 			System.out.println("member_id: " + member.getMember_id());
+ 			System.out.println("name: " + member.getName());
+ 			System.out.println("pwd: " + member.getPwd());
+ 			System.out.println("phone: " + member.getPhone());
+ 			System.out.println("email: " + member.getEmail());
+ 			System.out.println("file: " + member.getFile()); // file이 제대로 null인지 확인
+ 			System.out.println("terms_agreed: " + member.getTerms_agreed());
+
+ 			
  		} catch (Exception e) {
  			System.out.println("회원등록실패!!!");
  			insertCount=0;
@@ -138,7 +147,7 @@ public MemberVO getMyInfo(String member_id) {
 				member.setPwd(rs.getString("pwd"));
 				member.setPhone(rs.getString("phone"));
 				member.setEmail(rs.getString("email"));
-				/* member.setFile(rs.getString("file")); */
+				member.setFile(rs.getString("file"));
 			}
 		} catch (Exception e) {
 			System.out.println("회원정보 상세보기 실패!!! " + e.getMessage());
@@ -154,7 +163,7 @@ public MemberVO getMyInfo(String member_id) {
 		int updateCount = 0;
 
 		PreparedStatement pstmt = null;
-		String sql = "update member set member_id=?, pwd = ?, name=?, phone=?, email=? " + " where member_id=?";
+		String sql = "update member set member_id=?, pwd = ?, name=?, phone=?, email=?, file=? " + " where member_id=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -163,7 +172,8 @@ public MemberVO getMyInfo(String member_id) {
 			pstmt.setString(3, member.getName());
 			pstmt.setString(4, member.getPhone());
 			pstmt.setString(5, member.getEmail());
-			pstmt.setString(6, member_id_bf);
+			pstmt.setString(6, member.getFile());
+			pstmt.setString(7, member_id_bf);
 			updateCount = pstmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("회원 수정 실패!!! " + e.getMessage());
