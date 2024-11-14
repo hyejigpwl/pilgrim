@@ -1838,3 +1838,13 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 	justify-content:center;
 	align-items:center;
 }
+#preview_image{
+	width:160px;
+	height:160px;
+	object-fit:cover;
+	border-radius:50%;
+}
+
+.upload_img_btn .fa-pencil-square{
+
+}

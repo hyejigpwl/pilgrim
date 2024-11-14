@@ -29,14 +29,16 @@
 			        <c:when test="${not empty member.file}">
 			            <span class="upload_img_btn">
 			                <img id="preview_image" src="${pageContext.request.contextPath}/image?file=${member.file}" alt="프로필 이미지">
-			                <span>이미지 업로드</span>
+			                <!-- <span>이미지 업로드</span> -->
+			                <i class="fa fa-pencil-square fa-2x" aria-hidden="true"></i>
 			                <input type="file" name="file" accept=".gif,.jpg,.png" style="display:none;">
 			            </span>
 			        </c:when>
 			        <c:otherwise>
 			            <span class="upload_img_btn">
-			                <img id="preview_image" src="https://www.du.plus/images/mypage/img-upload.svg" alt="Default 이미지">
-			                <span>프로필 이미지를 설정하세요</span>
+			                <img id="preview_image" src="./assets/images/default_profile.png" alt="Default 이미지">
+			                <!-- <span>프로필 이미지를 설정하세요</span>-->
+			                <i class="fa fa-pencil-square fa-2x" aria-hidden="true"></i>
 			                <input type="file" name="file" accept=".gif,.jpg,.png" style="display:none;">
 			            </span>
 			        </c:otherwise>
