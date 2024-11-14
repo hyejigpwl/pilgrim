@@ -55,9 +55,9 @@
 
 			
 			<div class="form-group input-group mt-md-5 justify-content-center btn_wrap">
-					<input type="submit" class="btn btn-success float-right login-btn" value="게시글등록"/>
 					<!-- <input type="button" class="btn btn-success float-right login-btn ml-sm-2" value="저장"/> -->
 					<a href="javascript:history.go(-1)" class="btn btn-success ml-sm-2 float-right button">이전</a>
+					<input type="submit" class="btn btn-success float-right login-btn special" value="게시글등록"/>
 				</div>		
 		</form>
 	</div>

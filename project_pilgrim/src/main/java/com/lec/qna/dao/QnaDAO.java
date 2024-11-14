@@ -310,7 +310,7 @@ public class QnaDAO {
 		    List<QnaReplyVO> replyList = new ArrayList<>();
 		    PreparedStatement pstmt = null;
 		    ResultSet rs = null;
-		    String sql = "SELECT * FROM qna_comment WHERE bno = ? ORDER BY date DESC";
+		    String sql = "SELECT * FROM qna_comment WHERE bno = ? ORDER BY date asc";
 		    
 		    try {
 		        pstmt = conn.prepareStatement(sql);

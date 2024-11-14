@@ -20,12 +20,15 @@
     <h3>나의 정보</h3>
 </div>
 
-<div class="container my_page">
-    <p>아이디: ${member.member_id}</p>
-    <p>비밀번호: ${member.pwd}</p>
-    <p>이름: ${member.name}</p>
-    <p>전화번호: ${member.phone}</p>
-    <p>이메일: ${member.email}</p>
+<div class="container my_info">
+	<div class="my_info_wrap">
+		<p>아이디: ${member.member_id}</p>
+	    <p>비밀번호: ${member.pwd}</p>
+	    <p>이름: ${member.name}</p>
+	    <p>전화번호: ${member.phone}</p>
+	    <p>이메일: ${member.email}</p>
+	    <a href="memberModifyForm.mb?member_id=${member_id }" class="button btn btn-success mr-sm-3 login-btn">수정</a>	
+	</div>
 </div>  
 
 <%@include file="footer.jsp"%>

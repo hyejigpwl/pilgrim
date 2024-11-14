@@ -38,7 +38,7 @@ public class QnaReplyDeleteAction implements Action {
 		String msg = "";
 		
 		// 작성자이거나 관리자인 경우 삭제 가능
-		if(isWriter) {
+		if(isWriter||isAdmin) {
 			
 			if(isDeleteSuccess) {
 				msg = "댓글이 삭제되었습니다.";

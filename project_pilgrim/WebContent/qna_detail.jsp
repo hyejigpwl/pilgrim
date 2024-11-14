@@ -88,7 +88,7 @@
 	            <div class="comment-content">${reply.content }</div> 
         	</div>
         	
-        	<c:if test="${ qna.getMember_id() == sessionMemberId }">
+        	<c:if test="${ reply.getMember_id() == sessionMemberId }">
 			    <a href="qnaReplyDelete.qa?p=${param.p}&bno=${qna.getBno()}&reply_id=${reply.comment_id}" 
        class="btn btn-success mr-sm-3 login-btn"><i class="fa fa-times" aria-hidden="true"></i></a>
 			</c:if>

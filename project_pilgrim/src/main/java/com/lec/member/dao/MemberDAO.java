@@ -147,5 +147,56 @@ public MemberVO getMyInfo(String member_id) {
 		}
 		return member;
 	}
+
+
+	// 5. 내정보 수정하기
+	public int updateMember(MemberVO member, String member_id_bf) {
+		int updateCount = 0;
+
+		PreparedStatement pstmt = null;
+		String sql = "update member set member_id=?, pwd = ?, name=?, phone=?, email=? " + " where member_id=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getMember_id());
+			pstmt.setString(2, member.getPwd());
+			pstmt.setString(3, member.getName());
+			pstmt.setString(4, member.getPhone());
+			pstmt.setString(5, member.getEmail());
+			pstmt.setString(6, member_id_bf);
+			updateCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("회원 수정 실패!!! " + e.getMessage());
+		} finally {
+			JDBCUtility.close(null, pstmt, null);
+		}
+
+		return updateCount;
+	}
+	
+	// 6. 글작성자확인하기
+		public boolean isMemberWriter(String member_id, String pwd) {
+
+			boolean isWriter = false;
+
+			MemberVO member = new MemberVO();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = "select * from member where member_id = ?";
+
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, member_id);
+				rs = pstmt.executeQuery();
+				rs.next();
+				if (pwd.equals(rs.getString("pwd")))
+					isWriter = true;
+			} catch (Exception e) {
+				System.out.println("회원조회실패!!! " + e.getMessage());
+			} finally {
+				JDBCUtility.close(null, pstmt, rs);
+			}
+			return isWriter;
+		}
  	
 }

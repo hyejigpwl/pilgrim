@@ -57,41 +57,14 @@ public class MemberController extends HttpServlet {
         }else if (command.equalsIgnoreCase("myInfoList")) { 
             action = new MyInfoListAction();
             forward = action.execute(req, res);
+        }else if (command.equalsIgnoreCase("memberModifyForm")) { 
+            action = new MemberModifyFormAction();
+            forward = action.execute(req, res);
+        }else if (command.equalsIgnoreCase("memberModify")) { 
+            action = new MemberModifyAction();
+            forward = action.execute(req, res);
         }
-		
-		// 목록조회/회원등록/회원수정/회원삭제/에러/다운
-		/*if(command.equalsIgnoreCase("memberWriteForm")) {
-			forward = new ActionForward();
-			forward.setPath("/member/member_write.jsp");
-		} else if(command.equalsIgnoreCase("memberWrite")) {
-			action = new MemberWriteAction();
-			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("memberList")) {
-			action = new MemberListAction();
-			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("memberDetail")) {
-			action = new MemberDetailAction();
-			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("memberModifyForm")) {
-			action = new MemberModifyFormAction();
-			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("memberModify")) {
-			action = new MemberModifyAction();
-			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("memberDeleteForm")) {
-			action = new MemberDeleteFormAction();
-			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("memberDelete")) {
-			action = new MemberDeleteAction();
-			forward = action.execute(req, res);
-		} else if(command.equalsIgnoreCase("download")) {
-			forward = new ActionForward();
-			forward.setPath("/member/member_download.jsp");
-		} else if(command.equalsIgnoreCase("error")) {
-			forward = new ActionForward();
-			forward.setPath("/member/error.jsp");
-		}*/
-		
+	
 		if(forward != null) {
 			if(forward.isRedirect()) {
 				res.sendRedirect(forward.getPath());

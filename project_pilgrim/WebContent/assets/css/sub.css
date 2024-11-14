@@ -458,7 +458,7 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 }
 .qna_page .input-group.btn_wrap{
 	justify-content:center;
-	margin-top:20px;
+	margin-top:40px;
 }
 .qna_page .input-group-prepend{
 	width:20%;
@@ -1832,3 +1832,9 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
     background-color: #218838;
 }
 
+/* 나의 정보 */
+.my_info{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
