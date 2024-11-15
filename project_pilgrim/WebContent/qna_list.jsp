@@ -32,13 +32,13 @@
 		</div>
 		
 		<form action="qnaList.qa" class="form-line">
-			<div class="input-group">
+			<div class="input-group search">
 				<select name="f" id="f" class="form-control col-sm-2 mr-sm-2">
 					<option ${ param.f == "member_id" ? "selected" : ""} value="member_id">작성자</option>
 					<option ${ param.f == "title" ? "selected" : ""} value="title">제목</option>
 				</select>
 				<input type="text" name="q" class="form-control col-sm-8 mr-sm-2" value="${ param.q }"
-					placeholder="검색어를 입력하세요!!!"/>
+					placeholder="검색어를 입력하세요"/>
 				<button type="submit" class="btn btn-primary col-sm-1 mr-sm-2 login-btn search_btn">검색</button>
 			</div>
 		</form>

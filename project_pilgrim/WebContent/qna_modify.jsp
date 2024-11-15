@@ -20,10 +20,11 @@
 <title>게시글 수정</title>
 </head>
 <%@include file="header.jsp"%>
-	<div class="container mt-sm-5" align="center">
-		<div class="jumbotron">
-			<h3>게시글수정하기</h3>
-		</div>
+<div class="sub_top">
+	<h3>예약문의 수정하기</h3>
+</div>
+	<div class="container qna_page" align="center">
+		
 		
 		<form action="qnaModify.qa" method="post" 
 				name="qnaForm" enctype="multipart/form-data">
@@ -31,16 +32,17 @@
 			<input type="hidden" name="bno" value="${ qna.getBno() }"/>
 								
 			<div class="form-group input-group">
-				<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-clipboard"></i></span></div>
+				<div class="input-group-prepend"><span class="input-group-text">게시글 제목</span></div>
 				<input type="text" class="form-control" name="title" id="title" value="${ qna.getTitle() }"/>
 			</div>
 			
 			<div class="form-group input-group">
-				<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-comment-dots"></i></span></div>
+				<div class="input-group-prepend"><span class="input-group-text">게시글 내용</span></div>
 				<textarea name="content" id="content" cols="40" rows="15" class="form-control" >${ qna.getContent() }</textarea>
 			</div>	
 			
 			<div class="form-group input-group">
+			<div class="input-group-prepend"><span class="input-group-text"><!-- <i class="fas fa-file-alt"></i> -->첨부파일 </span></div>
 				<c:choose>
 					<c:when test="${ !empty qna.getFile() }">
 						<c:set var="choose_file" value="${ qna.getFile() }"/>
@@ -49,20 +51,26 @@
 						<c:set var="choose_file" value="업로드할 파일을 선택하세요"/>
 					</c:otherwise>
 				</c:choose>
-				<div class="form-group input-group">
-					<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-file-alt"></i></span></div>
+				
+				<div class="custom-file">
+						<label for="file" class="custom-file-label" style="text-align: left;">${ choose_file }</label>
+						<input type="file" class="custom-file-input" id="file" name="file"/>
+					</div>
+						
+			</div>		
+			
+			<!-- <div class="form-group input-group">
 					<div class="custom-file">
 						<label for="file" class="custom-file-label" style="text-align: left;">${ choose_file }</label>
 						<input type="file" class="custom-file-input" id="file" name="file"/>
 					</div>
-				</div>
+				</div>-->
 				
-				<div class="form-group input-group mt-md-5 justify-content-center">
-					<input type="submit" class="btn btn-success float-right login-btn" value="게시글수정"/>
+				<div class="form-group input-group mt-md-5 justify-content-center btn_wrap">
 					<input type="reset" class="btn btn-success float-right login-btn ml-sm-2" value="새로고침"/>
 					<a href="javascript:history.go(-1)" class="btn btn-success ml-sm-2 float-right button">이전</a>
-				</div>				
-			</div>		
+					<input type="submit" class="btn btn-success float-right login-btn special" value="게시글수정"/>
+				</div>		
 		</form>
 	</div>
 		<script>

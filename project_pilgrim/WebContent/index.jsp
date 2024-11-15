@@ -120,7 +120,7 @@
 					</div>
 				</section>--><!-- Four --><section id="four" class="wrapper style3 special"><div class="container">
 						<header class="major"><h2>이 집을 떠날때에는</h2>
-							<p>당신은 정녕 길잃은 자가 아니오니<br>영원의 집을 향하는 새 힘 얻은 순례자로<br>광야의 남은 길을 노래하며 춤추며 가십시오</p>
+							<p style="color:#fff">당신은 정녕 길잃은 자가 아니오니<br>영원의 집을 향하는 새 힘 얻은 순례자로<br>광야의 남은 길을 노래하며 춤추며 가십시오</p>
 						</header><!-- <ul class="actions"><li><a href="#" class="button special big">Get in touch</a></li>
 						</ul>--></div>
 				</section>
