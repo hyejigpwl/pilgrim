@@ -1788,7 +1788,7 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 .comment-date {
     font-size: 0.9em;
     color: #666;
-    margin-top: 5px;
+    margin-top: -12px;
 }
 
 .comment-content {
@@ -1796,6 +1796,12 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
     font-size: 1em;
     color: #333;
 }
+.comment_left .flex{
+	display:flex;
+	gap: 10px;
+    align-items: center;
+}
+
 
 /* 댓글 입력 창 스타일 */
 .comment-input {
@@ -1843,6 +1849,11 @@ input[type="submit"].big, input[type="reset"].big, input[type="button"].big, but
 	height:160px;
 	object-fit:cover;
 	border-radius:50%;
+}
+
+#preview_image.profile_image{
+	width:60px;
+	height:60px;
 }
 
 .upload_img_btn .fa-pencil-square{

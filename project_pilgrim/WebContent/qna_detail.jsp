@@ -81,10 +81,25 @@
     <c:forEach var="reply" items="${replyList}">
         <div class="comment">
         	<div class="comment_left">
-        		<div class="comment-author">${reply.member_id }</div> 
-	            <div class="comment-date">
-		            <fmt:formatDate value="${reply.date}" pattern="yyyy-MM-dd HH:mm:ss" timeZone="Asia/Seoul" />
+        	<div class="flex">
+        	<c:choose>
+			        <c:when test="${not empty reply.file}">
+			            <img id="preview_image" class="profile_image" src="${pageContext.request.contextPath}/image?file=${reply.file}" alt="프로필 이미지">
+			        </c:when>
+			        <c:otherwise>
+			            <img id="preview_image" class="profile_image" src="./assets/images/no_profile.png" alt="Default 이미지">
+			        </c:otherwise>
+			    </c:choose>
+        		<div class="text_wrap">
+        			<div class="comment-author">${reply.member_id }</div> 
+	            	<div class="comment-date">
+			            <fmt:formatDate value="${reply.date}" pattern="yyyy-MM-dd HH:mm:ss" timeZone="Asia/Seoul" />
+	        		</div>
 		        </div>  
+        	</div>
+        		
+		        
+		        
 	            <div class="comment-content">${reply.content }</div> 
         	</div>
         	

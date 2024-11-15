@@ -310,7 +310,7 @@ public class QnaDAO {
 		    List<QnaReplyVO> replyList = new ArrayList<>();
 		    PreparedStatement pstmt = null;
 		    ResultSet rs = null;
-		    String sql = "SELECT * FROM qna_comment WHERE bno = ? ORDER BY date asc";
+		    String sql = "SELECT r.comment_id, r.member_id, r.content, r.date, m.file FROM qna_comment r JOIN member m ON r.member_id = m.member_id WHERE r.bno = ?";
 		    
 		    try {
 		        pstmt = conn.prepareStatement(sql);
@@ -320,10 +320,11 @@ public class QnaDAO {
 		        while (rs.next()) {
 		            QnaReplyVO reply = new QnaReplyVO();
 		            reply.setComment_id(rs.getInt("comment_id"));
-		            reply.setBno(rs.getInt("bno"));
+		            // reply.setBno(rs.getInt("bno"));
 		            reply.setMember_id(rs.getString("member_id"));
 		            reply.setContent(rs.getString("content"));
 		            reply.setDate(rs.getTimestamp("date"));
+		            reply.setFile(rs.getString("file"));
 		            replyList.add(reply);
 		        }
 		    } catch (SQLException e) {
