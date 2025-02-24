@@ -79,10 +79,10 @@ button{
 
 /* 예약신청 페이지 */
 #container {
-	max-width: 1250px;
+	max-width: 1400px;
 	/*margin:20px auto;*/
-	width:80%;
-    /*width: 100%;*/
+	/*width:85%;*/
+    width: 100%;
 }
 .calendar .title{
 	height: 37px;
@@ -164,7 +164,7 @@ button{
 	box-sizing:border-box;
 	margin-bottom:6px;
 	font-size: .9em;
-    height: 2em;
+    height: auto;
     font-weight:400;
 }
 
