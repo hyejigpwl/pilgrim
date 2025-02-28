@@ -2465,7 +2465,7 @@ body.is-touch .wrapper.style3 {
 }
 
 #header nav ul li a:hover {
-	color: #a07c1f;
+	color: #a07c1f !important;
 }
 
 #header nav ul li:first-child {
@@ -2519,7 +2519,7 @@ body.is-touch .wrapper.style3 {
 
 #header.alt nav {
 	right: 2em;
-	top: 2em;
+	top: 1.7em;
 }
 
 #header.alt nav a {
@@ -2678,10 +2678,10 @@ body.is-touch .wrapper.style3 {
 #navPanel ul li {
 	padding: 0;
 }
-#navPanel >ul>li> a{
+/* #navPanel >ul>li> a{
 	background:url("../images/angle-down-solid.svg") no-repeat right center;
 	background-size:1em;
-}
+} */
 
 #navPanel ul li:first-child a:not(.button), #navPanel ul li:first-child span:not(.button)
 	{

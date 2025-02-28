@@ -76,7 +76,7 @@
 						
 			// gnb 메뉴 슬라이드
 						
-			$("#nav>ul>li").mouseover(function(){
+			/*$("#nav>ul>li").mouseover(function(){
                 $("#nav .submenu").stop().hide();
                 $(this).find("ul").stop().show();
             });
@@ -84,15 +84,15 @@
 			
             $("#nav .submenu,#nav>ul>li").mouseleave(function(){
                 $("#nav .submenu").stop().hide();
-            });
+            });*/
 			
 
-			$("#nav .submenu").mouseover(function(){
-				$(this).siblings().css({"color":"#a07c1f","font-weight":"500"});
+			$("#header.alt li a").mouseover(function(){
+				$(this).css({"color":"#a07c1f","font-weight":"500"});
 			});
 
-			$("#nav .submenu").mouseleave(function(){
-				$(this).siblings().css({"color":"#333","font-weight":"400"});
+			$("#header.alt li a").mouseleave(function(){
+				$(this).css({"color":"#333","font-weight":"400"});
 			});
 			
 

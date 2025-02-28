@@ -26,7 +26,7 @@ public class QnaWriteAction implements Action {
 		ActionForward forward = null;
 		QnaVO qna = null;
 		String realFolder = null;
-		String saveFolder = "D:/hyeji/98.temp/upload";
+		String saveFolder = "C:/hyeji/upload";
 		int fileSize = 1024*1024*5; // 5mb
 		
 		ServletContext context = req.getServletContext();

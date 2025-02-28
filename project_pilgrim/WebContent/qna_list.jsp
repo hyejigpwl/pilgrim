@@ -22,7 +22,7 @@
 </head>
 <%@include file="header.jsp"%>
 <div class="sub_top">
-	<h3>예약문의 및 취소</h3>
+	<h3>이용후기</h3>
 </div>
 <div class="container mt-sm-5 qna_page" align="center">
 		<div class="jumbotron">

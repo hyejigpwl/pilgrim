@@ -70,7 +70,7 @@ button{
 }
 
 #header.alt nav a:active, #header.alt>nav>ul>li>a:hover {
-    color: #a07c1f;
+    color: #a07c1f !important;
 }
 
 #nav .submenu li a {
@@ -81,8 +81,7 @@ button{
 #container {
 	max-width: 1400px;
 	/*margin:20px auto;*/
-	/*width:85%;*/
-    width: 100%;
+	width:85%;
 }
 .calendar .title{
 	height: 37px;

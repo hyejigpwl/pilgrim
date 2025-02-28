@@ -98,6 +98,7 @@ public class MemberDAO {
  		} catch (Exception e) {
  			System.out.println("회원등록실패!!!");
  			insertCount=0;
+ 			e.printStackTrace();
  		} finally {
  			JDBCUtility.close(null, pstmt, null);
  		}

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <Context>
     <Resource 
         name="jdbc/pilgrim"
@@ -8,8 +7,10 @@
         username="root"
         password="gPwl3977!"
         driverClassName="com.mysql.cj.jdbc.Driver"
-        url="jdbc:mysql://localhost:3306/pilgrim?serverTimezone=Asia/Seoul"
+        url="jdbc:mysql://127.0.0.1:3306/pilgrim_2?serverTimezone=Asia/Seoul&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"
         maxTotal="50"
-        
+        maxIdle="10"
+        maxWaitMillis="10000"
+        validationQuery="SELECT 1"
     />
 </Context>
