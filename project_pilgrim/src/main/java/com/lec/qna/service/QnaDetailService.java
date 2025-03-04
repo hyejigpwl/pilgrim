@@ -1,10 +1,11 @@
 package com.lec.qna.service;
 
 import java.sql.Connection;
-
+import java.util.List;
 
 import com.lec.db.JDBCUtility;
 import com.lec.qna.dao.QnaDAO;
+import com.lec.qna.vo.QnaFilesVO;
 import com.lec.qna.vo.QnaVO;
 
 public class QnaDetailService {
@@ -27,4 +28,13 @@ public class QnaDetailService {
 		qna = qnaDAO.selectQna(bno);
 		return qna;
 	}
+	
+	 // ✅ 특정 게시글의 파일 리스트 조회
+    public List<QnaFilesVO> getFiles(int bno) {
+        Connection conn = JDBCUtility.getConnection();
+        QnaFileService fileService = QnaFileService.getInstance();
+        List<QnaFilesVO> fileList = fileService.getFilesByBno(bno);
+        JDBCUtility.close(conn,null,null);
+        return fileList;
+    }
 }

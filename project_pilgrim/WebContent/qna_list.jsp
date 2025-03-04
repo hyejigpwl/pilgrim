@@ -56,7 +56,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<%-- <c:forEach var="qna" items="${ qnaList }">
+			<c:forEach var="qna" items="${ qnaList }">
 				<tr>
 			        <td class="bno">${ qna.getBno() }</td>
 			        <td class="title">
@@ -73,9 +73,9 @@
 			                </c:otherwise>
 			            </c:choose>
 			            <span class="badge badge-danger ml-sm-3">${ qna.getReply_count() }</span>
-			            <c:if test="${ !empty qna.getFile() }">
+			            <%-- <c:if test="${ !empty qna.getFile() }">
 			                <i class="fas fa-file-download"></i>
-			            </c:if>
+			            </c:if> --%>
 			            <img class="lock" src="./assets/images/lock.png" alt="">
 			        </td>
 			        <td class="member_id">${ qna.getMember_id() }</td>
@@ -83,7 +83,6 @@
 			        <td class="date">${ qna.getDate() }</td>
 			    </tr>
 			</c:forEach>
- --%>
 
 			</tbody>
 		</table>

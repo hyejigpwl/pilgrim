@@ -287,8 +287,8 @@ public class QnaDAO {
 	public boolean insertReply(QnaReplyVO reply) {
 		PreparedStatement pstmt = null;
 		boolean isInsertSuccess = false;
-		String insertReplySQL = "INSERT INTO qna_comment (bno, member_id, content, date) VALUES (?, ?, ?, NOW())";
-		String updateReplyCountSQL = "UPDATE qna SET reply_count = (SELECT COUNT(*) FROM qna_comment WHERE bno = ?) WHERE bno = ?";
+		String insertReplySQL = "INSERT INTO qna_reply (bno, member_id, content, date) VALUES (?, ?, ?, NOW())";
+		String updateReplyCountSQL = "UPDATE qna SET reply_count = (SELECT COUNT(*) FROM qna_reply WHERE bno = ?) WHERE bno = ?";
 
 		try {
 			conn.setAutoCommit(false); // 트랜잭션 시작
@@ -340,7 +340,7 @@ public class QnaDAO {
 		List<QnaReplyVO> replyList = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT r.comment_id, r.member_id, r.content, r.date, m.file FROM qna_comment r JOIN member m ON r.member_id = m.member_id WHERE r.bno = ?";
+		String sql = "SELECT r.comment_id, r.member_id, r.content, r.date, m.file FROM qna_reply r JOIN member m ON r.member_id = m.member_id WHERE r.bno = ?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -367,8 +367,8 @@ public class QnaDAO {
 
 	public boolean deleteReply(int bno, int replyId) {
 		boolean isSuccess = false;
-		String deleteReplySQL = "DELETE FROM qna_comment WHERE comment_id = ?";
-		String updateReplyCountSQL = "UPDATE qna SET reply_count = (SELECT COUNT(*) FROM qna_comment WHERE bno = ?) WHERE bno = ?";
+		String deleteReplySQL = "DELETE FROM qna_reply WHERE comment_id = ?";
+		String updateReplyCountSQL = "UPDATE qna SET reply_count = (SELECT COUNT(*) FROM qna_reply WHERE bno = ?) WHERE bno = ?";
 
 		try {
 			conn.setAutoCommit(false); // 트랜잭션 시작

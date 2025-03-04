@@ -5,8 +5,8 @@
 	request.setCharacterEncoding("utf-8");
 	String fileName = request.getParameter("fn");
 	
-	String src = "C:/hyeji/upload/" + fileName;
-	String des = "C:/hyeji/download/";
+	String src = "Users/hyeji/upload/" + fileName;
+	String des = "Users/hyeji/download/";
 	
 	File srcFile = new File(src);
 	File desDir = new File(des);
