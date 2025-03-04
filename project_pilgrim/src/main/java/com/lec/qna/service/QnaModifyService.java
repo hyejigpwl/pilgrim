@@ -26,21 +26,29 @@ public class QnaModifyService {
 	}
 	
 	public boolean modifyQna(QnaVO qna, List<String> files) {
-		boolean isModifySuccess = false;
-		
-		Connection conn = JDBCUtility.getConnection();
-		QnaDAO qnaDAO = QnaDAO.getInstance();
-		qnaDAO.setConnection(conn);  	
-		int updateCount = qnaDAO.updateQna(qna,files);
-		
-		if(updateCount > 0) {
-			JDBCUtility.commit(conn);
-			JDBCUtility.close(conn, null, null);
-			isModifySuccess = true;
-		} else {
-			JDBCUtility.rollback(conn);
-		}
-			
-		return isModifySuccess;
+	    boolean isModifySuccess = false;
+	    Connection conn = null;
+
+	    try {
+	        conn = JDBCUtility.getConnection();
+	        QnaDAO qnaDAO = QnaDAO.getInstance();
+	        qnaDAO.setConnection(conn);
+
+	        int updateCount = qnaDAO.updateQna(qna, files);
+
+	        if (updateCount > 0) {
+	            JDBCUtility.commit(conn);
+	            isModifySuccess = true;
+	        } else {
+	            JDBCUtility.rollback(conn);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        JDBCUtility.close(conn, null, null);
+	    }
+
+	    return isModifySuccess;
 	}
+
 }

@@ -54,19 +54,22 @@
 						</li>
 					</ul>
 				</div>
+				<div class="b-etc-box">
+					<c:choose>
+						<c:when test="${not empty fileList}">
+							<c:forEach var="file" items="${fileList}">
+								<div>
+									<i class="fas fa-file-download"></i><a href="download.qa?file=${file.fileName}">${file.fileName}</a>
+								</div>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<p></p>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
-			<c:choose>
-				<c:when test="${not empty fileList}">
-					<ul>
-						<c:forEach var="file" items="${fileList}">
-							<li><a href="download.jsp?file=${file.fileName}">${file.fileName}</a></li>
-						</c:forEach>
-					</ul>
-				</c:when>
-				<c:otherwise>
-					<p></p>
-				</c:otherwise>
-			</c:choose>
+
 			<div class="b-content-box">${qna.getContent() }</div>
 
 

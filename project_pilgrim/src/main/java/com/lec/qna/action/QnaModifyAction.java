@@ -24,7 +24,7 @@ public class QnaModifyAction implements Action {
     public ActionForward execute(HttpServletRequest req, HttpServletResponse res) {
 
         ActionForward forward = null;
-        String saveFolder = "Users/hyeji/upload"; // 파일 저장 경로
+        String saveFolder = "/Users/hyeji/upload"; // 파일 저장 경로
         int fileSize = 1024 * 1024 * 10; // 10MB 제한
 
         boolean isWriter = false;
@@ -64,24 +64,10 @@ public class QnaModifyAction implements Action {
                     fileList.add(fileName);
                 }
             }
-
-            // ✅ 5. 기존 파일 삭제 후 게시글 수정
-            QnaFileService fileService = QnaFileService.getInstance();
-
-            if (!fileList.isEmpty()) { // 새 파일이 있을 때만 기존 파일 삭제
-                fileService.deleteFilesByBno(bno);
-            }
-
+            
             boolean isSuccess = qnaModifyService.modifyQna(qna,fileList);
-
-            if (isSuccess) {
-                // ✅ 6. 새 파일 저장
-                if (!fileList.isEmpty()) {
-                    fileService.saveFiles(bno, fileList);
-                }
-                sendAlert(res, "게시글이 수정되었습니다.", "qnaList.qa");
-            } else {
-                sendAlert(res, "게시글 수정 실패", "history.back()");
+            if(isSuccess) {
+            	sendAlert(res, "게시글이 수정되었습니다.", String.format("/qna_detail.jsp?p=%d&bno=%d", p, bno));
             }
 
         } catch (Exception e) {

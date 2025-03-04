@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ImageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;  // serialVersionUID 필드 추가
 
-    private static final String UPLOAD_DIR = "Users/hyeji/upload/";
+    private static final String UPLOAD_DIR = "/Users/hyeji/upload/";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

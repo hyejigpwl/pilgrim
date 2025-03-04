@@ -17,26 +17,37 @@ public class QnaFileService {
 	}
 
 	// ✅ 1. 파일 리스트를 한 번에 저장
-	public void saveFiles(int bno, List<String> files) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO qna_files (qna_bno, file_name) VALUES (?, ?)";
+	public void saveFiles(int bno, List<String> files, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    String sql = "INSERT INTO qna_files (qna_bno, file_name) VALUES (?, ?)";
 
-		try {
-			conn = JDBCUtility.getConnection();
-			pstmt = conn.prepareStatement(sql);
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        if (files == null || files.isEmpty()) {
+	            System.out.println("🚨 저장할 파일이 없습니다. (files 리스트가 비어 있음)");
+	            return; // 파일이 없으면 더 이상 진행하지 않음
+	        }
 
-			for (String fileName : files) {
-				pstmt.setInt(1, bno);
-				pstmt.setString(2, fileName);
-				pstmt.executeUpdate();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtility.close(conn, pstmt, null);
-		}
+	        for (String fileName : files) {
+	            System.out.println("▶ 파일 저장 중: " + fileName);
+	            pstmt.setInt(1, bno);
+	            pstmt.setString(2, fileName);
+	            int result = pstmt.executeUpdate();
+	            
+	            if (result == 0) {
+	                System.out.println("🚨 파일 저장 실패: " + fileName);
+	            } else {
+	                System.out.println("✅ 파일 저장 완료: " + fileName);
+	            }
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        JDBCUtility.close(null, pstmt, null); // 🔥 conn을 닫지 않음 (트랜잭션 유지)
+	    }
 	}
+
 
 	// ✅ 2. 특정 게시글(bno)의 파일 목록 조회
 	public List<QnaFilesVO> getFilesByBno(int bno) {
@@ -83,5 +94,48 @@ public class QnaFileService {
 	        JDBCUtility.close(conn, pstmt, null);
 	    }
 	}
+	
+	public void modifyFiles(int bno, List<String> files, Connection conn) {
+	    PreparedStatement deletePstmt = null;
+	    PreparedStatement insertPstmt = null;
+	    
+	    String deleteSql = "DELETE FROM qna_files WHERE qna_bno = ?";
+	    String insertSql = "INSERT INTO qna_files (qna_bno, file_name) VALUES (?, ?)";
+
+	    try {
+	        // 1. 기존 파일 삭제
+	        deletePstmt = conn.prepareStatement(deleteSql);
+	        deletePstmt.setInt(1, bno);
+	        int deleteCount = deletePstmt.executeUpdate();
+	        System.out.println("🗑 기존 파일 삭제 완료 (삭제된 파일 수: " + deleteCount + ")");
+
+	        // 2. 새로운 파일 추가
+	        if (files != null && !files.isEmpty()) {
+	            insertPstmt = conn.prepareStatement(insertSql);
+
+	            for (String fileName : files) {
+	                System.out.println("▶ 새 파일 저장 중: " + fileName);
+	                insertPstmt.setInt(1, bno);
+	                insertPstmt.setString(2, fileName);
+	                int result = insertPstmt.executeUpdate();
+
+	                if (result == 0) {
+	                    System.out.println("🚨 파일 저장 실패: " + fileName);
+	                } else {
+	                    System.out.println("✅ 파일 저장 완료: " + fileName);
+	                }
+	            }
+	        } else {
+	            System.out.println("🚨 새로 저장할 파일이 없습니다.");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        JDBCUtility.close(null, deletePstmt, null);
+	        JDBCUtility.close(null, insertPstmt, null); // 🔥 conn을 닫지 않음 (트랜잭션 유지)
+	    }
+	}
+
 
 }

@@ -3,10 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
-	String fileName = request.getParameter("fn");
+	String fileName = request.getParameter("file");
 	
-	String src = "Users/hyeji/upload/" + fileName;
-	String des = "Users/hyeji/download/";
+	String src = "/Users/hyeji/upload/" + fileName;
+	String des = "/Users/hyeji/download/";
 	
 	File srcFile = new File(src);
 	File desDir = new File(des);

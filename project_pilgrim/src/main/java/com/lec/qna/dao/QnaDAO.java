@@ -72,7 +72,8 @@ public class QnaDAO {
 			// ✅ 3. 파일 저장 (qna_files 테이블)
 			if (bno > 0 && files != null && !files.isEmpty()) {
 				QnaFileService fileService = QnaFileService.getInstance();
-				fileService.saveFiles(bno, files); // ✅ 파일 저장 실행
+				fileService.saveFiles(bno, files, conn); // ✅ 파일 저장 실행
+				System.out.println(files);
 			}
 
 			insertCount = affectedRows;
@@ -233,28 +234,26 @@ public class QnaDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "update qna set title = ?, content = ?, file = ? " + " where bno = ?";
+		String sql = "update qna set title = ?, content = ? " + " where bno = ?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, qna.getTitle());
 			pstmt.setString(2, qna.getContent());
-			pstmt.setInt(4, qna.getBno());
+			pstmt.setInt(3, qna.getBno());
+			
+			int affectedRows = pstmt.executeUpdate();
 
 			// ✅ 2. 방금 삽입된 게시글의 bno 가져오기
-			int bno = 0;
-			rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
-				bno = rs.getInt(1);
-			}
+			int bno = qna.getBno();
 
 			// ✅ 3. 파일 저장 (qna_files 테이블)
 			if (bno > 0 && files != null && !files.isEmpty()) {
 				QnaFileService fileService = QnaFileService.getInstance();
-				fileService.saveFiles(bno, files); // ✅ 파일 저장 실행
+				fileService.modifyFiles(bno, files, conn); // ✅ 파일 저장 실행
 			}
 
-			updateCount = pstmt.executeUpdate();
+			updateCount = affectedRows;
 		} catch (Exception e) {
 			System.out.println("게시글 수정 실패!!! " + e.getMessage());
 		} finally {

@@ -48,7 +48,31 @@
 				<div class="input-group-prepend"><span class="input-group-text"><!-- <i class="fas fa-file-alt"></i> -->첨부파일 </span></div>
 				<div class="custom-file">
 					<label for="file" class="custom-file-label" style="text-align: left; margin:0;"></label>
-					<input type="file" name="uploadFiles" multiple>
+					<input type="file" name="uploadFiles1" class="uploadFiles" multiple>
+				</div>	
+			</div>
+			
+			<div class="form-group input-group">
+				<div class="input-group-prepend"><span class="input-group-text"><!-- <i class="fas fa-file-alt"></i> -->첨부파일 </span></div>
+				<div class="custom-file">
+					<label for="file" class="custom-file-label" style="text-align: left; margin:0;"></label>
+					<input type="file" name="uploadFiles2" class="uploadFiles" multiple>
+				</div>	
+			</div>
+			
+			<div class="form-group input-group">
+				<div class="input-group-prepend"><span class="input-group-text"><!-- <i class="fas fa-file-alt"></i> -->첨부파일 </span></div>
+				<div class="custom-file">
+					<label for="file" class="custom-file-label" style="text-align: left; margin:0;"></label>
+					<input type="file" name="uploadFiles3" class="uploadFiles" multiple>
+				</div>	
+			</div>
+			
+			<div class="form-group input-group">
+				<div class="input-group-prepend"><span class="input-group-text"><!-- <i class="fas fa-file-alt"></i> -->첨부파일 </span></div>
+				<div class="custom-file">
+					<label for="file" class="custom-file-label" style="text-align: left; margin:0;"></label>
+					<input type="file" name="uploadFiles4" class="uploadFiles" multiple>
 				</div>	
 			</div>
 					
@@ -63,10 +87,18 @@
 	</div>
 	<%@include file="footer.jsp"%>
 	<script>
-		$(".custom-file-input").on('change', function() {
-			let fileName = $(this).val().split('\\').pop(); // 파일명만선택
-			// alert(this.value + "\n" + fileName);
-			$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-		})
+	$(".uploadFiles").on("change", function() {
+	    let files = $(this)[0].files; // 선택한 파일 리스트
+	    let fileNames = [];
+
+	    for (let i = 0; i < files.length; i++) {
+	        fileNames.push(files[i].name); // 모든 파일명을 배열에 추가
+	    }
+
+	    // 선택한 모든 파일명을 표시
+	    $(this).siblings(".custom-file-label").addClass("selected").html(fileNames.join(", "));
+	});
+
+
 	</script>
 </html>

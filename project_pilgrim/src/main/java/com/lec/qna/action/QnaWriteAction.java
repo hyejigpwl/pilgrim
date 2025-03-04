@@ -24,7 +24,7 @@ public class QnaWriteAction implements Action {
     public ActionForward execute(HttpServletRequest req, HttpServletResponse res) {
 
         ActionForward forward = null;
-        String saveFolder = "C:/hyeji/upload"; // 파일 저장 경로
+        String saveFolder = "/Users/hyeji/upload"; // 파일 저장 경로
         int fileSize = 1024 * 1024 * 10; // 10MB 제한
 
         HttpSession session = req.getSession();
@@ -48,6 +48,7 @@ public class QnaWriteAction implements Action {
                 String fileName = multi.getOriginalFileName(fileParam);
                 if (fileName != null) {
                     fileList.add(fileName);
+                    System.out.println(fileList);
                 }
             }
 
@@ -62,6 +63,7 @@ public class QnaWriteAction implements Action {
                 out.println("  alert('게시글이 작성되었습니다.');");
                 out.println("  location.href='qnaList.qa';"); // 게시글 목록 페이지로 이동
                 out.println("</script>");
+                System.out.println(fileList);
             } else {
                 // ❌ 게시글 등록 실패 시 에러 메시지
                 res.setContentType("text/html; charset=utf-8");
