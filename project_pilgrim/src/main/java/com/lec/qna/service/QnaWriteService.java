@@ -1,7 +1,7 @@
 package com.lec.qna.service;
 
 import java.sql.Connection;
-
+import java.util.List;
 
 import com.lec.db.JDBCUtility;
 import com.lec.qna.dao.QnaDAO;
@@ -16,14 +16,14 @@ public class QnaWriteService {
 		return qnaWriteService;
 	}
 	
-	public boolean registerQna(QnaVO qna) {
+	public boolean registerQna(QnaVO qna, List<String> files) {
 		
 		boolean isWriteSuccess = false;
 			
 		Connection conn = JDBCUtility.getConnection();
 		QnaDAO qnaDAO = QnaDAO.getInstance();
 		qnaDAO.setConnection(conn);
-		int insertCount = qnaDAO.insert(qna);
+		int insertCount = qnaDAO.insert(qna,files);
 		
 		if(insertCount > 0) {
 			JDBCUtility.commit(conn);

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.lec.common.Action;
 import com.lec.common.ActionForward;
@@ -45,7 +46,17 @@ public class QnaController extends HttpServlet {
 		// 목록조회/글쓰기/글수정/글삭제/댓글/에러/다운
 		if(command.equalsIgnoreCase("qnaWriteForm")) {
 			forward = new ActionForward();
-			forward.setPath("/qna_write.jsp");
+			// 세션에서 로그인된 사용자 ID 가져오기
+	        HttpSession session = req.getSession();
+	        String member_id = (String) session.getAttribute("member_id");
+	        
+	        if (member_id == null) {
+	            // 로그인되지 않은 경우 로그인 페이지로 리디렉션
+	            forward.setRedirect(true);
+	            forward.setPath("login.jsp");
+	        }else {
+	        	forward.setPath("/qna_write.jsp");
+	        }
 		} else if(command.equalsIgnoreCase("qnaWrite")) {
 			action = new QnaWriteAction();
 			forward = action.execute(req, res);

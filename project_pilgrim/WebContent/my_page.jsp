@@ -78,7 +78,7 @@ List<FacilityReservationVO> facilityReservationList = facilityReservationService
 			<%=roomReservation.getCheckin_date()%><br> 체크아웃 날짜:
 			<%=roomReservation.getCheckout_date()%><br> 객실 타입:
 			<%=roomReservation.getRoom_type()%><br> 예약 일시 :
-			<%=roomReservation.getReg_date()%><br> <a href="qna_write.jsp"
+			<%=roomReservation.getReg_date()%><br> <a href="#none"
 				class="res_cancel">예약취소</a>
 		<hr>
 		<%

@@ -56,7 +56,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<c:forEach var="qna" items="${ qnaList }">
+			<%-- <c:forEach var="qna" items="${ qnaList }">
 				<tr>
 			        <td class="bno">${ qna.getBno() }</td>
 			        <td class="title">
@@ -83,7 +83,7 @@
 			        <td class="date">${ qna.getDate() }</td>
 			    </tr>
 			</c:forEach>
-
+ --%>
 
 			</tbody>
 		</table>

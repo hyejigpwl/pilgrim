@@ -17,12 +17,12 @@
 <script src="assets/js/skel.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/header.js"></script>
-<title>예약문의 글쓰기</title>
+<title>이용후기 글쓰기</title>
 </head>
 
 <%@include file="header.jsp"%>
 <div class="sub_top">
-	<h3>예약문의 글쓰기</h3>
+	<h3>이용후기 글쓰기</h3>
 </div>
 <div class="container qna_page" align="center">
 		<!-- <div class="jumbotron">
@@ -35,12 +35,12 @@
 			
 			<div class="form-group input-group">
 				<div class="input-group-prepend"><span class="input-group-text"><!-- <i class="fas fa-clipboard"></i>-->게시글 제목</span></div>
-				<input type="text" class="form-control" name="title" id="title" value="게시글제목" required placeholder="게시글 제목을 입력하세요..."/>
+				<input type="text" class="form-control" name="title" id="title" required placeholder="제목을 입력하세요."/>
 			</div>
 			
 			<div class="form-group input-group">
 				<div class="input-group-prepend"><span class="input-group-text"><!-- <i class="fas fa-comment-dots"></i>--> 게시글 내용</span></div>
-				<textarea name="content" id="content" cols="40" rows="15" class="form-control" required placeholder="상세내용을 입력하세요!!!">상세글내용...</textarea>
+				<textarea name="content" id="content" cols="40" rows="15" class="form-control" required placeholder="상세내용을 입력하세요."></textarea>
 			</div>
 			
 
@@ -48,7 +48,7 @@
 				<div class="input-group-prepend"><span class="input-group-text"><!-- <i class="fas fa-file-alt"></i> -->첨부파일 </span></div>
 				<div class="custom-file">
 					<label for="file" class="custom-file-label" style="text-align: left; margin:0;"></label>
-					<input type="file" class="custom-file-input" id="file" name="file"/>
+					<input type="file" name="uploadFiles" multiple>
 				</div>	
 			</div>
 					

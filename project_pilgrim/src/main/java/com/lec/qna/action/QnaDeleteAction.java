@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.lec.qna.service.QnaDeleteService;
+import com.lec.qna.service.QnaFileService;
 import com.lec.common.Action;
 import com.lec.common.ActionForward;
 
@@ -31,11 +32,14 @@ public class QnaDeleteAction implements Action {
 		
 		QnaDeleteService qnaDeleteService = QnaDeleteService.getInstance();
 		isWriter = qnaDeleteService.isQnaWriter(bno, member_id);
+		QnaFileService qnaFileService = QnaFileService.getInstance();
+		
 		String msg = "";
 		
 		// 작성자이거나 관리자인 경우 삭제 가능
 		if(isWriter || isAdmin) {
 			isDeleteSuccess = qnaDeleteService.deleteQna(bno);
+			qnaFileService.deleteFilesByBno(bno);
 			
 			if(isDeleteSuccess) {
 				msg = "게시글이 삭제되었습니다.";
