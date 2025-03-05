@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
@@ -31,7 +32,7 @@
 
 <%@include file="header.jsp"%>
 <div class="sub_top">
-	<h3>예약문의 및 취소</h3>
+	<h3>이용후기</h3>
 </div>
 <div class="container">
 	<div class="bn-view-common01 type01 ">
@@ -59,7 +60,8 @@
 						<c:when test="${not empty fileList}">
 							<c:forEach var="file" items="${fileList}">
 								<div>
-									<i class="fas fa-file-download"></i><a href="download.qa?file=${file.fileName}">${file.fileName}</a>
+									<i class="fas fa-file-download"></i><a
+										href="download.qa?file=${file.fileName}">${file.fileName}</a>
 								</div>
 							</c:forEach>
 						</c:when>
@@ -70,7 +72,27 @@
 				</div>
 			</div>
 
-			<div class="b-content-box">${qna.getContent() }</div>
+			<div class="b-content-box" style=" white-space: pre-wrap;word-break: break-all;overflow: auto;">
+				${qna.getContent()}
+
+				<!--  업로드한 파일 중 이미지가 있을 경우 -->
+				<c:choose>
+					<c:when test="${not empty fileList}">
+						<c:forEach var="file" items="${fileList}">
+							<c:set var="fileName" value="${file.fileName}" />
+							<c:set var="fileExt"
+								value="${fn:toLowerCase(fn:substringAfter(fileName, '.'))}" />
+							<c:if
+								test="${fileExt == 'png' or fileExt == 'jpg' or fileExt == 'jpeg' or fileExt == 'gif'}">
+								<img
+									src="${pageContext.request.contextPath}/image?file=${fileName}"
+									alt="">
+							</c:if>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+
+			</div>
 
 
 		</div>

@@ -3,6 +3,7 @@ package com.lec.qna.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -54,20 +55,19 @@ public class QnaModifyAction implements Action {
             qna.setTitle(multi.getParameter("title"));
             qna.setContent(multi.getParameter("content"));
 
-            // ✅ 4. 다중 파일 리스트 변환 (새 파일 수집)
-            List<String> fileList = new ArrayList<>();
-            Enumeration<?> fileNames = multi.getFileNames();
-            while (fileNames.hasMoreElements()) {
-                String fileParam = (String) fileNames.nextElement();
-                String fileName = multi.getOriginalFileName(fileParam);
-                if (fileName != null) {
-                    fileList.add(fileName);
-                }
-            }
+            // 파일명 수집
+            String[] fileListArray = multi.getParameter("fileList") != null ? 
+                                     multi.getParameter("fileList").split(",") : new String[0];
+
+            List<String> fileList = new ArrayList<>(Arrays.asList(fileListArray));
+
+            // ✅ 최종 파일 리스트 확인
+            System.out.println("📂 최종 파일 리스트: " + fileList);
+
             
             boolean isSuccess = qnaModifyService.modifyQna(qna,fileList);
             if(isSuccess) {
-            	sendAlert(res, "게시글이 수정되었습니다.", String.format("/qna_detail.jsp?p=%d&bno=%d", p, bno));
+            	sendAlert(res, "게시글이 수정되었습니다.",String.format("qnaDetail.qa?p=%d&bno=%d",p,bno));
             }
 
         } catch (Exception e) {

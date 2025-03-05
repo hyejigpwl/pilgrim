@@ -31,7 +31,7 @@
 
 
 	<form action="qnaModify.qa" method="post" name="qnaForm"
-		enctype="multipart/form-data">
+		enctype="multipart/form-data" onsubmit="prepareFileList()">
 		<input type="hidden" name="p" value="${ param.p }" /> <input
 			type="hidden" name="bno" value="${ qna.getBno() }" />
 
@@ -79,7 +79,8 @@
 							<label for="file${fileList.size() + status.index}"
 								class="custom-file-label" style="text-align: left;">
 								업로드할 파일을 선택하세요 </label> <input type="file" class="custom-file-input"
-								id="file${fileList.size() + status.index}" name="uploadFiles${fileList.size() +status.index}" multiple/>
+								id="file${fileList.size() + status.index}"
+								name="uploadFiles${fileList.size() +status.index}" multiple />
 						</div>
 					</div>
 				</c:forEach>
@@ -98,33 +99,50 @@
 			</c:otherwise>
 		</c:choose>
 
-<!-- <div class="form-group input-group">
-					<div class="custom-file">
-						<label for="file" class="custom-file-label" style="text-align: left;">${ choose_file }</label>
-						<input type="file" class="custom-file-input" id="file" name="file"/>
-					</div>
-				</div>-->
+		<input type="hidden" id="fileListInput" name="fileList" />
 
-<div
-	class="form-group input-group mt-md-5 justify-content-center btn_wrap">
-	<input type="reset"
-		class="btn btn-success float-right login-btn ml-sm-2" value="새로고침" />
-	<a href="javascript:history.go(-1)"
-		class="btn btn-success ml-sm-2 float-right button">이전</a> <input
-		type="submit" class="btn btn-success float-right login-btn special"
-		value="게시글수정" />
-</div>
-</form>
+
+		<div
+			class="form-group input-group mt-md-5 justify-content-center btn_wrap">
+			<input type="reset"
+				class="btn btn-success float-right login-btn ml-sm-2" value="새로고침" />
+			<a href="javascript:history.go(-1)"
+				class="btn btn-success ml-sm-2 float-right button">이전</a> <input
+				type="submit" class="btn btn-success float-right login-btn special"
+				value="게시글수정" />
+		</div>
+	</form>
 </div>
 <script>
-	$(".custom-file-input").on(
-			'change',
-			function() {
-				let fileName = $(this).val().split('\\').pop(); // 파일명만선택
-				// alert(this.value + "\n" + fileName);
-				$(this).siblings(".custom-file-label").addClass("selected")
-						.html(fileName);
-			})
+
+$(".custom-file-input").on(
+		'change',
+		function() {
+			let fileName = $(this).val().split('\\').pop(); // 파일명만선택
+			// alert(this.value + "\n" + fileName);
+			$(this).siblings(".custom-file-label").addClass("selected")
+					.html(fileName);
+		})
+		
+function prepareFileList() {
+    let fileLabels = document.querySelectorAll('.custom-file-label'); // 모든 파일 라벨 가져오기
+    let fileList = [];
+
+    fileLabels.forEach(label => {
+        let fileName = label.innerHTML.trim();
+        if (fileName !== "업로드할 파일을 선택하세요") { // 빈 값 방지
+            fileList.push(fileName);
+        }
+        console.log(fileName);
+    });
+
+    // 🔥 숨겨진 input에 값 저장
+    document.getElementById('fileListInput').value = fileList.join(',');
+
+    console.log("📂 서버로 전송할 파일 리스트:", fileList);
+}
+
+	
 </script>
 <%@include file="footer.jsp"%>
 </html>
