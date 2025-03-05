@@ -43,8 +43,20 @@
 					<span>${qna.getTitle() }</span>
 				</p>
 
-				<div class="b-etc-box">
+				<div class="b-etc-box" style="display:flex; align-items: center; gap:10px;">
+					<c:choose>
+						<c:when test="${not empty member.getFile()}">
+							<img id="preview_image" class="profile_image"
+								src="${pageContext.request.contextPath}/image?file=${member.getFile()}"
+								alt="프로필 이미지" style="width: 30px; height: 30px;">
+						</c:when>
+						<c:otherwise>
+							<img id="preview_image" class="profile_image"
+								src="./assets/images/no_profile.png" alt="Default 이미지" style="width: 30px; height: 30px;">
+						</c:otherwise>
+					</c:choose>
 					<ul>
+
 						<li class="b-writer-box"><span>작성자</span> <span>${qna.getMember_id()}</span>
 						</li>
 
@@ -60,7 +72,7 @@
 						<c:when test="${not empty fileList}">
 							<c:forEach var="file" items="${fileList}">
 								<div>
-									<i class="fas fa-file-download"></i><a
+									<i class="fas fa-file-download" style="margin-right:7px;"></i><a
 										href="download.qa?file=${file.fileName}">${file.fileName}</a>
 								</div>
 							</c:forEach>
@@ -72,8 +84,8 @@
 				</div>
 			</div>
 
-			<div class="b-content-box" style=" white-space: pre-wrap;word-break: break-all;overflow: auto;">
-				${qna.getContent()}
+			<div class="b-content-box">
+				<pre style="width: 100%; white-space: pre-wrap;">${qna.getContent()}</pre>
 
 				<!--  업로드한 파일 중 이미지가 있을 경우 -->
 				<c:choose>

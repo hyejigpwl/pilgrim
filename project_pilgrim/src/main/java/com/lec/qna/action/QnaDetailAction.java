@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.lec.common.Action;
 import com.lec.common.ActionForward;
+import com.lec.member.service.MyInfoListService;
+import com.lec.member.vo.MemberVO;
 import com.lec.qna.service.QnaDetailService;
 import com.lec.qna.service.QnaReplyService;
 import com.lec.qna.vo.QnaFilesVO;
@@ -30,6 +33,14 @@ public class QnaDetailAction implements Action {
 		QnaVO qna = qnaDetailService.getQna(bno);
 		List<QnaFilesVO> fileList = qnaDetailService.getFiles(bno);
 		
+		 // 작성자 ID 가져오기
+        String member_id = qna.getMember_id();
+ 
+        MyInfoListService myInfoListService = MyInfoListService.getInstance();
+        MemberVO member = myInfoListService.getMyInfoList(member_id);
+
+        // JSP에 전달
+        req.setAttribute("member", member);
 		
 		// 댓글 목록 가져오기
         QnaReplyService replyService = QnaReplyService.getInstance();
