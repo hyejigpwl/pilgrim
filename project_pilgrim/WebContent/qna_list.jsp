@@ -63,9 +63,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="qna" items="${ qnaList }">
+			<c:set var="startNumber" value="${(pageInfo.page - 1) * 10}" />
+			<c:forEach var="qna" items="${ qnaList }" varStatus="status">
 				<tr>
-					<td class="bno">${ qna.getBno() }</td>
+					<td class="bno">${startNumber + status.count}</td>
 					<td class="title">
 						<!-- 비밀글 설정 --> <%-- <c:set var="sessionMemberId" value="${sessionScope.member_id}" />
 						<c:set var="isAdmin" value="${sessionMemberId == '관리자'}" />
