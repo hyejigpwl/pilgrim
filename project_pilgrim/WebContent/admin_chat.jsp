@@ -66,31 +66,32 @@
 
     // 유저 채팅창 추가
     function addUserChat(key) {
-        let chatBox = `
-            <div class='chatBox' data-key='${key}'>
-                <h4>사용자 (${key})</h4>
-                <textarea class='messageArea' readonly></textarea><br>
-                <input type='text' class='message' placeholder='메시지 입력...' onkeydown='return enter(event, "${key}")'>
-                <button class='sendBtn' onclick='sendMessage("${key}")'>보내기</button>
-            </div>
-        `;
+    	let chatBox =
+            "<div class='chatBox' data-key='" + key + "'>" +
+                "<h4>사용자 (" + key + ")</h4>" +
+                "<textarea class='messageArea' readonly></textarea><br>" +
+                "<input type='text' class='message' placeholder='메시지 입력...' onkeydown='return enter(event, \"" + key + "\")'>" +
+                "<button class='sendBtn' onclick='sendMessage(\"" + key + "\")'>보내기</button>" +
+            "</div>";
+
         $("#chatList").append(chatBox);
     }
 
     // 메시지 표시
 	function displayUserMessage(key, message, member_id) {
-	    let $chatBox = $(`[data-key='${key}']`);
-	    $chatBox.find(".messageArea").val("(" + member_id+ ") : " + message + "\n");
+	    let $chatBox = $("[data-key =" + key + "]");
+	    let log = $chatBox.find(".messageArea").val();
+	    $chatBox.find(".messageArea").val(log + "(" + member_id+ ") : " + message + "\n");
 	}
 
     // 유저 채팅창 제거
     function removeUserChat(key) {
-        $(`[data-key='${key}']`).remove();
+    	$("[data-key =" + key + "]").remove();
     }
 
     // 메시지 전송
     function sendMessage(key) {
-        let $chatBox = $(`[data-key='${key}']`);
+        let $chatBox = $("[data-key =" + key + "]");
         let message = $chatBox.find(".message").val().trim();
 
         if (message === "") {
