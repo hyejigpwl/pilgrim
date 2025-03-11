@@ -78,8 +78,8 @@ List<FacilityReservationVO> facilityReservationList = facilityReservationService
 			<%=roomReservation.getCheckin_date()%><br> 체크아웃 날짜:
 			<%=roomReservation.getCheckout_date()%><br> 객실 타입:
 			<%=roomReservation.getRoom_type()%><br> 예약 일시 :
-			<%=roomReservation.getReg_date()%><br> <a href="#none"
-				class="res_cancel">예약취소</a>
+			<%=roomReservation.getReg_date()%><br> <a href="user_chat.jsp"
+				class="res_cancel" target="_blank">예약취소 문의하기</a>
 		<hr>
 		<%
 		}
@@ -107,8 +107,8 @@ List<FacilityReservationVO> facilityReservationList = facilityReservationService
 			<%=seminarReservation.getSeminar_type()%><br> 신청 인원:
 			<%=seminarReservation.getGuest_count()%><br> 신청 날짜:
 			<%=seminarReservation.getSeminar_date()%><br> 예약 일시 :
-			<%=seminarReservation.getReg_date()%><br> <a
-				href="qna_write.jsp" class="res_cancel">예약취소</a>
+			<%=seminarReservation.getReg_date()%><br> <a href="user_chat.jsp"
+				class="res_cancel" target="_blank">예약취소 문의하기</a>
 		<hr>
 		<%
 		}
@@ -135,8 +135,8 @@ List<FacilityReservationVO> facilityReservationList = facilityReservationService
 			<%=facilityReservation.getFacility_type()%><br> 체크인 날짜:
 			<%=facilityReservation.getCheckin_date()%><br> 체크아웃 날짜:
 			<%=facilityReservation.getCheckout_date()%><br> 예약 일시 :
-			<%=facilityReservation.getReg_date()%><br> <a
-				href="qna_write.jsp" class="res_cancel">예약취소</a>
+			<%=facilityReservation.getReg_date()%><br> <a href="user_chat.jsp"
+				class="res_cancel" target="_blank">예약취소 문의하기</a>
 		<hr>
 		<%
 		}
