@@ -24,7 +24,8 @@ public class MemberModifyAction implements Action {
         ActionForward forward = null;
         MemberVO member = null;
         String realFolder = null;
-        String saveFolder = "/Users/hyeji/upload";
+        // String saveFolder = "/Users/hyeji/upload";
+        String saveFolder = "C:\\hyeji\\upload";
         int fileSize = 1024 * 1024 * 5; // 5MB
         
         ServletContext context = req.getServletContext();

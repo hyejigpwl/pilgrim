@@ -33,12 +33,12 @@ textarea {
 			<textarea id="messageTextArea" readonly></textarea>
 			<input id="textMessage" type="text" placeholder="메시지를 입력하세요..."
 				onkeydown="return enter(event)"> <input type="button"
-				value="Send" onclick="sendMessage()"> <input type="button"
-				value="Close" onclick="closeChat()">
+				value="Send" onclick="sendMessage()"> <!-- <input type="button"
+				value="Close" onclick="closeChat()"> -->
 		</div>
 
 		<!-- 채팅 아이콘 -->
-		<button id="chatIcon">채팅 열기</button>
+		<!-- <button id="chatIcon">채팅 열기</button> -->
 
 		<!-- 로그인된 사용자 ID (세션에서 가져오기) -->
 		<input type="hidden" id="sessionUserId"
@@ -47,7 +47,7 @@ textarea {
 	</form>
 	<script>
 	// ✅ WebSocket URL 설정
-	var url = "ws://localhost:8080/project_pilgrim/userchat";
+	var url = "ws://3.107.192.1:8080/project_pilgrim/userchat";
 	var webSocket = null;
 	var messageTextArea = document.getElementById("messageTextArea");
 	var sessionUserId = document.querySelector("#sessionUserId").value;
@@ -55,10 +55,6 @@ textarea {
 	var chatArea = document.querySelector(".chatArea");
 	var uuid = null;
 
-	// ✅ 채팅창 열릴 때 WebSocket 연결
-	chatIcon.addEventListener("click", function () {
-       
-	});
 	
 	connectWebSocket(); // ✅ WebSocket 연결
 

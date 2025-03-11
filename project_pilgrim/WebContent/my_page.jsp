@@ -64,8 +64,18 @@ List<FacilityReservationVO> facilityReservationList = facilityReservationService
 		</div>
 
 	</div>
-
+<%
+	if(member_id.equals("관리자")){
+%>
 	<div class="reservation_wrap">
+	<a href="admin_chat.jsp"
+				class="res_cancel" target="_blank">문의 채팅 입장하기</a>
+	
+	</div>
+<%
+	} else{
+%>
+<div class="reservation_wrap">
 		<h3>나의 객실예약</h3>
 		<p>
 			<%
@@ -148,6 +158,12 @@ List<FacilityReservationVO> facilityReservationList = facilityReservationService
 		%>
 		</p>
 	</div>
+
+		
+<%		
+	}
+%>
+	
 </div>
 
 <%@include file="footer.jsp"%>

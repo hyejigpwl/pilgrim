@@ -25,7 +25,8 @@ public class QnaModifyAction implements Action {
     public ActionForward execute(HttpServletRequest req, HttpServletResponse res) {
 
         ActionForward forward = null;
-        String saveFolder = "/Users/hyeji/upload"; // 파일 저장 경로
+        // String saveFolder = "/Users/hyeji/upload"; // 파일 저장 경로
+        String saveFolder = "C:\\hyeji\\upload";
         int fileSize = 1024 * 1024 * 10; // 10MB 제한
 
         boolean isWriter = false;
