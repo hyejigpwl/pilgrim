@@ -58,48 +58,76 @@
     };
 
     // 서버에서 메시지 수신 처리
-    webSocket.onmessage = function (message) {
-	    let node = JSON.parse(message.data);
-	    console.log(node);
-	
-	    if (node.status === "visit") { // 유저 입장
-	        addUserChat(node.key, node.member_id);
-	    } else if (node.status === "message") { // 유저 메시지 도착
-	        displayUserMessage(node.key, node.message, node.member_id);
-	    } else if (node.status === "bye") { // 유저 퇴장
-	        removeUserChat(node.key);
-	    }
-	};
+    // ✅ WebSocket 메시지 수신 처리
+webSocket.onmessage = function (message) {
+    let node;
+    try {
+        node = JSON.parse(message.data);
+    } catch (e) {
+        console.error("🚨 JSON 파싱 오류:", message.data);
+        return;
+    }
+    
+    console.log(node);
+
+    if (node.status === "history") { 
+        // ✅ 채팅 기록 표시
+        displayUserMessage(node.member_id, node.message, node.sender);
+    } else if (node.status === "visit") { 
+        // ✅ 유저 입장 시 채팅창 생성
+        addUserChat(node.member_id);
+    } else if (node.status === "message") { 
+        // ✅ 새로운 메시지 표시
+        displayUserMessage(node.member_id, "(" + node.member_id + ") : " + node.message, node.sender);
+    } else if (node.status === "bye") { 
+        // ✅ 유저 퇴장 처리
+        removeUserChat(node.member_id);
+    }
+};
+
+// ✅ 기존 채팅 기록 및 새로운 메시지 출력
+function displayUserMessage(member_id, message, sender) {
+    let $chatBox = $("[data-id='" + member_id + "']");
+    
+    if ($chatBox.length === 0) {
+        addUserChat(member_id); // 채팅창이 없으면 생성
+        $chatBox = $("[data-id='" + member_id + "']");
+    }
+
+    let log = $chatBox.find(".messageArea").val();
+    let prefix = sender === "user" ? "(" + member_id + ") : " : "";
+    $chatBox.find(".messageArea").val(log + prefix + message + "\n");
+}
+
+
 
 
     // 유저 채팅창 추가
-    function addUserChat(key, member_id) {
-    	let chatBox =
-            "<div class='chatBox' data-key='" + key + "'>" +
-                "<h4>사용자 (" + member_id+ ")</h4>" +
-                "<textarea class='messageArea' readonly></textarea><br>" +
-                "<input type='text' class='message' placeholder='메시지 입력...' onkeydown='return enter(event, \"" + key +"\")'>" +
-                "<button class='sendBtn' onclick='sendMessage(\"" + key + "\")'>보내기</button>" +
-            "</div>";
-
-        $("#chatList").append(chatBox);
+   function addUserChat(member_id) {
+    if ($("[data-id='" + member_id + "']").length > 0) {
+        return; // ✅ 이미 존재하는 채팅창이면 추가 안 함
     }
 
-    // 메시지 표시
-	function displayUserMessage(key, message, member_id) {
-	    let $chatBox = $("[data-key ='" + key + "']");
-	    let log = $chatBox.find(".messageArea").val();
-	    $chatBox.find(".messageArea").val(log + "(" + member_id+ ") : " + message + "\n");
-	}
+    let chatBox =
+        "<div class='chatBox' data-id='" + member_id + "'>" +
+            "<h4>사용자 (" + member_id + ")</h4>" +
+            "<textarea class='messageArea' readonly></textarea><br>" +
+            "<input type='text' class='message' placeholder='메시지 입력...' onkeydown='return enter(event, \"" + member_id + "\")'>" +
+            "<button class='sendBtn' onclick='sendMessage(\"" + member_id + "\")'>보내기</button>" +
+        "</div>";
+
+    $("#chatList").append(chatBox);
+}
+
 
     // 유저 채팅창 제거
-    function removeUserChat(key) {
-    	$("[data-key ='" + key + "']").remove();
+    function removeUserChat(member_id) {
+    	// $("[data-id ='" + member_id + "']").remove();
     }
 
     // 메시지 전송
-    function sendMessage(key) {
-        let $chatBox = $("[data-key ='" + key + "']");
+    function sendMessage(member_id) {
+        let $chatBox = $("[data-id ='" + member_id + "']");
         let message = $chatBox.find(".message").val();
 
         if (message === "") {
@@ -113,14 +141,14 @@
         message = "(관리자) : " + message;
 
         // ✅ WebSocket을 통해 유저의 key와 함께 메시지 전송
-        webSocket.send(sessionUserId + "," + message+ "," + key);
+        webSocket.send(sessionUserId + "," + message);
         
     }
 
     // Enter 키 입력 시 메시지 전송
-    function enter(event, key) {
+    function enter(event, member_id) {
         if (event.keyCode === 13) {
-            sendMessage(key);
+            sendMessage(member_id);
             return false;
         }
         return true;

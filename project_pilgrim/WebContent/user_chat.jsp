@@ -7,6 +7,9 @@
 <title>예약 취소 문의</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
+form{
+position:relative;
+}
 .chatArea {
 	/*display:none;*/
 	margin:0 auto;
@@ -27,10 +30,20 @@ textarea {
 .hidden {
 	display: none;
 }
+
+#connectionStatus{
+	position:absolute;
+	z-index:100000;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+}
 </style>
 </head>
 <body>
+	
 	<form>
+	<div id="connectionStatus">로딩 중...</div>
 		<div class="chatArea">
 			<textarea id="messageTextArea" readonly></textarea>
 			<input id="textMessage" type="text" placeholder="메시지를 입력하세요..."
@@ -57,8 +70,9 @@ textarea {
 	var chatArea = document.querySelector(".chatArea");
 	var uuid = null;
 	var url = "ws://localhost:8080/project_pilgrim/userchat?member_id=" + encodeURIComponent(sessionUserId);
-
 	
+	var connectionStatus = document.getElementById("connectionStatus");
+
 	connectWebSocket(); // ✅ WebSocket 연결
 
 	// ✅ WebSocket 연결 함수 (중복 연결 방지)
@@ -72,6 +86,7 @@ textarea {
 
 	    webSocket.onopen = function () {
 	    	console.log("✅ WebSocket 서버 연결됨.");
+	    	
 
 	        // ✅ 서버에 로그인된 사용자 ID(sessionUserId) 전송
 	        if (sessionUserId) {
@@ -93,10 +108,12 @@ textarea {
 
 	    webSocket.onmessage = function (message) {
 	        console.log("📩 WebSocket 메시지 수신:", message.data);
+	        // connectionStatus.innerText = "연결됨";
 
 	        if (message.data.includes("uuid:")) {
 	            uuid = message.data.split(":")[1]; // ✅ UUID 저장
 	        } else {
+	        	connectionStatus.style.display = "none";
                 messageTextArea.value += message.data + "\n";
             }
 	        
@@ -115,6 +132,7 @@ textarea {
 
 	    // ✅ 메시지를 WebSocket을 통해 전송
 	    webSocket.send(sessionUserId + "," + message);
+	    
 
 	    // ✅ 메시지를 채팅창에 출력
 	    messageTextArea.value += "(나) : " + message + "\n";

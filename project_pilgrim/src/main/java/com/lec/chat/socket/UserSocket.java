@@ -44,6 +44,22 @@ public class UserSocket {
 	static User getUser(String key) {
 		return searchUser(x -> x.key.equals(key));
 	}
+	
+	//리스트에서 탐색(member_id)
+	static User getUserById(String member_id) {
+		return searchUser(x -> x.member_id.equals(member_id));
+	}
+	
+	// 현재 접속중인 User들의 member_id
+	public static List<String> getConnectedUserIds() {
+	    List<String> memberIds = new ArrayList<>();
+	    for (User user : sessionUsers) {
+	        if (user.member_id != null) {
+	            memberIds.add(user.member_id);
+	        }
+	    }
+	    return memberIds;
+	}
 
 	
 	
@@ -87,31 +103,19 @@ public class UserSocket {
 	    
 	    final String member_id = optionalMemberId.orElse(null);
 
-	    // ✅ 기존 사용자(`member_id`)가 이미 존재하면 기존 `uuid` 유지
-	    User existingUser = sessionUsers.stream()
-	        .filter(u -> u.member_id != null && Objects.equals(u.member_id, member_id))
-	        .findFirst()
-	        .orElse(null);
-
 	    User user;
-	    if (existingUser != null) {
-	        // ✅ 기존 사용자 정보 사용 (uuid 유지)
-	        user = existingUser;
-	        user.session = userSession; // 기존 UUID 유지하면서 새 WebSocket 세션으로 업데이트
-	        System.out.println("♻️ 기존 사용자 재접속 - member_id: " + member_id + ", uuid: " + user.key);
-	    } else {
-	        // ✅ 새로운 사용자면 새로운 User 객체 생성 (uuid 새로 생성)
-	        user = new User();
-	        user.key = UUID.randomUUID().toString().replace("-", "");
-	        user.session = userSession;
-	        user.member_id = member_id;
-	        sessionUsers.add(user);
-	        System.out.println("✅ 새 사용자 접속 - member_id: " + user.member_id + ", uuid: " + user.key);
-	    }
+	    
+        // ✅ 새로운 사용자면 새로운 User 객체 생성 (uuid 새로 생성)
+        user = new User();
+        user.key = UUID.randomUUID().toString().replace("-", "");
+        user.session = userSession;
+        user.member_id = member_id;
+        sessionUsers.add(user);
+        System.out.println("✅ 새 사용자 접속 - member_id: " + user.member_id + ", uuid: " + user.key);
+	    
 
-	    // ✅ UUID 전송 (기존 UUID 유지)
 	    user.session.getBasicRemote().sendText("uuid:" + user.key);
-	    AdminSocket.visit( user.key, user.member_id);
+	    AdminSocket.visit(user.member_id);
 
 	    // ✅ WebSocket 연결 시 이전 채팅 기록 전송
 	    if (user.member_id != null) {
@@ -178,7 +182,7 @@ public class UserSocket {
 	    User user = getUser(userSession);
 	    if (user != null) {
 	    	 System.out.println("🛑 WebSocket 세션 종료 (Key: " + user.key + ", ID: " + user.member_id + ")");
-	        AdminSocket.bye(user.key); // ✅ 관리자에게 유저 퇴장 알림
+	        AdminSocket.bye(user.member_id); // ✅ 관리자에게 유저 퇴장 알림
 	        sessionUsers.remove(user); // ✅ 세션 리스트에서 제거
 	        try {
 	            if (user.session.isOpen()) { // ✅ 닫힌 세션이 아니면 닫기
@@ -194,21 +198,21 @@ public class UserSocket {
 
 	
 	//운영자 -> user 메세지
-	public static void sendMessage(String key, String message) {
-	    User user = getUser(key);
+	public static void sendMessage(String member_id, String message) {
+	    User user = getUserById(member_id);
 	    if (user != null) {
 	        try {
 	            if (user.session.isOpen()) { // ✅ WebSocket 세션이 열려 있는지 확인
 	                user.session.getBasicRemote().sendText(message);
 	            } else {
-	                System.out.println("⚠️ WebSocket 세션이 이미 닫혀 있음, 메시지 전송 불가: " + key);
+	                System.out.println("⚠️ WebSocket 세션이 이미 닫혀 있음, 메시지 전송 불가: " + member_id);
 	            }
 	        } catch (IOException e) {
 	            System.err.println("🚨 WebSocket 메시지 전송 오류 (Broken pipe 가능성): " + e.getMessage());
 	            e.printStackTrace();
 	        }
 	    } else {
-	        System.out.println("⚠️ WebSocket 세션을 찾을 수 없음: " + key);
+	        System.out.println("⚠️ WebSocket 세션을 찾을 수 없음: " + member_id);
 	    }
 	}
 

@@ -71,6 +71,32 @@ public class ChatDAO {
 	    }
 	    return chatList;
 	}
+	
+	public List<ChatVO> getAllChatHistory() {
+	    List<ChatVO> chatList = new ArrayList<>();
+	    String sql = "SELECT member_id, sender, msg FROM chat_table ORDER BY created_at ASC"; 
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    
+	    try {
+	    	
+	    	conn = JDBCUtility.getConnection();
+	    	pstmt = conn.prepareStatement(sql);
+	    	ResultSet rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            ChatVO chat = new ChatVO();
+	            chat.setMember_id(rs.getString("member_id"));
+	            chat.setSender(rs.getString("sender"));
+	            chat.setMsg(rs.getString("msg"));
+	            chatList.add(chat);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return chatList;
+	}
+
 
 
 }
