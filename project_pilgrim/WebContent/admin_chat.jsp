@@ -33,6 +33,7 @@
 
 	<div class="chatContainer">
 		<h2>관리자 채팅</h2>
+		<div id="connectionStatus">로딩 중...</div>
 		<div id="chatList"></div>
 	</div>
 	<!-- 로그인된 사용자 ID (세션에서 가져오기) -->
@@ -44,7 +45,9 @@
 	var sessionUserId = document.querySelector("#sessionUserId").value;
     // var webSocket = new WebSocket("ws://3.107.192.1:8080/project_pilgrim/adminchat");
     var webSocket = new WebSocket(`ws://localhost:8080/project_pilgrim/adminchat?member_id=${sessionUserId}`);
-
+    var connectionStatus = document.getElementById("connectionStatus");
+    
+    
     webSocket.onopen = function () {
         console.log("관리자 채팅 서버에 연결됨.");
     };
@@ -62,6 +65,7 @@
 webSocket.onmessage = function (message) {
     let node;
     try {
+    	connectionStatus.style.display = "none";
         node = JSON.parse(message.data);
     } catch (e) {
         console.error("🚨 JSON 파싱 오류:", message.data);

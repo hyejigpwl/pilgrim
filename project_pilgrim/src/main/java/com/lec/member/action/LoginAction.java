@@ -41,7 +41,7 @@ public class LoginAction implements Action{
 
 	        // 이전 페이지로 이동하거나 기본 페이지 설정
 	        String previousPage = (String) session.getAttribute("previousPage");
-	        forward.setPath(previousPage != null ? previousPage : "my_page.jsp");
+	        forward.setPath(previousPage != null ? "my_page.jsp" : member_id == "관리자"? "my_page.jsp" : "login.jsp");
 	        forward.setRedirect(true); // 리디렉트 방식 사용
 	    } else {  // 로그인 실패
 	        req.setAttribute("errorMessage", "로그인 정보가 올바르지 않습니다.");

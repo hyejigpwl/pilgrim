@@ -28,7 +28,6 @@
 </div>
 <%
 // 세션에서 로그인된 사용자 정보 가져오기
-String member_id = (String) session.getAttribute("member_id");
 if (member_id == null) {
 	// 로그인되지 않은 경우 로그인 페이지로 리디렉션
 	response.sendRedirect("login.jsp");
@@ -69,7 +68,7 @@ List<FacilityReservationVO> facilityReservationList = facilityReservationService
 %>
 	<div class="reservation_wrap">
 	<a href="admin_chat.jsp"
-				class="res_cancel" target="_blank">문의 채팅 입장하기</a>
+				class="res_cancel" target="_blank" style="font-size:30px;">문의 채팅 입장하기 ></a>
 	
 	</div>
 <%

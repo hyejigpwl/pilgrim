@@ -16,6 +16,7 @@
 <script src="assets/js/main.js"></script>
 <title>필그림하우스</title>
 </head>
+
 <body class="landing">
 		<%@include file="header.jsp"%>
 

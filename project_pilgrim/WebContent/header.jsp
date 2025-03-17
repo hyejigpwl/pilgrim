@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!-- Header -->
-			<header id="header" class="alt"><h1><strong><a href="index.jsp"><img alt="필그림하우스" src="assets/images/pilgrim_logo_w.png"></a></strong></h1>
-				<nav id="nav"><ul>
-				<!-- <li><a href="#none">소개</a>
+<header id="header" class="alt">
+	<h1>
+		<strong><a href="index.jsp"><img alt="필그림하우스"
+				src="assets/images/pilgrim_logo_w.png"></a></strong>
+	</h1>
+	<nav id="nav">
+		<ul>
+			<!-- <li><a href="#none">소개</a>
 					<ul class="submenu">
 						<li><a>인사말</a></li>
 						<li><a>이용안내</a></li>
@@ -48,8 +53,33 @@
 								<li><a>포토갤러리</a></li>
 							</ul>
 						</li> -->
-						<li><a>시설</a></li>
-						<li><a href="rvn_rqt.jsp">예약신청</a></li>
-						<li><a href="qnaList.qa">이용후기</a></li>
-						<li><a href="my_page.jsp">나의 예약</a></li>
-					</ul></nav></header><a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+			<li><a>시설</a></li>
+			<li><a href="rvn_rqt.jsp">예약신청</a></li>
+			<li><a href="qnaList.qa">이용후기</a></li>
+			
+
+			<%
+			//세션에서 로그인된 사용자 정보 가져오기
+			String member_id = (String) session.getAttribute("member_id");
+			if (member_id == null) {
+			%>
+			<li><a href="my_page.jsp">나의 예약</a></li>
+			<li><a href="login.jsp">로그인</a></li>
+			<%
+			}else if("관리자".equals(member_id)){
+			%>
+			<li><a href="my_page.jsp">문의 채팅</a></li>
+			<li><a href="logout.mb">로그아웃</a></li>
+			<%
+			}else{
+			%>
+			<li><a href="my_page.jsp">나의 예약</a></li>
+			<li><a href="logout.mb">로그아웃</a></li>
+			<%
+			}
+			%>
+			
+		</ul>
+	</nav>
+</header>
+<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
