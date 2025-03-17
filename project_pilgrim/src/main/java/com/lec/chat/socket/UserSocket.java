@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,6 +44,8 @@ public class UserSocket {
 	static User getUser(String key) {
 		return searchUser(x -> x.key.equals(key));
 	}
+
+	
 	
 	// ✅ member_id로 해당 유저의 WebSocket key 찾기
 	public static String getUserKeyById(String member_id) {
@@ -56,9 +59,10 @@ public class UserSocket {
 	
 	public static String getUserIdByKey(String key) {
 	    User user = getUser(key);
-	    return (user != null && user.member_id != null) ? user.member_id : "Unknown";
+    return (user != null && user.member_id != null) ? user.member_id : "Unknown";
 	}
 
+	
 
 	
 	//접속 리스트 탐색
@@ -70,19 +74,59 @@ public class UserSocket {
 		return null;
 	}
 	
-	//접속
 	@OnOpen
-	public void handleOpen(Session userSession) throws IOException {	
-		User user = new User();
-		user.key = UUID.randomUUID().toString().replace("-", "");
-		//User에 websocektsession 부여
-		user.session = userSession;
-		//유저 리스트에 등록한다. (방 유지)
-		sessionUsers.add(user);
-		user.session.getBasicRemote().sendText("uuid:" + user.key);
-		//운영자 Client에 유저가 접속한 것을 알린다. -> admin 방 생성 처리
-		AdminSocket.visit(user.key);
+	public void handleOpen(Session userSession) throws IOException {    
+	    // ✅ WebSocket 요청에서 member_id 추출
+	    String query = userSession.getQueryString();
+	    Optional<String> optionalMemberId = Optional.empty();
+
+	    if (query != null && query.contains("member_id=")) {
+	    	String[] pair = query.split("=");
+	    	optionalMemberId = Optional.of(pair[1]);
+	    }
+	    
+	    final String member_id = optionalMemberId.orElse(null);
+
+	    // ✅ 기존 사용자(`member_id`)가 이미 존재하면 기존 `uuid` 유지
+	    User existingUser = sessionUsers.stream()
+	        .filter(u -> u.member_id != null && Objects.equals(u.member_id, member_id))
+	        .findFirst()
+	        .orElse(null);
+
+	    User user;
+	    if (existingUser != null) {
+	        // ✅ 기존 사용자 정보 사용 (uuid 유지)
+	        user = existingUser;
+	        user.session = userSession; // 기존 UUID 유지하면서 새 WebSocket 세션으로 업데이트
+	        System.out.println("♻️ 기존 사용자 재접속 - member_id: " + member_id + ", uuid: " + user.key);
+	    } else {
+	        // ✅ 새로운 사용자면 새로운 User 객체 생성 (uuid 새로 생성)
+	        user = new User();
+	        user.key = UUID.randomUUID().toString().replace("-", "");
+	        user.session = userSession;
+	        user.member_id = member_id;
+	        sessionUsers.add(user);
+	        System.out.println("✅ 새 사용자 접속 - member_id: " + user.member_id + ", uuid: " + user.key);
+	    }
+
+	    // ✅ UUID 전송 (기존 UUID 유지)
+	    user.session.getBasicRemote().sendText("uuid:" + user.key);
+	    AdminSocket.visit( user.key, user.member_id);
+
+	    // ✅ WebSocket 연결 시 이전 채팅 기록 전송
+	    if (user.member_id != null) {
+	        ChatDAO chatDao = new ChatDAO();
+	        List<ChatVO> chatHistory = chatDao.getChatHistoryByMemberId(user.member_id);
+
+	        for (ChatVO chat : chatHistory) {
+	            String formattedMessage = (chat.getSender().equals("user") ? "(나) : " : "") + chat.getMsg();
+	            
+	            user.session.getBasicRemote().sendText(formattedMessage);
+	        }
+	    }
 	}
+
+
 	
 	//JS에서 전달받을 때
 	@OnMessage
@@ -95,7 +139,7 @@ public class UserSocket {
 	        
 	        // 클라이언트에서 `sessionUserId + "," + message.value` 형태로 보냈기 때문에 분리
 	        if (splitMessage.length < 2) {
-	            System.out.println("🚨 잘못된 메시지 형식: " + message);
+	            System.out.println("🚨 잘못된 메시지 형식: " + splitMessage);
 	            return;
 	        }
 	        
@@ -111,7 +155,7 @@ public class UserSocket {
             }
             
 	        // 🔹 관리자에게 메시지 전달
-	        AdminSocket.sendMessage(user.key, msg); // ✅ 메시지만 전달하도록 수정
+	        AdminSocket.sendMessage(user.member_id, msg, user.key); // ✅ 메시지만 전달하도록 수정
 	        
 	        // 🔹 메시지를 DB에 저장
 	        ChatDAO chatDao = new ChatDAO();
@@ -174,6 +218,7 @@ public class UserSocket {
 		String[] ret = new String[sessionUsers.size()];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = sessionUsers.get(i).key;
+		
 		}
 		return ret;
 	}

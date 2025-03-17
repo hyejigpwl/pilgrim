@@ -2,6 +2,11 @@ package com.lec.chat.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.lec.chat.vo.ChatVO;
 import com.lec.db.JDBCUtility;
 
@@ -40,5 +45,32 @@ public class ChatDAO {
 	        JDBCUtility.close(conn, pstmt, null);
 	    }
 	}
+	
+	public List<ChatVO> getChatHistoryByMemberId(String member_id) {
+	    List<ChatVO> chatList = new ArrayList<>();
+	    String sql = "SELECT * FROM chat_table WHERE member_id = ? ORDER BY created_at ASC"; // 시간순 정렬
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    
+	    try {
+	    	conn = JDBCUtility.getConnection();
+	    	pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, member_id);
+	        ResultSet rs = pstmt.executeQuery();
+	        
+	        while (rs.next()) {
+	            ChatVO chat = new ChatVO();
+	            chat.setMember_id(rs.getString("member_id"));
+	            chat.setSender(rs.getString("sender"));
+	            chat.setMsg(rs.getString("msg"));
+	            chat.setUuid(rs.getString("uuid")); // 필요하면 유지
+	            chatList.add(chat);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return chatList;
+	}
+
 
 }

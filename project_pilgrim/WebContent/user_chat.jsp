@@ -4,16 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>예약 취소 문의</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 .chatArea {
 	/*display:none;*/
-	width: 300px;
+	margin:0 auto;
+	width:100%;
+	max-width: 300px;
 	height: 400px;
 	border: 1px solid #ccc;
 	padding: 10px;
-	overflow-y: auto;
+	/*overflow-y: auto;*/
 }
 
 textarea {
@@ -42,18 +44,19 @@ textarea {
 
 		<!-- 로그인된 사용자 ID (세션에서 가져오기) -->
 		<input type="hidden" id="sessionUserId"
-			value="<%=(String) session.getAttribute("member_id")%>">
+			value="<%=session.getAttribute("member_id")%>">
 
 	</form>
 	<script>
 	// ✅ WebSocket URL 설정
-	var url = "ws://3.107.192.1:8080/project_pilgrim/userchat";
+	// var url = "ws://3.107.192.1:8080/project_pilgrim/userchat";
 	var webSocket = null;
 	var messageTextArea = document.getElementById("messageTextArea");
 	var sessionUserId = document.querySelector("#sessionUserId").value;
 	var chatIcon = document.querySelector("#chatIcon");
 	var chatArea = document.querySelector(".chatArea");
 	var uuid = null;
+	var url = "ws://localhost:8080/project_pilgrim/userchat?member_id=" + encodeURIComponent(sessionUserId);
 
 	
 	connectWebSocket(); // ✅ WebSocket 연결
@@ -72,7 +75,7 @@ textarea {
 
 	        // ✅ 서버에 로그인된 사용자 ID(sessionUserId) 전송
 	        if (sessionUserId) {
-	            webSocket.send("USER_ID:" + sessionUserId);
+	            webSocket.send(sessionUserId);
 	            console.log("📩 사용자 ID 전송: " + sessionUserId);
 	        } else {
 	            console.log("🚨 사용자 ID가 없음!");
@@ -90,12 +93,15 @@ textarea {
 
 	    webSocket.onmessage = function (message) {
 	        console.log("📩 WebSocket 메시지 수신:", message.data);
+
 	        if (message.data.includes("uuid:")) {
 	            uuid = message.data.split(":")[1]; // ✅ UUID 저장
 	        } else {
-	            messageTextArea.value += "(admin) : " + message.data + "\n"; // ✅ 메시지 출력
-	        }
+                messageTextArea.value += message.data + "\n";
+            }
+	        
 	    };
+
 	}
 
 	// ✅ 메시지 전송 함수

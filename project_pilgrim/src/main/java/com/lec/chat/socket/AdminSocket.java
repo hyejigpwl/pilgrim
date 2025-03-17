@@ -1,6 +1,7 @@
 package com.lec.chat.socket;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -11,6 +12,7 @@ import javax.websocket.server.ServerEndpoint;
 import com.lec.chat.dao.ChatDAO;
 import com.lec.chat.socket.UserSocket.User;
 import com.lec.chat.vo.ChatVO;
+
 
 @ServerEndpoint("/adminchat")
 public class AdminSocket {
@@ -25,7 +27,8 @@ public class AdminSocket {
 		//기존에 접속해 있는 유저의 정보를 운영자 client로 보낸다.
 		for(String key : UserSocket.getUserKeys()) {
 			//전송
-			visit(key);
+			String member_id = UserSocket.getUserKeyById(key);
+			visit(key, member_id);
 		}
 	}
 	//메세지 보낼 때
@@ -37,25 +40,25 @@ public class AdminSocket {
 	        return; // 데이터가 올바르지 않으면 처리하지 않음
 	    }
 
-	    String[] split = message.split(",", 2);
+	    String[] split = message.split(",", 3);
 
 	    // ✅ 예외 방지: splitMessage 길이가 2가 안되면 오류 발생 가능
-	    if (split.length < 2) {
+	    if (split.length < 3) {
 	        System.out.println("🚨 메시지 분할 실패: " + message);
 	        return; // 메시지가 잘못된 경우 종료
 	    }
 
-	    String key = split[0].trim(); 
-	    String msg = split[1].trim();       // ✅ 메시지 내용
-	    String member_id = UserSocket.getUserIdByKey(key);
+	    String member_id = split[0].trim(); 
+	    String msg = split[1].trim();
+	    String key = split[2].trim();
 
 
 	    if (key == null) {
-	        System.out.println("🚨 해당 사용자 [" + key + "]의 WebSocket 세션을 찾을 수 없음.");
+	        System.out.println("🚨 해당 사용자 [" + member_id + "]의 WebSocket 세션을 찾을 수 없음.");
 	        return;
 	    }
 
-	    System.out.println("📩 메시지 수신 | 사용자: " + key + " | 내용: " + msg);
+	    System.out.println("📩 메시지 수신 | 사용자: " + member_id + " | 내용: " + msg);
 
 	    // ✅ 유저에게 메시지 전송
 	    UserSocket.sendMessage(key, msg);
@@ -92,16 +95,16 @@ public class AdminSocket {
 	
 	//아래의 조건들로 방생성, 방종료, 메세지전송
 	//유저 입장
-	public static void visit(String key) {		
-		send("{\"status\":\"visit\", \"key\":\"" + key + "\"}");
+	public static void visit(String key, String member_id) {		
+		send("{\"status\":\"visit\", \"key\":\"" + key + "\", \"member_id\":\"" + member_id + "\"}");
 	}
 	
 	// ✅ 유저 메시지 보낼 때 member_id 추가
-	public static void sendMessage(String key, String message) {
+	public static void sendMessage(String member_id, String message, String key) {
 	    User user = UserSocket.getUser(key); // 해당 유저 정보 가져오기
-	    String member_id = (user != null && user.member_id != null) ? user.member_id : "Unknown"; // member_id 가져오기
+	    String memberId = (user != null && user.member_id != null) ? user.member_id : "Unknown"; // member_id 가져오기
 
-	    send("{\"status\":\"message\", \"key\":\"" + key + "\", \"message\":\"" + message + "\", \"member_id\":\"" + member_id + "\"}");
+	    send("{\"status\":\"message\", \"key\":\"" + key + "\", \"message\":\"" + message + "\", \"member_id\":\"" + memberId + "\"}");
 	}
 
 
