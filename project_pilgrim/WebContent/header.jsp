@@ -53,8 +53,8 @@
 								<li><a>포토갤러리</a></li>
 							</ul>
 						</li> -->
-			<li><a>시설</a></li>
-			<li><a href="rvn_rqt.jsp">예약신청</a></li>
+			<li><a href="pilgrim_info.jsp">객실정보</a></li>
+			<li><a href="rvn_rqt.jsp">예약</a></li>
 			<li><a href="reviewList.qa">이용후기</a></li>
 			
 
@@ -63,17 +63,17 @@
 			String member_id = (String) session.getAttribute("member_id");
 			if (member_id == null) {
 			%>
-			<li><a href="my_page.jsp">나의 예약</a></li>
+			<li><a href="my_page.jsp">나의예약</a></li>
 			<li><a href="login.jsp">로그인</a></li>
 			<%
 			}else if("관리자".equals(member_id)){
 			%>
-			<li><a href="my_page.jsp">문의 채팅</a></li>
+			<li><a href="my_page.jsp">문의채팅</a></li>
 			<li><a href="logout.mb">로그아웃</a></li>
 			<%
 			}else{
 			%>
-			<li><a href="my_page.jsp">나의 예약</a></li>
+			<li><a href="my_page.jsp">나의예약</a></li>
 			<li><a href="logout.mb">로그아웃</a></li>
 			<%
 			}

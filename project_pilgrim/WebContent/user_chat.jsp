@@ -69,7 +69,7 @@ textarea {
 	var chatIcon = document.querySelector("#chatIcon");
 	var chatArea = document.querySelector(".chatArea");
 	var uuid = null;
-	var url = "ws://localhost:8080/project_pilgrim/userchat?member_id=" + encodeURIComponent(sessionUserId);
+	var url = "ws://3.107.192.1:8080/project_pilgrim/userchat?member_id=" + encodeURIComponent(sessionUserId);
 	
 	var connectionStatus = document.getElementById("connectionStatus");
 

@@ -40,7 +40,7 @@
 	
 	<!-- WebSocket을 통한 실시간 채팅 -->
 	<script>
-    var webSocket = new WebSocket("ws://localhost:8080/project_pilgrim/adminchat");
+    var webSocket = new WebSocket("ws://3.107.192.1:8080/project_pilgrim/adminchat");
     var connectionStatus = document.getElementById("connectionStatus");
     
     

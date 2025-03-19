@@ -38,7 +38,7 @@
 
 	<form action="reviewList.qa" class="form-line">
 		<div class="input-group search">
-			<select name="f" id="f" class="form-control col-sm-2 mr-sm-2">
+			<select name="f" id="f" class="form-control col-sm-2 mr-sm-2 search_select">
 				<option ${ param.f == "member_id" ? "selected" : ""}
 					value="member_id">작성자</option>
 				<option ${ param.f == "title" ? "selected" : ""} value="title">제목</option>
@@ -92,6 +92,7 @@
 						</c:if>
 
 					</td>
+					
 					<td class="member_id">${ review.getMember_id() }</td>
 
 					<td class="date">${ review.getDate() }</td>
