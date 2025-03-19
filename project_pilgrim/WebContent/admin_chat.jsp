@@ -33,18 +33,14 @@
 
 	<div class="chatContainer">
 		<h2>관리자 채팅</h2>
+		<h4>(현재 채팅에 접속중인 회원만 보여집니다)</h4>
 		<div id="connectionStatus">로딩 중...</div>
 		<div id="chatList"></div>
 	</div>
-	<!-- 로그인된 사용자 ID (세션에서 가져오기) -->
-	<input type="hidden" id="sessionUserId"
-		value="<%=session.getAttribute("member_id")%>">
-
+	
 	<!-- WebSocket을 통한 실시간 채팅 -->
 	<script>
-	var sessionUserId = document.querySelector("#sessionUserId").value;
-    // var webSocket = new WebSocket("ws://3.107.192.1:8080/project_pilgrim/adminchat");
-    var webSocket = new WebSocket(`ws://localhost:8080/project_pilgrim/adminchat?member_id=${sessionUserId}`);
+    var webSocket = new WebSocket("ws://localhost:8080/project_pilgrim/adminchat");
     var connectionStatus = document.getElementById("connectionStatus");
     
     
@@ -73,13 +69,15 @@ webSocket.onmessage = function (message) {
     }
     
     console.log(node);
-
+    
     if (node.status === "history") { 
         // ✅ 채팅 기록 표시
         displayUserMessage(node.member_id, node.message, node.sender);
     } else if (node.status === "visit") { 
         // ✅ 유저 입장 시 채팅창 생성
         addUserChat(node.member_id);
+     	// ✅ 채팅 기록 표시
+        // displayUserMessage(node.member_id, node.message, node.sender);
     } else if (node.status === "message") { 
         // ✅ 새로운 메시지 표시
         displayUserMessage(node.member_id, "(" + node.member_id + ") : " + node.message, node.sender);
@@ -114,7 +112,7 @@ function displayUserMessage(member_id, message, sender) {
 
     let chatBox =
         "<div class='chatBox' data-id='" + member_id + "'>" +
-            "<h4>사용자 (" + member_id + ")</h4>" +
+            "<h4>회원 (" + member_id + ")</h4>" +
             "<textarea class='messageArea' readonly></textarea><br>" +
             "<input type='text' class='message' placeholder='메시지 입력...' onkeydown='return enter(event, \"" + member_id + "\")'>" +
             "<button class='sendBtn' onclick='sendMessage(\"" + member_id + "\")'>보내기</button>" +
@@ -126,7 +124,7 @@ function displayUserMessage(member_id, message, sender) {
 
     // 유저 채팅창 제거
     function removeUserChat(member_id) {
-    	// $("[data-id ='" + member_id + "']").remove();
+    	$("[data-id ='" + member_id + "']").remove();
     }
 
     // 메시지 전송
@@ -144,8 +142,8 @@ function displayUserMessage(member_id, message, sender) {
         $chatBox.find(".message").val("");
         message = "(관리자) : " + message;
 
-        // ✅ WebSocket을 통해 유저의 key와 함께 메시지 전송
-        webSocket.send(sessionUserId + "," + message);
+        // ✅ WebSocket을 통해 유저의 아이디와 함께 메시지 전송
+        webSocket.send(member_id + "," + message);
         
     }
 

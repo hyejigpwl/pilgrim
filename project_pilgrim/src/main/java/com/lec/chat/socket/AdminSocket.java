@@ -40,6 +40,7 @@ public class AdminSocket {
 
 	        // ✅ 유저 입장 상태 전송
 	        visit(member_id);
+	        
 	    }
 	}
 
@@ -116,12 +117,12 @@ public class AdminSocket {
 	}
 
 	// ✅ 유저 메시지 보낼 때 member_id 추가
-	public static void sendMessage(String member_id, String message, String key) {
-		User user = UserSocket.getUser(key); // 해당 유저 정보 가져오기
+	public static void sendMessage(String member_id, String message, String sender) {
+		User user = UserSocket.getUserById(member_id); // 해당 유저 정보 가져오기
 		String memberId = (user != null && user.member_id != null) ? user.member_id : "Unknown"; // member_id 가져오기
-
-		send("{\"status\":\"message\", \"key\":\"" + key + "\", \"message\":\"" + message + "\", \"member_id\":\""
-				+ memberId + "\"}");
+		
+		send("{\"status\":\"message\", \"member_id\":\"" + memberId + "\", \"message\":\"" + message + "\", \"sender\":\""
+				+ sender + "\"}");
 	}
 
 	// 유저 나감

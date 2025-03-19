@@ -43,7 +43,7 @@ textarea {
 <body>
 	
 	<form>
-	<div id="connectionStatus">로딩 중...</div>
+	<div id="connectionStatus" style="display:block">로딩 중...</div>
 		<div class="chatArea">
 			<textarea id="messageTextArea" readonly></textarea>
 			<input id="textMessage" type="text" placeholder="메시지를 입력하세요..."
@@ -86,7 +86,6 @@ textarea {
 
 	    webSocket.onopen = function () {
 	    	console.log("✅ WebSocket 서버 연결됨.");
-	    	
 
 	        // ✅ 서버에 로그인된 사용자 ID(sessionUserId) 전송
 	        if (sessionUserId) {
@@ -112,6 +111,7 @@ textarea {
 
 	        if (message.data.includes("uuid:")) {
 	            uuid = message.data.split(":")[1]; // ✅ UUID 저장
+	            // connectionStatus.style.display = "none";
 	        } else {
 	        	connectionStatus.style.display = "none";
                 messageTextArea.value += message.data + "\n";
@@ -143,10 +143,11 @@ textarea {
 	function closeChat() {
 	    if (confirm("종료 시 채팅 로그는 삭제됩니다.")) {
 	        messageTextArea.value += "이용해 주셔서 감사합니다.";
-	        // chatArea.style.display = "none"; // ✅ 채팅창 숨기기
+	        connectionStatus.style.display = "block";
 	        if (webSocket) {
 	            webSocket.close(); // ✅ WebSocket 닫기
 	            webSocket = null; // ✅ WebSocket 초기화
+	            
 	        }
 	    }
 	}

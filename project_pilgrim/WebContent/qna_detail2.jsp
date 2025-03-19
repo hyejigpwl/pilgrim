@@ -28,37 +28,37 @@
 		
 		<div class="form-group input-group">
 			<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user"></i></span></div>
-			<p>${ qna.getMember_id()}</p>
+			<p>${ review.getMember_id()}</p>
 		</div>	
 		
 		<div class="form-group input-group">
 			<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user"></i></span></div>
-			<p>${ qna.getDate()}</p>
+			<p>${ review.getDate()}</p>
 		</div>	
 			
 		<div class="form-group input-group">
 			<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-clipboard"></i></span></div>
-			<p>${ qna.getTitle()}</p>
+			<p>${ review.getTitle()}</p>
 		</div>		
 		
 		<div class="form-group input-group">
 			<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-comment-dots"></i></span></div>
-			<p>${ qna.getContent()}</p>
+			<p>${ review.getContent()}</p>
 		</div>		
 		
-		<c:if test="${ qna.getFile() != ''  or qna.getFile() != null}">
+		<c:if test="${ review.getFile() != ''  or review.getFile() != null}">
 			<div class="form-group input-group">
 				<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-file-alt"></i></span></div>
-				<a href="download.qa?bno=${qna.getBno() }&fn=${qna.getFile()}">${ qna.getFile()}</a>
+				<a href="download.qa?bno=${review.getBno() }&fn=${review.getFile()}">${ review.getFile()}</a>
 			</div>
 		</c:if>
 		<br />
 		
 		<div class="form-group input-group">
 	
-			<a href="qnaModifyForm.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">수정</a>
-			<a href="qnaDelete.qa?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">삭제</a>
-			<!-- <a href="qnaReplyForm.do?p=${ param.p }&bno=${ qna.getBno() }" class="button btn btn-success mr-sm-3 login-btn">답변</a> -->
+			<a href="qnaModifyForm.qa?p=${ param.p }&bno=${ review.getBno() }" class="button btn btn-success mr-sm-3 login-btn">수정</a>
+			<a href="qnaDelete.qa?p=${ param.p }&bno=${ review.getBno() }" class="button btn btn-success mr-sm-3 login-btn">삭제</a>
+			<!-- <a href="qnaReplyForm.do?p=${ param.p }&bno=${ review.getBno() }" class="button btn btn-success mr-sm-3 login-btn">답변</a> -->
 			<a href="qnaList.qa?p=${ param.p }" class="button btn btn-success mr-sm-3 login-btn">글목록</a>
 		</div>
 	</div>

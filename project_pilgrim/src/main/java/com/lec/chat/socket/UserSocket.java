@@ -115,7 +115,8 @@ public class UserSocket {
 	    
 
 	    user.session.getBasicRemote().sendText("uuid:" + user.key);
-	    AdminSocket.visit(user.member_id);
+	    // AdminSocket.visit(user.member_id);
+	    
 
 	    // ✅ WebSocket 연결 시 이전 채팅 기록 전송
 	    if (user.member_id != null) {
@@ -126,6 +127,7 @@ public class UserSocket {
 	            String formattedMessage = (chat.getSender().equals("user") ? "(나) : " : "") + chat.getMsg();
 	            
 	            user.session.getBasicRemote().sendText(formattedMessage);
+	            AdminSocket.history(user.member_id, chat.getSender(), chat.getMsg());
 	        }
 	    }
 	}

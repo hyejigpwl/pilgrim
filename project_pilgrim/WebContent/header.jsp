@@ -55,7 +55,7 @@
 						</li> -->
 			<li><a>시설</a></li>
 			<li><a href="rvn_rqt.jsp">예약신청</a></li>
-			<li><a href="qnaList.qa">이용후기</a></li>
+			<li><a href="reviewList.qa">이용후기</a></li>
 			
 
 			<%
